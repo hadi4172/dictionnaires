@@ -1,0 +1,122 @@
+Pour lier un fichier HTML à un fichier CSS, mettre à l'intérieur du <head> : <link rel="stylesheet" href="monFichierCSS.css" /> 
+______________________
+Exemple de base :
+nos titres<h1>et nos textes importants<em>doivent s'afficher en bleu : 
+
+h1, em
+{
+    color: blue;
+}
+______________
+Commentaire : /* Texte */
+______________
+Propriétés modifiées
+couleur: color: blue/#FFFFFF/rgb(240,96,204)/rgba(255,232,42,0.5);
+taille police : font-size: 0.8em;
+police (en ordre de priorité) : font-family: Impact, "Arial Black", Arial, Verdana, sans-serif; 
+Mettre en italique : font-style: normal/italic/oblique;
+Mettre en majuscule : text-transform: uppercase;
+Mettre en gras : font-weight: normal/bold;
+Soulignement et autres décorations : text-decoration: none/underline/overline/line-through/blink;
+L'alignement : text-align: left/center/right/justify;
+Flottant : float: left/right;    //l'objet flottant (ex: une image) doit être déclaré avant le texte
+Stopper un flottant : clear: left/right/both;
+Couleur de l'arrière plan : background-color: black;
+Image de fond : background-image: url("neige.png" ou http://…);
+fixer le fond : background-attachment: scroll/fixed;
+répétition du fond : background-repeat: repeat/repeat-x/repeat-y/no-repeat;
+position du fond : background-position: 30px 50px ou bien top/bottom/left/center/right;
+combiner les propriétés de fond : background: url("soleil.png") fixed no-repeat top right;//pour plusieurs images, séparer les url par une virgule (l'ordre est important)
+Transparence sur l'élement et ses sous élements: opacity: 0.6;   //Pour rendre juste l'arrière plan transparent, utiliser le rgba de color/background-color
+Bordure : border(rien/-top/-bottom/-right/-left): 3px blue none/solid/dotted/double/groove/ridge/inset/outset/dashed; //mettre largeur (px), couleur et type
+Arrondir bordure : border-radius: 10px;  //possibilité de 4 arguments pour chacun des 4 coins //indiquer deux valeurs séparées par une barre oblique pour bordure eliptique
+Ombres des boîtes : box-shadow: 6px 6px 0px 0px black;   // 1. décalage horizontal 2. déc. vertical 3. adoucissement 4. grandeur 5.couleur //mettre arg. inset pour ombre intérieure
+Ombres du texte : text-shadow: 2px 2px 4px black; // fonctionne comme box-shadow
+Largeur d'un bloc : width: 50%;  // on peut mettre une valeur en px ou en % ou en vh/vw
+Hauteur d'un bloc : height: 50%; // on peut mettre une valeur en px ou en % ou en vh/vw
+Largeur minimale et maximale d'un bloc : min-width: / max-width:      //valeurs en px ou % ou en vh/vw 
+Hauteur minimale et maximale d'un bloc : min-height: / max-height:    //valeurs en px ou % ou en vh/vw
+Marge intérieure du bloc : padding: 12px;  //2 arguments pour haut/bas ou 4 pour sens d'une montre
+Marge extérieure du bloc : margin: 50px;   //2 arguments pour haut/bas ou 4 pour sens d'une montre // mettre argument auto pour centrer (nécessite de mettre width aussi)
+Gérer dépassements d'élements dans le bloc / Empecher le défilement de la page : overflow : visible/hidden/scroll/auto/initial/inherit;  //mettre auto est le plus conseillé //coupler avec une modification du height
+Couper textes trop larges dans un bloc : word-wrap: break-word;
+Ne pas couper textes trop larges: white-space: nowrap;
+Initialisation mise en page flex : display: flex;   //utiliser avec un autre modificateur flex, le mettre dans un conteneur
+Agencer les élements de la flexbox : flex-direction: row(par défaut)/column/row-reverse/column-reverse;
+Retour à la ligne des élements flexbox en cas de débordement : flex-wrap: nowrap(par défaut)/wrap/wrap-reverse;
+Alignement flexbox sur l'axe principal: justify-content: flex-start(par défaut)/flex-end/center/space-between/space-around; //pour centrer + rapide: utiliser margin:auto;
+Alignement flexbox sur l'axe secondaire: align-items: stretch(par défaut)/flex-start/flex-end/center/baseline;    //baseline est semblable a flex-start
+Alignement d'un seul élément : align-self: stretch/flex-start/flex-end/center/baseline;     //mis sur un élément en général
+Alignement sur plusieurs lignes : align-content: stretch(par défaut)/flex-start/flex-end/center/space-between/space-around;
+Choisir l'ordre d'un élément particulier dans la flexbox: order: <Entrer le numéro de l'ordre voulu>;
+Faire grossir ou maigrir les éléments: flex: <Entrer un numéro qui indique dans quelle mesure il peut grossir par rapport aux autres>; 
+Positionnement absolu, fixe et relatif : position: absolute/fixed/relative;  //doit être utilisé avec une ou plusieurs propriété de positionnement, voir en bas
+Propriétés de positionnement : left: 30px;/  right: 30px;/   top: 30px;/   bottom: 30px;/   z-index: 2;   //la z-index la plus élevée sera placé par dessus les autres
+Fusionner les bordures : border-collapse: collapse;
+Changer position titre tableau : caption-side: top/bottom;
+Empêcher la sélection du contenu des éléments : -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+Cacher un élément : display: none;
+Cacher un élement mais garder son espace : visibility: hidden;
+Empecher les clics sur un élément : pointer-events: none/auto/inherit;    // Empêche les options de clic / Réactive les clics / Utiliser la valeur du parent
+Changer l'apparence du curseur quand il survole un élément:  cursor : http://bit.ly/339XJsg ;   //voir le site pour tous les arguments
+Flouer un élément HTML : filter: blur(3px);
+Flouer l'arrière plan : backdrop-filter: blur(2px);
+______________
+Importer une police téléchargée:    //télécharger de http://www.fontsquirrel.com/
+ex:
+
+@font-face {
+    font-family: 'MaSuperPolice';
+    src: url('MaSuperPolice.eot') format('eot'),
+         url('MaSuperPolice.woff') format('woff'),
+         url('MaSuperPolice.ttf') format('truetype'),
+         url('MaSuperPolice.svg') format('svg');
+}
+______________________
+Pseudo-formats   //information que l'on rajoute après le nom de la balise (ou de la classe)
+ex: 
+a:hover /* Apparence au survol des liens */
+{
+   text-decoration: underline;
+   color: green;
+}
+
+:hover  	 //quand on pointe sur un élément
+:active  	 //au moment du clic sur un élément
+:focus   	 //lorsque l'élément est sélectionné
+:visited 	 //Lorsque le lien a déjà été consulté
+:nth-child(1)//Cibler un élément particulier selon sa position dans le code
+:required
+:invalid
+:checked
+______________________
+Sélecteurs   // pour travailler sur toute la page, utiliser body
+De base :
+p
+{ }
+And :
+h1, em
+{ }
+class et id
+.class
+{ }
+#id
+{ }
+sélecteur universel
+*
+{ }
+Une balise dans une autre : ex : <h3>Titre avec <em>texte important</em></h3>
+h3 em
+{ }
+une balise qui en suit une autre
+h3 + p
+{ }
+une balise qui possède un attribut ex: <a href="http://site.com" title="Infobulle">
+a[title]
+{ }
+une balise, un attribut et une valeur exacte ex: <a href="http://site.com" title="Cliquez ici">
+a[title="Cliquez ici"]
+{ }
+une balise, un attribut qui contient un certain mot ex <a href="http://site.com" title="Quelque part par ici">
+a[title*="ici"]
+{ }

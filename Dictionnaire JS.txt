@@ -1,0 +1,493 @@
+Réalisé par Hadi Yahia
+
+Références JavaScript : https://mzl.la/2Q1vbf5  DOM: https://mzl.la/39AkGY8  Math: https://mzl.la/2J74FNP
+Note: si des concepts ne sont pas précisés, c'est qu'ils fonctionnent de la même manière qu'en Java
+Il est recommandé d'installer l'extension pour navigateur Universal Bypass pour accéder aux liens raccourcis rapidement : https://universal-bypass.org/install
+
+______________________________
+Syntaxe de Base
+------------------------------
+Afficher boîte de dialogue : alert('unMessage!');
+Entrée : prompt('Entrez votre prénom :');
+Entrée booléenne : confirm("Continuer?");
+Afficher le contenu d'une variable sur la console : console.log(variable);
+Vérifier type de variable : typeof valeur.valueOf() === 'undefined'    //retourne un booleen  //résultats possibles de typeof : https://mzl.la/2x1Xkfi
+
+Boucle while d'assignation : est évaluée à true tant que l'assignation est valide (n'est pas undefined)  //https://bit.ly/3cAoASx 
+Comparaison de cette boucle en Java et JavaScript : 
+En Java : while( (element=element.offsetParent) != null ) {}
+En JavaScript : while(element = element.offsetParent) {}
+
+______________________________
+Opérateurs
+------------------------------
+== : contenu égal à
+=== : contenu et type égal à
+!== : contenu ou type différent de
+var : variable globale
+let : variable normale (mais plus nouvelle donc moin supportée)
+~~ : Math.trunc()  //Enlève les décimales d'un chiffre
+... : décompose un tableau  // mafonction(...[1,2,3,4]) ===> mafonction(1,2,3,4)
+
+______________________________
+Création des Objets natifs
+------------------------------
+Créer une fonction basique: function myFunction(arg) { }      //en JS, les fonctions peuvent être considérés comme des objets
+Créer une fonction anonyme : var maFonction = function(){ };   //l'appeler : maFonction(); //invoquer immédiatement : (function(){ })();
+Tableaux en JavaScript : var myArray_b = [42, 'Sébastien', 12, 'Laurence'];   //alternative dépréciée: var myArray = new Array(4, 3, 'Lu');
+
+Objets littéraux (=Dictionaire Py) : var family = {self: 'Sébastien', sister: 'Laurence'}; //obtenir une valeur par son identifiant :family['sister'] ou family.sister;
+Ajouter un item aux objets littéraux : family['uncle'] = 'Didier';   // « Didier » est ajouté et est accessible via l'identifiant « uncle »
+Supprimer une paire d'un objet littéral : delete person.age;   // La clé "age" et sa valeur sont supprimés de l'objet "person"
+Obtenir toutes les clés d'un objet littéral : Object.keys(obj);    //retourne un tableau contenant les clés de l'objet
+Obtenir toutes les valeurs d'un objet littéral : Object.values(obj);    //retourne un tableau contenant les valeurs de l'objet
+Ajouter le contenu d'un objet littéral à un autre: Object.assign(target, source);  //target recevra toutes les clés de source (valeurs écrasés si même nom de clé)
+
+______________________________
+JavaScript avec HTML et CSS
+------------------------------
+Accéder aux éléments HTML : elementHTML = document.getElementById()/.getElementsByTagName()/.getElementsByName();  //ancienne méthode, privilégier celle en bas
+Accéder aux éléments HTML avec les sélécteurs CSS : elementHTML = document.querySelector()/.querySelectorAll();  //renvoie le 1er élément trouvé/renvoyer tous(en tab)
+Récupérer attribut d'élément HTML : elementHTML.getAttribute("nomDeLAttributVoulu"); 
+Modifier attribut d'élément HTML : elementHTML.setAttribute("nomDeLAttributVoulu", "nouvelleValeur"); 
+Supprimer attribut d'élément HTML : elementHTML.removeAttribute("attribut");
+Accéder/Modifier la classe d'un élément HTML : elementHTML.className = "nouveauNomDeLaClasse";
+Ajouter/Retirer une classe : elementHTML.classList.add/.remove('new-class');
+Retire une classe si présente ou l'ajoute si absente : elementHTML.classList.toggle('toggled-class');
+Indique si une classe est présente ou non : elementHTML.classList.contains('old-class');   //retourne un booleen
+Obtenir les classes d'un élément HTML : elementHTML.classList;  //tableau
+Récupérer le code HTML à l'intérieur de l'élement : elementHTML.innerHTML;  //possibilité de modifier avec = ou d'ajouter du code avec += //impossible d'ajouter <script>
+Récupérer le texte d'un code HTML sans les balises : elementHTML.textContent;
+Ajouter événement à element HTML : elementHTML.addEventListener('<nomEvenement>', myFunction);//Ajouter arg. true/false pour phase capture/bouillonnement (bit.ly/2VFHoKh)
+Supprimer un événement d'un element HTML : elementHTML.removeEventListener('click', myFunction); // On supprime un événement en lui repassant les mêmes paramètres
+
+Accéder à un noeud parent/enfant : elementHTML.parentNode/.firstChild/.lastChild;    //pour une bonne compréhension : https://bit.ly/2Tf3yRH
+Accéder à un noeud HTML enfant : elementHTML.firstElementChild/.lastElementChild;  //utiliser ces propriétés pour éviter de récupérer des noeud #text
+Accéder au noeud suivant/précédent/HTMLsuivant/HTMLprecedent : noeud.nextSibling/.previousSibling/.nextElementSibling/.previousElementSibling;
+Vérifier type d'un noeud : elementHTML.nodeType/.nodeName.toLowerCase();    //voir tableau que j'ai mis en bas de cette section
+Récupérer valeur d'un noeud textuel : noeud.nodeValue;
+Récuperer liste des enfants d'un élément : elementHTML.childNodes;
+Créer un élément HTML : var newElementHTML = document.createElement('a'); //'document' est l'objet racine dans la majorité des cas //après la création, il faut l'insérer
+Insérer un élément dans le code HTML : elementHTML.appendChild(newElementHTML);  // un élément est toujours inséré à la fin //cette méthode retourne aussi une référence
+Insérer à la bonne place : elementHTML.insertBefore(elementAInserer, elementHTML.elementAvantLequelLElementVaEtreInsere)
+Ajouter des noeuds textuels : document.createTextNode("Un texte");   //ensuite l'insérer à l'élément voulu avec appendChild
+Cloner un noeud : noeud.cloneNode(true/false);   // si vous désirez cloner le nœud avec (true) ou sans (false) ses enfants et ses différents attributs
+Remplacer un élément enfant : elementHTML.replaceChild(nouveauNoeud,elementHTML.ancienNoeud);
+Supprimer un élément enfant : papa.removeChild(noeud);   //astuce : noeud.parentNode.removeChild(noeud);
+Vérifier la présence d'éléments enfants : elementHTML.hasChildNodes();   //si cet élément possède au moins un enfant, la méthode renverra true
+
+Récupère valeur propriété CSS d'un élément (en lecture seule) : getComputedStyle(elementHTML).color;   //si nom composé (ex: border-radius) on écrit (borderRadius)
+Supprimer propriété CSS d'un élément : element.style.removeProperty("box-shadow");
+Modifier les styles CSS d'un élément HTML : element.style.nomDeLaPropriete = 'une valeur'    //ex: (element.style.height = '300px')
+Propriétés de type offset  (Certaines valeurs de positionnement ou de taille des éléments HTML ne pourront pas être obtenues de façon simple avec getComputedStyle())
+''''''''''''''''''''''''''''''''''''''''''' exemple : alert(elementHTML.offsetHeight); // On affiche la hauteur complète de notre élément HTML '''''''''''''''''
+offsetWidth:	Contient la largeur complète (width + padding + border) de l'élément.  (delta x)
+offsetHeight:	Contient la hauteur complète (height + padding + border) de l'élément.  (delta y)
+offsetLeft:		Contient la position de l'élément par rapport au bord gauche de son élément parent. (X) Surtout utile pour les éléments en position absolue. 
+offsetTop: 		Contient la position de l'élément par rapport au bord supérieur de son élément parent. (Y) Surtout utile pour les éléments en position absolue. 
+offsetParent:	Contient l'objet de l'élément parent par rapport auquel est positionné l'élément actuel. Utile que pour un élément en position absolue ou relative ! 
+
+Modifier l'attribut 'for' d'un label HTML : elementHTML.htmlFor = "..." ;      // on ne peut pas utiliser .setAttribute() car "for" est un mot réservé en JavaScript
+Récuperer les valeurs d'une liste déroulante en tableau : laListe.options;
+Récuperer l'index de la valeur séléctionnée dans une liste déroulante : laListe.selectedIndex;     
+Donner le focus à un élement <input>  :  elementInput.focus();
+Sélectionner le texte d'un élement <input>  :  elementInput.select();
+Retirer le focus à un élément <input> :  elementInput.blur();
+Expedier le formulaire : monFormulaire.submit();    //pas de paramètres
+Réinitialiser le formulaire : monFormulaire.reset();   //pas de paramètres
+
+Type de noeud et Numéro pour nodeType:
+''''''''''''''''''''''''''''
+Nom des constantes : https://mzl.la/2wiuasi
+01 	Nœud élément
+02 	Nœud attribut
+03	Nœud texte
+04 	Nœud pour passage CDATA (relatif au XML)
+05 	Nœud pour référence d'entité
+06 	Nœud pour entité
+07 	Nœud pour instruction de traitement
+08 	Nœud pour commentaire
+09 	Nœud document
+10 	Nœud type de document
+11 	Nœud de fragment de document
+12 	Nœud pour notation
+______________________________
+Évènements et éléments HTML
+------------------------------
+Liste des événements principaux:
+
+Nom			Action pour le déclencher
+''''''''''''''''''''''''''''''''''''''
+click 		Cliquer (appuyer puis relâcher) sur l'élément
+dblclick	Double-cliquer sur l'élément
+mouseover	Faire entrer le curseur sur l'élément
+mouseout	Faire sortir le curseur de l'élément
+mousedown	Appuyer (sans relâcher) sur le bouton gauche de la souris sur l'élément
+mouseup		Relâcher le bouton gauche de la souris sur l'élément
+mousemove	Faire déplacer le curseur sur l'élément
+keydown		Appuyer (sans relâcher) sur une touche de clavier sur l'élément
+keyup		Relâcher une touche de clavier sur l'élément
+keypress	Frapper (appuyer puis relâcher) une touche de clavier sur l'élément
+focus		« Cibler » l'élément
+blur		Annuler le « ciblage » de l'élément
+change		Changer la valeur d'un élément spécifique aux formulaires (input,checkbox, etc.)
+input		Taper un caractère dans un champ de texte (son support n'est pas complet sur tous les navigateurs)
+select		Sélectionner le contenu d'un champ de texte (input,textarea, etc.)
+submit		Envoyer un formulaire    //attacher l'EventListener au <form>
+reset		Réinitialiser un formulaire   //attacher l'EventListener au <form>
+
+Propriétés de l'objet Event (argument e de la fonction de l'evenement,  pour la propriété faire exemple : e.leType)
+'''''''''''''''''''''''''''''''''''''''
+.type  : retourne le nom de l'événement
+.target : récupérer une référence vers l'élément dont l'événement a été déclenché
+.currentTarget : connaître l'élément à l'origine de l'événement déclenché (pas ses enfants)
+.clientX/.clientY : Pour récupérer la position du curseur
+.relatedTarget : récupérer une référence vers l'élément sur lequel le curseur vient d'entrer/de sortir   (selon utilisé avec mouseout/mouseover)
+.keyCode : renvoie un code ASCII correspondant à la touche pressée.
+.preventDefault();  : Bloquer l'action par défaut de certains événements
+
+Exemple sur les événements en utilisant le DOM-2
+..................
+<span id="clickme">Cliquez-moi !</span>
+
+<script>
+    var clickme = document.getElementById('clickme');
+  
+    clickme.addEventListener('click', function(e) {
+        e.target.innerHTML = 'Vous avez cliqué !';
+    });
+</script>
+..................
+
+______________________________
+Objets
+------------------------------
+
+###
+Classes :
+......................
+// Définition de l'objet Person via un constructeur
+function Person(nick, age, sex, parent, work, friends) {
+    this.nick = nick;
+    this.age = age;
+    this.sex = sex;
+    this.parent = parent;
+    this.work = work;
+    this.friends = friends;
+
+    this.addFriend = function(nick, age, sex, parent, work, friends) {
+        this.friends.push(new Person(nick, age, sex, parent, work, friends));
+    };
+}
+
+// On crée des variables qui vont contenir une instance de l'objet Person :
+var seb = new Person('Sébastien', 23, 'm', 'aîné', 'JavaScripteur', []);
+....................
+
+###
+Prototypes :
+En gros, le prototype est une première instance du constructeur d'un objet, qui quand on la modifie, modifie toute les autres instances si l'attribut modifié n'est pas présent dans le constructeur mais dans le prototype seulement. Alors que modifier le constructeur après avoir créé des instances ne modifie pas ces dernières
+Exemples pour + de compréhension : http://bit.ly/39FRvmn
+Différences entre méthode dans le constructeur et méthode via prototype : https://bit.ly/39NH1lb
+Créer une nouvelle méthode/variable pour un objet natif : https://bit.ly/2TK3RD6   //très déconseillé, de plus, les nouvelles méthodes seront listés dans une boucle for
+Ajouter une méthode via prototype : MaClasse.prototype.nomMéthode = function(arguments...){}    //exemple plus bas
+....................
+Person.prototype.addFriend = function(nick, age, sex, parent, work, friends) {
+    this.friends.push(new Person(nick, age, sex, parent, work, friends));
+}
+.....................
+
+###
+Héritage :   
+.................... Exemple
+function Car(licensePlate, tankSize, trunkSize) {
+
+    // On appelle le constructeur de « Vehicle » par le biais de la méthode call() afin qu'il fait hériter ses propriétés à « Car ». 
+	// Méthode call et apply  http://bit.ly/38C06Fp très bien expliqué : http://bit.ly/2Q49oUi
+	// Ressemble au super(); de Java
+    Vehicle.call(this, licensePlate, tankSize);   
+
+    // Une fois le constructeur parent appelé, l'initialisation de notre objet peut continuer.
+    this.trunkOpened = false; // Notre coffre est-il ouvert ?
+    this.trunkSize = trunkSize; // La taille de notre coffre en mètres cube.
+}
+
+// L'objet prototype de « Vehicle » doit être copié au sein du prototype de « Car » afin que ce dernier puisse bénéficier des mêmes méthodes.
+Car.prototype = Object.create(Vehicle.prototype, {        //Référence sur Object.create()  https://mzl.la/38BjP8i
+    constructor: {
+        value: Car,
+        enumerable: false,
+        writable: true,
+        configurable: true
+    }
+});
+..................
+
+###
+Définir un namespace : définir la fonction comme valeur d'une clé (qui porte le nom de la fonction) dans un objet littéral //exemple structuration : http://bit.ly/2TXznOq
+Infos sur les namespace : https://bit.ly/2WzfdNB
+
+______________________________
+Les chaines de caractère
+------------------------------
+Obtenir le caractère en ASCII : monString.charCodeAt();
+Créer un String depuis une chaîne ASCII : String.fromCharCode(74, 97, 118, 97, 83, 99, 114, 105, 112, 116); // le mot JavaScript en ASCII
+Supprimer les espaces avant et après: monString.trim();
+Connaître la position : .indexOf() ou .lastIndexOf()  //marche aussi pour rechercher un string complet //si rien n'est trouvé, retourne -1 //astuce tilde :bit.ly/2xGaCyG
+Connaître la position avec un regex : monString.search(/regex/);
+Extraire un string : myString.slice(a, b) extrait de a a b. b est facultatif. Si a ou b > string.length, il sera == string.length. Si b est négatif : prends de la fin
+Couper une chaîne en un tableau : monString.split("séparateur");   //le séparateur peut aussi être un regex
+Caractères accentués en français : zâäàéèùêëîïôöçñ
+String sur plusieurs lignes : `Placer ici`    //Cette syntaxe supporte le formatage. ex: `J'ai ${nbCrayon} crayons!`
+
+###
+Expressions régulières (Regex) :
+Ignorer la casse : /unRegex/i     //mettre un i à la fin
+Recherche globale : /unRegex/g    //continuer la recherche jusqu'à ce que plus rien ne soit trouvé //utile dans une .replace()
+Plusieurs possibilités : /Possibilité1|Possibilité2|Possibilité3/     //séparer chaque possibilité par un |
+Ce qui est recherché commence la chaine : /^raclette/        //La chaine doit commencer par raclette   
+Ce qui est recherché termine la chaîne : /fromage$/       //La chaine doit finir par fromage
+Classe de caractère : /gr[aèio]s/     //une des lettres qui se trouve entre les crochets peut convenir
+Intervalle de caractère : /haha[a-zA-Z0-9]hehe/   //dans cet exemple, la classe va rechercher toutes les lettres, minuscules ou majuscules, et les nombres.
+Exclure des caractères : /haha[^a-z]hehe/     //exclu toute les lettres de l'alphabet
+Trouver un caractère quelconque : /haha.hehe/  //il peut y avoir nimporte quoi au lieu du point sauf un retour à la ligne
+
+Quantificateurs:
+? : ce symbole indique que le caractère qui le précède peut apparaître 0 ou 1 fois ;
++ : ce symbole indique que le caractère qui le précède peut apparaître 1 ou plusieurs fois ;
+* : ce symbole indique que le caractère qui le précède peut apparaître 0, 1 ou plusieurs fois.
+{n} : le caractère est répété n fois 
+{n,m} : le caractère est répété de n à m fois.  //Par exemple, si on a {0, 5}, le caractère peut être présent de 0 à 5 fois 
+{n,} : le caractère est répété de n fois à l'infini.
+Pour rechercher un caractère qui fait partie des métaclasses (! ^ $ ( ) [ ] { } ? + * . / \ |) : préceder le caractère par un antislash (\)
+
+Types génériques :
+\d	Trouve un caractère décimal (un chiffre)
+\D	Trouve un caractère qui n'est pas décimal (donc pas un chiffre)
+\s	Trouve un caractère blanc
+\S	Trouve un caractère qui n'est pas un caractère blanc
+\w	Trouve un caractère « de mot » : une lettre, accentuée ou non, ainsi que l'underscore
+\W	Trouve un caractère qui n'est pas un caractère « de mot »
+\n	Trouve un retour à la ligne
+\t	Trouve une tabulation
+\b	Trouve une limite de mot
+\B	Ne trouve pas de limite de mot
+
+Propriétés Regex et objet:
+Vérifier la présence d'un string dans un autre avec Regex : /string_à_rechercher/.test("Gros string");    //retourne true si trouvé, sinon false
+Obtenir un tableau de string contenant toutes les occurrences recherchées d'un regex : monString.match(/regex/);
+Rechercher/remplacer tout simple : unString.replace(/ceQueJeCherche/g,"remplacerParCeci");
+Rechercher/remplacer avec capture :var date='05/26/2011'; date=date.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/,'Le $2/$1/$3');//Le 26/05/2011 //pour remplacer par $,mettre $$ 
+Rechercher/remplacer avec une fonction:leString.replace(/(\d+)/g, function(str,p1,p2,p3/*...*/,offset,s){{}}); //les 2 derniers arg. sont facultatifs. info:bit.ly/3b5iyYu
+Retourner la position de la première occurrence trouvée d'un mot avec regex: monString.search(/\bton\b/);   //ressemble à indexOf() sauf que le paramètre est un regex
+Parenthèses capturantes :/^Je suis né en (\S+)$/.exec("Je suis né en mai"); var valeur = RegExp.$1;//valeur = "mai"//Il y a jusqu'a RegExp.$9 et c'est des propr. statique
+Rendre une parenthèse non capturante : ajouter ?: au début de la parenthèse, ex : /(?:https|http|ftp|steam):\/\//
+Arrêter la recherche une fois que le minimum requis est trouvé : écrire le quantificateur directement suivi du point d'interrogation //ex: /<a href="(.+?)">/.exec(html);
+L'objet RegExp : new RegExp("^Raclette$", "i");  //arg1: expression régulière, arg2: l'option de recherche  //il est possible d'inclure des variables dans l'objet
+unRegex.exec(unString) : Renvoie un tableau dont le 1er élément contient la portion de texte trouvée dans le string  plus d'info : mzl.la/3a01KCe et http://bit.ly/39ZnwpB
+
+______________________________
+Méthodes et propriétés importantes de certains objets natifs
+------------------------------
+
+###
+Tableau : https://bit.ly/3dEy0wU
+Ajouter items vers la fin : .push();   //peut recevoir un nombre illimité de paramètres
+Ajouter items au début : .unshift();   //peut recevoir un nombre illimité de paramètres
+Retirer premier élément : .shift();
+Retirer dernier élément : .pop();
+Retirer le premier élément égal à une valeur : let index = array.indexOf(item); if (index !== -1) array.splice(index, 1);
+Retirer tous les élément égals à une valeur : array = array.filter(x => x !== valeur);    //ajouter un deuxième argument pour l'index
+Vérifier si un élément est présent : .includes(valeurRecherchée);     // retourne un booléen
+Créer un string à partir du tableau : myArray.join('-');
+Concaténer deux tableaux : var myArray = ['test1', 'test2'].concat(['test3', 'test4']);
+.forEach() :  // plus efficace que parcourir avec une boucle for mais ne fonctionne pas avec les collections d'éléments retournées par le DOM
+..................
+myArray.forEach(function(value, index, array) {
+    alert(
+        'Index : ' + index + '\n' +
+        'Valeur : ' + value
+    );
+});
+..................
+Rechercher un élément dans un tableau : utiliser .indexOf() et .lastIndexOf() qui fonctionnent comme avec les string
+Retourner un élément qui passe un test : myArray.find(fonction);  //ex: https://bit.ly/35rDlUs //ajouter un deuxième argument pour l'index
+Retourner l'index d'un élément qui passe un test : myArray.findIndex(fonction); 
+Vérifier si un élément passe un test : myArray.some(fonction);   //retourne un booleen.  ex: https://bit.ly/2YpTdFB //ajouter un deuxième argument pour l'index
+Inverser l'ordre des valeurs d'un tableau : myArray.reverse();
+Trier un tableau par ordre alphabétique : myArray.sort();
+Trier un tableau par ordre numérique : 
+..............
+myArray.sort(function(a, b) {
+    if (a < b) {
+        return -1;
+    } else if (a > b) {
+        return 1;
+    } else {
+        return 0;
+    }
+});
+.............
+Extraire une partie d'un tableau: myArray.slice(a, b)  //a: index du début(inclus) b:index de la fin (exclus et facultatif) possibilité de b négatif
+Remplacer une partie d'un tableau: myArray.splice(1, 5, 45, 56); // On retire 5 éléments à partir de l'index 1 et on met 45 et 56 à la place. + d'infos: bit.ly/3a4mUyW  //renvoie les éléments retirés
+Tester si c'est un tableau: Array.isArray(['test']);
+Appliquer une fonction à chaque élément: monTableau.map(maFonction);   //retourne un nouveau tableau qu'on pourra stocker ex: https://bit.ly/3a4KQBC //ne fonctionne pas directement avec un htmlCollection
+Transformer une collection HTML en Tableau : Array.from(htmlCollection);
+
+###
+Piles et Files : flemme donc http://bit.ly/2wbGTxg
+
+###
+Images:
+Constructeur : var myImg = new Image();     //ne prend aucun argument en paramètre
+Propriétés fiables et importantes : 
+.width	Contient la largeur originale de l'image. Vous pouvez redéfinir cette propriété pour modifier la taille de l'image.
+.height	Contient la hauteur originale de l'image. Vous pouvez redéfinir cette propriété pour modifier la taille de l'image.
+.src		Sert à spécifier l'adresse (absolue ou relative) de l'image. Une fois que cette propriété est spécifiée, l'image commence immédiatement à être chargée.
+Évènements de l'Image:
+load : permet de savoir quand une image est chargée.  //pour un bon fonctionnement, spécifier l'adresse de notre image après avoir modifié notre événement
+Il est possible d'ajouter une image à votre arbre DOM comme vous le feriez avec la valeur retournée par la méthode document.createElement() , exemple : bit.ly/3bjX2j8
+
+###
+Audio:
+Constructeur : var audio = new Audio();      //peut prendre en argument un string contenant la source du fichier
+Propriétés principales : 
+.src            Contient le string de la source
+.volume         Contient un float de 0 à 1 pour le volume
+.playbackRate   Contient un float pour la vitesse de lecture //1=100% (possibilité de mettre un chiffre négatif pour que ça va à l'envers)
+.loop           Contient un booléen qu'on peut mettre à true pour que ça reste répéter
+Méthodes principales :
+.play()     Joue l'audio
+.pause()    Pause l'audio
+.load()     Recommence l'audio
+Possède aussi plusieurs évènements
+Documentation plus complète : https://bit.ly/2ySiZry
+
+###
+Fichier texte:
+Lire un fichier texte local : fetch('lien').then(response => response.text()).then(text => console.log(text));
+
+______________________________
+Date et temps
+------------------------------
+timestamp : chiffre représentant le nombre de millisecondes écoulées depuis le 1er janvier 1970 à minuit.
+
+Constructeur de l'objet Date
+new Date();					//instancie un objet Date dont la date est fixée à celle de l'instant même de l'instanciation
+new Date(timestamp);		//permet de spécifier le timestamp à utiliser pour notre instanciation.
+new Date(dateString);		//prend en paramètre une chaîne de caractères qui doit être interprétable par la méthode parse()
+new Date(année, mois, jour, heure, minutes, secondes, millisecondes);  //spécifier chaque composant qui constitue une date, Les 4 derniers paramètres sont facultatifs
+
+
+Les méthodes des instances de l'objet Date    //pour chacune de ces méthodes de get, il existe une méthode set
+''''''''''''''''''''''''''''''''''''
+.getTime() :	 renvoie le timestamp de la date de votre objet 
+.getFullYear() : renvoie l'année sur 4 chiffres 
+.getMonth() :	 renvoie le mois (0 à 11) 
+.getDate() :	 renvoie le jour du mois (1 à 31) 
+.getDay() :		 renvoie le jour de la semaine (0 à 6, la semaine commence le dimanche) 
+.getHours() :	 renvoie l'heure (0 à 23) 
+.getMinutes() :	 renvoie les minutes (0 à 59) 
+.getSeconds() :	 renvoie les secondes (0 à 59) 
+.getMilliseconds() : renvoie les millisecondes (0 à 999)
+
+Date.now() : renvoie le timestamp actuel
+
+Les fonctions temporelles
+setTimeout():déclenche un code au bout d'un temps donné//args: setTimeout(myFunction, milisec,argDeMyFunction1,argDeMyFunction2, ...);ou setTimeout(function(){},milisec);
+setInterval(): déclenche un code à un intervalle régulier //même args que pour setTimeout() //setTimeout est + stable donc + recommandé, on met ce dernier dans une boucle
+clearTimeout(referenceDuCompteAReboursTimeout);   //Annuler une action temporelle timeout
+clearInterval(referenceDuCompteAReboursInterval);  //Annuler une action temporelle interval
+
+Renvoyer le timestamp à partir d'un string de date : Date.parse('Sat, 04 May 1991 20:00:00 GMT+02:00');  //renvoie 673380000000  //C'est une méthode statique de Date
+
+______________________________
+Polyfills et Wrappers
+------------------------------
+
+###
+Polyfills:
+Les polyfills sont un moyen de s'assurer de la prise en charge d'une méthode si celle-ci n'est pas supportée par le navigateur
+Exemple
+...................
+if (!Array.isArray) { // Si isArray() n'existe pas, alors on crée notre méthode alternative :
+    Array.isArray = function(element) {
+        return Object.prototype.toString.call(element) == '[object Array]';
+    };
+}
+...................
+Remarque : la plupart du temps, chaque méthode a déja été créée donc on peut taper le nom d'une méthode suivi du mot-clé « polyfill » et prendre le code de l'internet
+
+###
+Wrappers:
+Les wrappers permettent d'ajouter des propriétés ou des méthodes aux objets, en particulier les objets natifs, en créant un objet dérivé de l'objet en question.
+Plus d'info sur les wrappers : https://bit.ly/33Jbv5y
+
+______________________________
+Closure
+------------------------------
+
+###
+Expression de fonction immédiatement invoquée (IIFE) :
+................ Exemple
+(function() {
+ var x = 20;
+ var y = 20;
+ var answer = x + y;
+ console.log(answer);
+ })();
+...............
+ 
+On peut aussi mettre des arguments et les donner comme ceci :
+...............  Dans cette exemple, on donne la variable [pomme] à cette fonction et on l'execute tout de suite
+(function(maVariable) {
+    alert(maVariable);
+ })(pomme);
+...............
+ 
+###
+Un closure est une fonction interne qui va pouvoir continuer d’accéder à des variables définies dans la fonction externe à laquelle elle appartient même après que cette fonction externe ait été exécutée.
+Exemple d'utilisation : 
+......................
+for (var i = 0; i < divsLen; i++) {
+
+    (function(currentI) {
+
+        setTimeout(function() {
+            divs[currentI].style.display = 'block';
+        }, 200 * i);
+
+    })(i);
+
+}
+............................
+Plus d'info : https://bit.ly/2vFxei9
+
+______________________________
+Promesses
+------------------------------
+Une promesse est un objet qui représente l’état d’une opération asynchrone. Ils permettent de manipuler un résultat lorsqu’une opération asynchrone est terminée, et aussi de chainer proprement plusieurs opérations asynchrones à la suite et dans un ordre bien précis.
+Une promesse contient 2 propriétés internes: 1. state: initialement à « pending » (en attente) puis devient « fulfilled » (résolue) ou « rejected » (erreur)  2. result: va contenir la valeur de notre choix
+Exemple d'utilisation : 
+......................
+function uneFonctionAsynchrone(){
+    return new Promise((resolve, reject)=>{
+        //Tache asynchrone à réaliser
+
+        Appel de resolve(arg) si la promesse est accomplie    //mettre dans arg la valeur qu'on veut utiliser plus tard  (result = arg)
+
+        Appel de reject(arg) si la promesse échoue            //mettre dans arg la valeur qu'on veut utiliser plus tard  (result = arg)
+    });
+}
+let maValeur;
+
+uneFonctionAsynchrone().then(           //avec notation fléchée: uneFonctionAsynchrone().then(result => maValeur = result, error => maValeur = error);
+    function(result){maValeur = result;},
+    function(error){maValeur = error;}
+);
+......................
+On peut enchainer les .then() pour effectuer plusieurs opérations asynchrones en ordre.
+
+Créer une Promesse qui va être résolue si tous les promesses passées en  arg. sont résolues : Promise.all([func1(),func2()...]).then(([result1, result2...])=>{}); 
+
+Plus d'info : https://bit.ly/2yCPn1c

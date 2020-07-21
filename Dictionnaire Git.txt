@@ -1,0 +1,92 @@
+Fait par Hadi Yahia
+______________
+etats de Git
+{
+Working directory : tout le dossier qui contient le dossier .git
+Staging area : les fichiers qui sont choisis pour le prochain commit
+Repository : c'est le dossier .git , il contient tous les commits
+}
+___________
+commit : sauvegarde de l'état d'un programme
+{
+creer commit avec message : git commit -m "message"
+obtenir les commits de la branche : git log
+obtenir les commits avec une meilleure vue : git log --oneline --decorate --graph --all
+creer commit express (stage et commit, donc commit direct tous les fichiers trackés modifiés) : git commit -am "message"
+obtenir differences entre working directory actuel et le dernier commit dans la branche actuelle : git diff //ou faire git difftool pour ouvrir avec p4merge
+obtenir differences entre 2 commits : git diff <codeDeCommit1> <codeDeCommit2>  //ecrire HEAD pour le dernier commit // ajouter le cheminDuFichier pour comparer sur ce fichier seulement
+comparer differences avec p4merge : remplacer les commandes diff par difftool
+revenir a la version du commit indiqué en suprimmant ceux apres du repository,staging et working directory: git reset --hard codeDuCommit  // pour anuller les changements non commités, mettre HEAD
+annuler les changements d'un commit particulier en en créant un nouveau : git revert codeDuCommit
+modifier le nom du dernier commit : git commit --amend -m "nouveauMessage"
+ajouter les modifications en attente dans le dernier commit : git commit --amend --no-edit
+}
+HEAD : dernier commit
+HEAD^ : avant dernier commit
+___________
+stage : fichiers choisis pour faire parti du prochain commit
+{
+ajouter un fichier au staging : git add fichier.type
+ajouter tous les fichiers du working directory : git add .
+savoir quels fichiers git sont trackés : git ls-files
+supprimer un fichier du staging : git reset HEAD fichier.type
+update le staging au cas ou changement en dehors de git : git add -A
+ignorer un fichier (ne jamais track) : npp .gitignore // {ajouter un argument par ligne, ex : *.log} a la fin faire [git add .gitignore]
+}
+_____________
+branch : developpement parallele d'un programme
+{
+voir les branches : git branch
+ajouter une branche : git branch nomdelabranche
+changer de branche : git checkout nomdelabranche
+ajouter puis aller dans une branche : git checkout -b nomdelabranche
+suprimmer une branche : git branch -d nomdelabranche
+suprimmer une branche ainsi que toutes les modifications non commités dessus : git branch -D brancheTest
+}
+__________
+Merge
+{
+Fast forward merge : quand il n'y a aucun changement dans le master, git plug tous les commits de la branche secondaire dans le master
+Automatic merge : quand les changements dans le master n'entrent pas en contradiction avec celle de la branche secondaire, conserve la branche secondaire et met un nouveau commit qui fusionne les 2 vers la fin
+Conflicting merge : quand git ne peut pas resoudre les contradiction, il faut les resoudre manuellement puis fonctionnement similaire a automatic merge
+
+fusionner une branche avec la branche actuelle : git merge nomDeLaBranche
+}
+_____________
+Tag
+____________________
+Stash : mettre les modification de cotés pour les remettre dans une branche voulue le temps voulu (dépot)
+{
+creer un dépot des dernieres modifications stagés non commités : git stash
+relacher notre dernier dépot dans une branche : git stash apply
+obtenir l'historique des stash : git stash list
+relacher un certain dépot dans une branche : git stash apply stash@{numéro}
+}
+_________________
+Online
+{
+lier un projet Git a un projet en ligne Github : git remote add origin lienGitHub   //origin est une convention pour le nom de la premiere liaison
+uploader notre projet vers le projet en ligne : git push -u origin nomDeLaBranche --tags
+uploader notre projet de force en ignorant ce qui est déja en ligne : git push -f origin master
+cloner un projet en ligne vers notre ordi : git clone lienSSHouHTTPS
+cloner un projet en ligne vers notre ordi et changer le nom : git clone lienSSHouHTTPS nom
+synchroniser notre projet local avec le projet en ligne : git pull
+}
+_____________________
+ssh
+{
+créer une clé SSH : ssh-keygen -t rsa -C "tonEmail" // doit etre dans un dossier .ssh
+connecter son ordi avec github : ssh -T git@github.com
+}
+____________________
+ajouter un fichier : touch fichier.type ou npp fichier.type
+supprimer un fchier avec git : git rm fichier.type
+supprimer un dossier avec git : git rm -r "nomDuDossier"
+renommer un fichier avec git : git mv ancienNom.type nouveauNom.type
+obtenir le statut du working directory : git status
+revenir a la derniere version commitée d'un fichier (modifie le fichier) : git checkout -- fichier.type  //faire attention : peut supprimer le code non stagé
+revenir a la version du fichier dans un des commits : git checkout codeDuCommit cheminFichier  //faire attention : peut supprimer le code non stagé
+creer un raccourci de commande pour le projet actuel: git config alias.nomDuRaccourci " entrer le raccourci ici "
+créer un raccourci de commande pour tous les projets: git config --global alias.nomDuRaccourci " entrer le raccourci ici "
+utiliser vscode comme difftool/mergetool : voir https://stackoverflow.com/a/44549734/7551620
+compter le nombre de lignes : git ls-files | grep '\.js' | xargs wc -l

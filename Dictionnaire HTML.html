@@ -1,0 +1,78 @@
+______________________
+Base d'un site
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- En-tête de la page -->
+        <meta charset="utf-8" />
+        <title>Titre</title>
+    </head>
+
+    <body>
+        <!-- Corps de la page -->
+    </body>
+</html>
+____________
+Commentaire : <!-- Texte -->
+____________
+Balises
+<p> Paragraphe </p>
+<br /> Retour à la ligne
+<h1> Titre intérieur </h1>    //de h1 jusqu'a h6 // faire <h2 id="ancre"> Chapitre </h2> pour ajouter une ancre
+<em> Texte en italique </em>
+<strong> Texte en gras </strong>
+<mark> Texte surligné </mark>
+<ul> Liste d'élements </ul>
+<ol> Liste d'élements ordonnée </ol>
+<li> Élément d'une liste </li>
+<a href="lienDeDestination" title="infobulleAuSurvol"> Texte affiché </a>    // ajouter target="_blank" pour ouvrir dans une nouvelle fenêtre
+<img src=cheminDeLImage alt="DescriptionDeLImage" title="infobulleAuSurvol" />     // doit etre contenu dans une autre balise
+<figure> UneFigure </figure>
+<figcaption> Légende de figure </figcaption>     // se met dans les balises <figure>
+<span> Balise universelle de type inline </span>
+<div> Balise universelle de type block </div>
+<table> Tableau </table>         // Fusionner ses bordures en CSS
+<caption> Titre du tableau </caption>
+<tr> Ligne de Tableau </tr>     //on le met dans Tableau
+<th> Cellule d'en-tête </th>    // on le met dans une ligne de Tableau
+<td> Cellule de Tableau </td>   //rajouter bordures en CSS //fusion cellules : horizontale: <td colspan="2">  /  verticale : <td rowspan="2"> 
+<form method="get(limitée à 255 char)/post(+ utilisée)" action="unFichier.php"> Formulaire </form>  //dedant, 3 balises input avec les arg type="text"/"submit"/"reset"
+<label for="IDdeInput"> Libellé de formulaire </label>    //Indication de quoi écrire dans le formulaire  //le mettre avant input //for pour lier le label à l'input
+<textarea name="nom" id="ID" rows="10" cols="50"> Zone d'Entrée multiligne </textarea> 
+<select> Liste déroulante </select>
+<optgroup label="Europe"> Groupe de Liste déroutante </optgroup>
+<option value="france"> Option de liste déroulante </option>  //ajouter l'argument [selected] pour que l'option soit sélectionnée par défaut
+<fieldset> Conteneur de champs </fieldset>
+<legend> Titre du conteneur de champs </legend>  //Est à l'intérieur de fieldset
+<audio controls> Conteneur audio </audio>  //d'autres attributs : width: / loop: / autoplay: /preload: auto(par defaut)/metadata/none   //doit contenir une source
+<video controls poster="premièreImageAffichée.jpg" width="600"> Conteneur vidéo </video>   // A les mêmes attributs qu'audio + height //proportions video conservées
+<source src="hype_home.mp3"> Source de l'audio/la video   //contenue dans balise audio ou video
+<script> Code JavaScript </script>    // appeler JavaScript externe avec l'argument src : <script src="hello.js"></script>
+
+Input
+Références : https://bit.ly/3amyVAc
+<input/> Zone d'entrée //Se met dans une balise block dans un formulaire //recommandé d'utilise avec fieldset
+Arguments importants à l'interieur du input:
+type="text/password/email/url/tel/number/range/color/date/time/datetime/search/checkbox/radio/submit/reset/image(comme submit)/button(aucun effet)" name="nom" id="ID"
+On peut changer le texte affiché à l'intérieur des boutons avec l'attribut value.
+Arguments dépendants du type:
+Pour number et range : min=""/max=""/step=""
+Pour checkbox et radio : checked
+Arguments supplémentaires facultatifs:
+size=""/maxlength=""/value=""/placeholder="indication dans le texte"/autofocus/required/disabled/readonly
+Contraintes sur les valeurs d'un input de text : Ajouter attribut [required pattern="unRegex"]  //exemple : https://mzl.la/3ceQfrn
+
+Balises de Structure   // shorturl.at/celnr
+<header>: en-tête ;
+<footer>: pied de page ;
+<nav>: liens principaux de navigation ;
+<section>: section de page ;
+<aside>: informations complémentaires ;
+<article>: article indépendant.
+
+Structure des Tableaux (facultatif)
+<thead> En tête de tableau </thead>
+<tfoot> Pied de tableau </tfoot>
+<tbody> Corps du tableau </tbody>
+____________
