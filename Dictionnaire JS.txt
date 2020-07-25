@@ -491,3 +491,15 @@ On peut enchainer les .then() pour effectuer plusieurs opérations asynchrones e
 Créer une Promesse qui va être résolue si tous les promesses passées en  arg. sont résolues : Promise.all([func1(),func2()...]).then(([result1, result2...])=>{}); 
 
 Plus d'info : https://bit.ly/2yCPn1c
+
+______________________________
+Appels réseaux
+------------------------------
+
+Demander une réponse à partir d'une url :
+......................
+return fetch(url)
+    .then((response) => response.json())
+    .catch((error) => console.error(error))
+}
+......................

@@ -42,10 +42,10 @@ Gérer dépassements d'élements dans le bloc / Empecher le défilement de la pa
 Couper textes trop larges dans un bloc : word-wrap: break-word;
 Ne pas couper textes trop larges: white-space: nowrap;
 Initialisation mise en page flex : display: flex;   //utiliser avec un autre modificateur flex, le mettre dans un conteneur
-Agencer les élements de la flexbox : flex-direction: row(par défaut)/column/row-reverse/column-reverse;
+Agencer les élements de la flexbox : flex-direction: row/column(par défaut)/row-reverse/column-reverse;
 Retour à la ligne des élements flexbox en cas de débordement : flex-wrap: nowrap(par défaut)/wrap/wrap-reverse;
-Alignement flexbox sur l'axe principal: justify-content: flex-start(par défaut)/flex-end/center/space-between/space-around; //pour centrer + rapide: utiliser margin:auto;
-Alignement flexbox sur l'axe secondaire: align-items: stretch(par défaut)/flex-start/flex-end/center/baseline;    //baseline est semblable a flex-start
+Alignement flexbox sur l'axe principal (y quand flex-direction=column): justify-content: flex-start(par défaut)/flex-end/center/space-between/space-around/space-evenly; //pour centrer + rapide: utiliser margin:auto;
+Alignement flexbox sur l'axe secondaire (x quand flex-direction=column): align-items: stretch(par défaut)/flex-start/flex-end/center/baseline;    //baseline est semblable a flex-start
 Alignement d'un seul élément : align-self: stretch/flex-start/flex-end/center/baseline;     //mis sur un élément en général
 Alignement sur plusieurs lignes : align-content: stretch(par défaut)/flex-start/flex-end/center/space-between/space-around;
 Choisir l'ordre d'un élément particulier dans la flexbox: order: <Entrer le numéro de l'ordre voulu>;

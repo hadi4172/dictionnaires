@@ -1,0 +1,64 @@
+Expo
+Créer un CRNA : expo init nomDuProjet (sur cmd)
+Créer un serveur pour héberger notre application : npm start (dans le terminal)
+Commande pour recharger expo selon l'appareil/simulateur : https://bit.ly/2CWgVR4
+
+Components              En détail : https://bit.ly/2OIavHV
+Composants généraux
+View                    L'élément le plus fondamental pour construire une interface utilisateur // ex: <View>...</View>
+Text                    Affichage du texte  //peut posséder une propriété numberOfLines = {nombre} pour couper le texte si trop long
+Image                   Affichage des images
+TextInput               Saisie de texte dans l'application via un clavier.  // ex: <TextInput placeholder='texte grisé d'aide à la saisie'/>
+ScrollView              Fournit un conteneur de défilement qui peut accueillir plusieurs composants et vues.
+StyleSheet              Fournit une couche d'abstraction similaire aux feuilles de style CSS
+Button                  Bouton de base  //ex: <Button title='Rechercher' onPress={() => {}}/>
+Switch                  Rend une entrée booléenne
+FlatList                Liste déroulante. //propriétés obligatoires : data (liste d'obj. litt.) et renderItem (fct qui retourne les components d'affichage)//chaque obj dans data doit avoir une propriété key (string) unique, sinon voir keyExtractor
+SectionList             Comme FlatList, mais pour les listes à sections.
+ActivityIndicator       Affiche un indicateur de chargement en forme de cercle.
+Alert                   Lance un dialogue d'alerte avec le titre et le message spécifiés.
+Animated                Pour créer des animations fluides et puissantes, faciles à construire et à entretenir.
+Dimensions              Obtenir les dimensions de l'appareil.
+KeyboardAvoidingView    Fournit une vue qui s'écarte automatiquement du clavier virtuel.
+Linking                 Fournit une interface générale permettant d'interagir avec les liens entrants et sortants de l'application.
+Modal                   Présenter un contenu au-dessus d'une vue englobante.
+PixelRatio              Donne accès à la densité de pixels de l'appareil
+RefreshControl          Utilisé à l'intérieur d'un ScrollView pour ajouter une fonctionnalité de "pull to refresh".
+StatusBar               Contrôle de la barre d'état de l'application
+
+Composants et API iOS
+ActionSheetIOS          API pour afficher une fiche d'action ou une fiche d'action iOS
+
+Composants et API Android
+BackHandler             Détecter les pressions sur le bouton retour du hardware.
+DrawerLayoutAndroid     Rend un DrawerLayout sur Android.
+PermissionsAndroid      Fournit l'accès au modèle de permissions introduit dans Android M.
+ToastAndroid            Créer une alerte Android Toast
+
+Méthodes
+render(){} : méthode implémentée par la classe React.Component qui va définir ce que notre component va rendre à l'écran.  //render() {...} équivaut à render = function() {...}
+
+
+
+A revoir :
+Lorsque vous avez un élément à exporter par défaut, vous pouvez utiliser, du même nom, l'export par défaut :  
+export default MonElement  et  import MonElement.
+
+Lorsque vous avez plusieurs éléments à exporter, vous pouvez utiliser l'export nommé :  
+export { MonElement1, MonElement2 }  et  import { MonElement1, MonElement2 }.
+
+Dans un fichier Javascript, vous pouvez avoir plusieurs exports nommés, mais un seul et unique export par défaut.
+
+On exporte toujours par défaut les components, c'est une autre convention de codage.
+C'est assez justifié, puisque l'on crée un fichier par component et que l'on n'exporte que celui-ci.
+
+Pour résumer, dites-vous : un component = un fichier = un export par défaut.
+--------
+https://medium.com/@Zwenza/functional-vs-class-components-in-react-231e3fbd7108
+-------
+https://github.com/vhpoet/react-native-styling-cheat-sheet
+----
+Ajouter details sur chaque components (propriétés ect)
+Montrer un modèle de component class et fonction avec props
+----
+setState : setState(updater[, callback])  //setState est asynchrone
