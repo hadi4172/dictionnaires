@@ -27,7 +27,7 @@ RefreshControl          Utilisé à l'intérieur d'un ScrollView pour ajouter un
 StatusBar               Contrôle de la barre d'état de l'application
 
 Composants et API iOS
-ActionSheetIOS          API pour afficher une fiche d'action ou une fiche d'action iOS
+ActionSheetIOS          API pour afficher une fiche d'action iOS
 
 Composants et API Android
 BackHandler             Détecter les pressions sur le bouton retour du hardware.
@@ -62,3 +62,95 @@ Ajouter details sur chaque components (propriétés ect)
 Montrer un modèle de component class et fonction avec props
 ----
 setState : setState(updater[, callback])  //setState est asynchrone
+----
+react navigation : https://reactnavigation.org/docs/getting-started/
+
+StackNavigator : c'est la navigation la plus basique où on pousse une vue sur iOS et présente une vue sur Android. Le StackNavigator gère une pile de vues qui augmente lorsque vous naviguez vers une nouvelle vue et diminue lorsque vous revenez en arrière. C'est cette navigation que l'on va utiliser dans ce chapitre.
+TabNavigator : permet de créer une barre d'onglets, en haut ou en bas, de votre application. On utilisera ce type de navigation un peu plus loin dans ce cours, lorsque l'on voudra couper notre application en plusieurs onglets.
+DrawerNavigator : permet de créer un menu dit "hamburger", à gauche de nos vues, avec une liste d'entrées pour chacune de nos vues.
+----
+TouchableOpacity 
+----
+Passer une props à une autre vue : https://bit.ly/3hAAYng
+----
+Hooks d'état : https://fr.reactjs.org/docs/hooks-state.html#tip-what-do-square-brackets-mean
+---
+Le mounting d'un component (monter un component en français) correspond à l'affichage d'un component à l'écran. Ce cycle de vie englobe l'initialisation du component jusqu'à son affichage à l'écran.
+Unmounting (démonter), par déduction, est la suppression d'un component de l'écran.
+Updating est le cycle de vie qui correspond à la mise à jour du component. C'est lorsque l'on met à jour ses données et que celui-ci est re-rendu.
+Schéma : https://bit.ly/2P0ijFf
+----
+mapstateto props et redus : https://openclassrooms.com/fr/courses/4902061-developpez-une-application-mobile-react-native/5046316-integrez-redux-dans-votre-application#/id/r-5309033
+À présent, dans les props du component FilmDetail, vous avez accès au state de l'application et donc aux films favoris.
+On connecte le state de l'application avec les props du component FilmDetail.
+Si, dans votre application, les props d'un component change, celui-ci passe automatiquement dans le cycle de vie updating et se re-rend. 
+Le component FilmDetail est connecté au store Redux. Il va recevoir la nouvelle liste de films favoris et la mapper à ses props. Les props du component FilmDetail ayant changé, le cycle de vie updating va être exécuté et va pousser le component FilmDetail à se re-rendre avec vos nouvelles props
+---
+Hooks pour didmount et diupdate :
+
+const mounted = useRef();
+useEffect(() => {
+  if (!mounted.current) {
+    // do componentDidMount logic
+    mounted.current = true;
+  } else {
+    // do componentDidUpdate logic
+  }
+});
+-----
+Hooks pour didmount asynchrone :
+
+useEffect(() => {
+  let isMounted = true; // note this flag denote mount status
+  someAsyncOperation().then(data => {
+    if (isMounted) setState(data);
+  })
+  return () => { isMounted = false }; // use effect cleanup to set flag false, if unmounted
+});
+
+----
+Résumé redux
+L'utilisateur clique sur le bouton "Favoris" dans le component FilmDetail.
+On crée une action avec le type "TOGGLE_FAVORITE"  et en valeur, le film affiché.
+On fait passer l'action au store Redux.
+Le store Redux donne l'action (dispatch) à un reducer capable de gérer l'action de type "TOGGLE_FAVORITE".
+Le reducer  toggleFavorite  va recevoir l'action et va modifier le state de votre application.
+Redux va détecter un changement dans son store, sur la liste des films favoris, et va envoyer la nouvelle liste de films favoris aux components abonnés à ses changements.
+Le component FilmDetail reçoit la liste des nouveaux films, la mappe à ses props et lance le cycle de vie updating pour se re-rendre.
+
+Videos pour apprendre redux : https://egghead.io/courses/getting-started-with-redux
+-----
+images statiques (require avant url d'image) https://openclassrooms.com/fr/courses/4902061-developpez-une-application-mobile-react-native/5400081-construisez-une-action-sur-redux#/id/r-5400187
+----
+Moi, FlatList, je ne me re-rend que si l’on me le demande ET si mes données ont changé.
+ extraData d’une FlatList : https://openclassrooms.com/fr/courses/4902061-developpez-une-application-mobile-react-native/5400081-construisez-une-action-sur-redux#/id/r-5911759
+---
+createBottomTabNavigator
+-----
+data binding
+fonction bindée
+this._loadFilms = this._loadFilms.bind(this)
+Vous avez associé le contexte du component Search à votre fonction  _loadFilms . À présent, et quel que soit l'endroit depuis lequel vous appelez la fonction  _loadFilms  , si vous utilisez  this  dans la fonction  _loadFilms  , vous faites toujours référence au contexte du component Search.
+si vous appelez la fonction  _loadFilms  depuis le contexte des props du component FilmList, comme avec notre callback, dans la fonction  _loadFilms  , this  correspondra au contexte du component Search.
+une fonction fléchée est automatiquement bindée avec le contexte qui l'englobe.
+-----
+platform.select et platform.iOS
+nomDuComponentOuImageOuFichiersDeDonnesOuEtc.platform.js
+Safe area
+Dans notre application, nous n'aurons pas besoin d'utiliser SafeAreaView. Tout simplement parce que React Navigation et son component StackNavigator utilisent déjà un SafeAreaView.
+Api share react native
+-----
+Animations (librairie animated)
+
+===========================================================================================>
+Installation d'une CRNA
+Components
+Styles
+Hooks
+React Navigation
+Redux
+Redux Persist
+Animated
+Passer à un projet avec du code natif
+Livrer les applicaions
+Librairies pour components natifs : React native Image picker....

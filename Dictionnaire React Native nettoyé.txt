@@ -1,0 +1,177 @@
+______________________________
+Méthodes et propriétés importantes de certains objets natifs
+------------------------------
+
+###
+Tableau : https://bit.ly/3dEy0wU
+Ajouter items vers la fin : .push();   //peut recevoir un nombre illimité de paramètres
+Ajouter items au début : .unshift();   //peut recevoir un nombre illimité de paramètres
+Retirer premier élément : .shift();
+Retirer dernier élément : .pop();
+Retirer le premier élément égal à une valeur : let index = array.indexOf(item); if (index !== -1) array.splice(index, 1);
+Retirer tous les élément égals à une valeur : array = array.filter(x => x !== valeur);    //ajouter un deuxième argument pour l'index
+Vérifier si un élément est présent : .includes(valeurRecherchée);     // retourne un booléen
+Créer un string à partir du tableau : myArray.join('-');
+Concaténer deux tableaux : var myArray = ['test1', 'test2'].concat(['test3', 'test4']);
+.forEach() :  // plus efficace que parcourir avec une boucle for mais ne fonctionne pas avec les collections d'éléments retournées par le DOM
+..................
+myArray.forEach(function(value, index, array) {
+    alert(
+        'Index : ' + index + '\n' +
+        'Valeur : ' + value
+    );
+});
+..................
+
+
+Installation d'une CRNA
+Components
+Styles
+Hooks
+React Navigation
+Redux
+Redux Persist
+Animated
+Passer à un projet avec du code natif
+Livrer les applicaions
+Librairies pour components natifs : React native Image picker....
+
+______________________________
+Installation et lancement d'une CRNA
+------------------------------
+// Il faut préalablement avoir installé Node.js
+// Préceder toutes les commandes sur une console par *sudo* sur mac
+
+Installer expo : npm install -g expo-cli   //dans un terminal dans le répertoire voulu
+Créer une CRNA : expo init nomDuProjet  //choisir le template blank sur la console
+Lancer la CRNA : npm start
+Rechargement sur simulateur iOS : command + R
+Rechargement sur simulateur Android : Ctrl + M sur Windows et command + M sur Mac
+
+Installation React Native Paper et React Navigation : 
+.........................  //écrire ces 2 lignes dans un terminal
+npm install @react-navigation/native @react-navigation/stack @react-native-community/masked-view @react-navigation/drawer @react-navigation/material-bottom-tabs react-native-paper
+expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context
+.........................
+
+______________________________
+Components
+------------------------------
+
+#####
+React Native Paper
+Documentation complète : https://bit.ly/3ifYfeL
+
+## Navigation ==============
+BottomNavigation    https://bit.ly/3icSqyG //(C'est comme un Tabbar) permet une navigation entre les vues avec une barre de navigation inférieure. Utilisé avec React Navigation. 
+Drawer              https://bit.ly/2C5pXve //(C'est un menu Hamburger) Un composant pour regrouper le contenu.
+
+## Boutons ==============
+Button              https://bit.ly/3a1vbEB //composant sur lequel l'utilisateur peut appuyer pour déclencher une action.
+FAB                 https://bit.ly/2DzN0Pg //Un bouton d'action flottant. Doit être enveloppé par un composant Portal
+Checkbox            https://bit.ly/3khWQWQ //permettent la sélection de plusieurs options dans un ensemble.
+Switch              https://bit.ly/3a6PFMw //bascule visuelle entre deux états mutuellement exclusifs: activé et désactivé.
+IconButton          https://bit.ly/30tukJM //un bouton qui affiche uniquement une icône sans étiquette. Par défaut, le bouton a une taille de 150% de l'icône.
+RadioButton         https://bit.ly/30AX7fP //permettent de sélectionner une seule option dans un ensemble.
+ToggleButton        https://bit.ly/39XMDdr //Un composant qui permet à l'utilisateur de choisir une option parmi un ensemble
+Chip                https://bit.ly/3kfEYMb //utilisées pour afficher des entités en petits blocs.
+Appbar              https://bit.ly/33Io0Ar //pour afficher des éléments d'action dans une barre. Il peut être placé en haut ou en bas. (Barre de boutons)
+
+## Listes ==============
+List                https://bit.ly/2EN4w2S //Un composant utilisé pour afficher une liste extensible.
+Divider             https://bit.ly/31mzfeR //Un séparateur qui regroupe le contenu dans des listes et des mises en page.
+
+## Typographie ==============
+Text                https://bit.ly/2Ppkjag //Composant de texte qui suit les styles du thème.
+Title               https://bit.ly/3a6PJfe //titre.
+Subheading          https://bit.ly/3kj6Sqs //sous-titre.
+Paragraph           https://bit.ly/31n3Ngz //paragraphe.
+Headline            https://bit.ly/3gAoHz2 //Gros titre.
+Caption             https://bit.ly/2Pteskc //légende.
+
+## Entrée ==============
+SearchBar           https://bit.ly/31mmFMO //zone de saisie simple dans laquelle les utilisateurs peuvent saisir des requêtes de recherche.
+TextInput           https://bit.ly/2PsJwka //Un composant pour permettre aux utilisateurs de saisir du texte.
+HelperText          https://bit.ly/3gxYyB4 //utilisé avec des éléments d'entrée pour fournir des conseils supplémentaires à l'utilisateur.
+
+## Modals ==============
+Banner              https://bit.ly/39WYMiL //affiche un message important et les actions associées.
+SnackBar            https://bit.ly/2XNBaZ9 //fournis de brefs commentaires sur une opération via un message en bas de l'écran. (C'est un Toast)
+Dialog              https://bit.ly/3fDUoqc //informent les utilisateurs sur une tâche spécifique. Doit être enveloppé par un composant Portal
+Menu                https://bit.ly/2PuDf7G //affiche une liste de choix sur une surface surélevée temporaire. Son placement varie en fonction de l'élément qui l'ouvre.
+Modal               https://bit.ly/3i8TZh1 //un moyen simple de présenter du contenu au-dessus d'une vue englobante. Doit être enveloppé par un composant Portal
+
+## Informations ==============
+Avatar              https://bit.ly/3gy5dv6 //utilisés pour représenter des personnes de manière graphique.
+Badge               https://bit.ly/3ioHzBV //petits cercles descripteurs de statut pour les éléments de l'interface utilisateur.
+Card                https://bit.ly/2PuC3RM //feuille qui sert à afficher des informations plus détaillées.
+DataTable           https://bit.ly/3fqTkWs //permettent d'afficher des ensembles de données.
+
+## Patienter ==============
+ActivityIndicator   https://bit.ly/2XwVvSl //utilisé pour présenter la progression d'une activité
+ProgressBar         https://bit.ly/3kqH4sO //indicateur utilisé pour présenter la progression de certaines activités dans l'application.
+
+## Conteneurs ==============
+Portal              https://bit.ly/31kYled //permet de rendre un composant à un endroit différent dans l'arborescence parent.
+Surface             https://bit.ly/2PrydbX //Conteneur de base qui peut donner de la profondeur à un élément avec une ombre d'élévation.
+TouchableRipple     https://bit.ly/3gyCXIP //Un wrapper pour les vues qui doivent répondre aux touches. Fournit un effet d'interaction matériel "ondulation d'encre"
+
+#####
+Composants React Native basiques utiles
+Documentation complète : https://bit.ly/2EVub9P
+
+View                    https://bit.ly/2XwLPXH //Conteneur fondamental équivalent au div en html // ex: <View>...</View>
+KeyboardAvoidingView    https://bit.ly/3id1unc //Fournit une vue qui s'adapte quand est instancié le clavier virtuel.
+SafeAreaView            https://bit.ly/2Ps8IHt //Conteneur pour les écrans iphones X et similaires
+ScrollView              https://bit.ly/39Y5V2a //Conteneur qui peut accueillir plusieurs composants. Utile pour défiler des gros paragraphes
+FlatList                https://bit.ly/31qwMQr //Conteneur performant pour accueillir une liste d'objets.
+
+AppState                https://bit.ly/2C2zuTH //peut vous dire si l'application est au premier plan ou en arrière-plan et vous avertir lorsque l'état change.
+Dimensions              https://bit.ly/33uayjd //Obtenir les dimensions de l'appareil.
+PixelRatio              https://bit.ly/2XzyQEV //Donne accès à la densité de pixels de l'appareil
+
+Vibration               https://bit.ly/31mHfwp //Fait vibrer l'appareil.
+Share                   https://bit.ly/3kjdOnu //Ouvre une boîte de dialogue pour partager du contenu textuel.
+StatusBar               https://bit.ly/30uiajS //Contrôle de la barre d'état de l'application
+RefreshControl          https://bit.ly/2PqSazs //Utilisé à l'intérieur d'un ScrollView pour ajouter une fonctionnalité de "pull to refresh".
+StyleSheet              https://bit.ly/3iadBkP //Fournit une couche d'abstraction similaire aux feuilles de style CSS
+
+______________________________
+Hooks
+------------------------------
+
+###
+Hooks d'états :
+Importer useState : import React, { useState } from 'react';
+Déclarer une variable de state : let [maVariable, setMaVariable] = useState(valeurInitiale);   //useState renvoie un tableau de 2 élements //il est possible de déclarer plusieurs variables
+Lire l'état : ex: <p>Vous avez cliqué {maVariable} fois</p>
+Mettre à jour l’état : setMaVariable(nouvelleValeur);
+
+###
+Hooks d'éffets :
+Importer useEffect : import React, { useEffect } from 'react';
+// useEffect est une combinaison de componentDidMount, componentDidUpdate, et componentWillUnmount
+Implémenter useEffect : useEffect(() => { /* code */ });    //fonctionne comme componentDidMount + componentDidUpdate, retourner une fonction pour nettoyer (componentWillUnmount)
+Implémenter useEffect en séparant les cycles de vie: 
+.........................  //nécessite d'importer useRef
+const mounted = useRef();
+useEffect(() => {
+  if (!mounted.current) {
+    // do componentDidMount logic
+    mounted.current = true;
+  } else {
+    // do componentDidUpdate logic
+  }
+  /* //Facultativement 
+  return function cleanup() {
+    // do componentWillUnmount logic
+  };
+  */
+});
+.........................
+componentDidMount() est appelée après que le Component a été dessiné (render) sur l'interface pour la première fois.
+componentDidUpdate() est appelée après que le Component aie été redéssiné suite à la mise à jour du state
+componentWillUnmount() est appelée lorsque le Component est sur le point d'être retiré du DOM.
+
+
+

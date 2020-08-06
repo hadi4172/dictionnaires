@@ -1,0 +1,13 @@
+Balise php vide : <?php /* Le code PHP se met ici */ ?>  //des variantes existent, comme <? ?> et <% %>
+Types de variable : string - int - float - bool - null
+Exemple de création de variable : $variable = "Mon \"nom\" est Mateo21";  //les variables commencent toutes par un $ et il n' ya pas de définition du type
+Insérer du texte : echo "Le visiteur a $age_du_visiteur ans";   //l'instruction print fonctionne aussi //on peut mettre des balises html dans le string
+Ajouter un commentaire : fonctionne comme sur JavaScript
+Guillemets simples : fonctionne comme un string en js et on utilise le . pour concaténer, ex : echo 'Le visiteur a ' . $age_du_visiteur . ' ans<br />';
+Guillemets doubles : remplace l'interieur par leur vraie valeur. ex : echo "Le visiteur a $age_du_visiteur ans";  // affiche Le visiteur a 17 ans
+Structures conditionnelles : if elseif else
+Conditions multiples && ||    //on peut aussi utiliser AND et OR
+Switch fonctionne comme en JavaScript
+Les comparaisons fonctionnent comme en Java
+Vérifier si une variable est indéfinie : if ($variable == null)
+Boucle for fonctionne comme en javascript
