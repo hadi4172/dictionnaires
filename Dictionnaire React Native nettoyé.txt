@@ -1,32 +1,6 @@
-______________________________
-Méthodes et propriétés importantes de certains objets natifs
-------------------------------
-
-###
-Tableau : https://bit.ly/3dEy0wU
-Ajouter items vers la fin : .push();   //peut recevoir un nombre illimité de paramètres
-Ajouter items au début : .unshift();   //peut recevoir un nombre illimité de paramètres
-Retirer premier élément : .shift();
-Retirer dernier élément : .pop();
-Retirer le premier élément égal à une valeur : let index = array.indexOf(item); if (index !== -1) array.splice(index, 1);
-Retirer tous les élément égals à une valeur : array = array.filter(x => x !== valeur);    //ajouter un deuxième argument pour l'index
-Vérifier si un élément est présent : .includes(valeurRecherchée);     // retourne un booléen
-Créer un string à partir du tableau : myArray.join('-');
-Concaténer deux tableaux : var myArray = ['test1', 'test2'].concat(['test3', 'test4']);
-.forEach() :  // plus efficace que parcourir avec une boucle for mais ne fonctionne pas avec les collections d'éléments retournées par le DOM
-..................
-myArray.forEach(function(value, index, array) {
-    alert(
-        'Index : ' + index + '\n' +
-        'Valeur : ' + value
-    );
-});
-..................
-
 
 Installation d'une CRNA
 Components
-Styles
 Hooks
 React Navigation
 Redux
@@ -48,7 +22,7 @@ Lancer la CRNA : npm start
 Rechargement sur simulateur iOS : command + R
 Rechargement sur simulateur Android : Ctrl + M sur Windows et command + M sur Mac
 
-Installation React Native Paper et React Navigation : 
+Installation React Native Paper et React Navigation ↓ 
 .........................  //écrire ces 2 lignes dans un terminal
 npm install @react-navigation/native @react-navigation/stack @react-native-community/masked-view @react-navigation/drawer @react-navigation/material-bottom-tabs react-native-paper
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context
@@ -152,7 +126,8 @@ Hooks d'éffets :
 Importer useEffect : import React, { useEffect } from 'react';
 // useEffect est une combinaison de componentDidMount, componentDidUpdate, et componentWillUnmount
 Implémenter useEffect : useEffect(() => { /* code */ });    //fonctionne comme componentDidMount + componentDidUpdate, retourner une fonction pour nettoyer (componentWillUnmount)
-Implémenter useEffect en séparant les cycles de vie: 
+Implémenter useEffect avec seulement componentDidMount : useEffect(() => { /* code */ }, []);
+Implémenter useEffect en séparant les cycles de vie ↓
 .........................  //nécessite d'importer useRef
 const mounted = useRef();
 useEffect(() => {
@@ -173,5 +148,172 @@ componentDidMount() est appelée après que le Component a été dessiné (rende
 componentDidUpdate() est appelée après que le Component aie été redéssiné suite à la mise à jour du state
 componentWillUnmount() est appelée lorsque le Component est sur le point d'être retiré du DOM.
 
+###
+Hooks de Contexte : TODO mais ce tuto en attendant : https://bit.ly/30wmY8p
+Pour passer des props à un StackNavigator : https://bit.ly/33xA9YE
 
+______________________________
+React Navigation v.5
+------------------------------
+// Exemple d'intégration de React Navigation 5 à Paper : https://bit.ly/3kaRAEp
 
+###
+Installation
+Package à installer : npm install @react-navigation/native @react-navigation/stack @react-navigation/drawer @react-navigation/bottom-tabs
+Installation de dépendances dans un projet géré par Expo : expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+Installation de dépendances dans un projet React Native complet ↓
+.........................
+npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
+// si nous sommes sur Mac, installer maintenant les pods via Cocoapods avec la commande : npx pod-install ios
+Ajouter cette ligne au plus haut (ligne 1) du fichier d'entrée (App.js ou index.js) : import 'react-native-gesture-handler';
+Ajouter cette ligne vers le haut du fichier d'entrée : import { NavigationContainer } from '@react-navigation/native';
+Encapsuler toute l'application dans cette balise : <NavigationContainer></NavigationContainer>
+.........................
+
+#####
+Navigateur de pile (StackNavigator)
+Importer StackNavigator : import { createStackNavigator } from '@react-navigation/stack';  //se met vers le haut du fichier d'entrée
+//un StackNavigator contient un sous objet Navigator et un autre sous-objet screen, Navigator doit être dans le NavigationContainer et il contient lui même les screens.
+Exemple d'implémentation dans le fichier d'entrée ↓
+.........................
+const Stack = createStackNavigator();
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">         //Ajouter le prop initialRouteName pour définir quel écran est le premier et le prop screenOptions pour des options sur tous les screens
+        <Stack.Screen name="Home" component={HomeScreen} />             //le prop component accepte seulement un composant, pas une fonction de rendu.
+        <Stack.Screen name="Details" component={DetailsScreen} />       //les props name et component sont obligatoires
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+.........................
+Personaliser un écran : <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Overview' }}/>   //change le titre d'en tête à "Overview" //liste complète d'options: https://bit.ly/31vsJlY
+Naviguer vers un autre écran ↓
+......................... //Dans le component de l'un de nos écrans
+import { NavigationContainer } from '@react-navigation/native';
+function HomeScreen({ navigation }) {     //Chaque screen dans un StackNavigator est fourni de la prop
+  return (
+    <View>
+      <Button
+        title="Go to Details"
+        onPress={() => navigation.navigate('Details')}      //mettre le nom de l'écran voulu dans navigation.navigate(), ce dernier doit aussi être dans le StackNavigator
+      />
+    </View>
+  );
+}
+.........................
+Créer une nouvelle instance d'un écran : navigation.push('Details');   //utile pour avoir plusieurs fois le même écran
+Revenir au précédent écran : navigation.goBack();     //navigate agit aussi comme goBack si l'écran existe déja
+Revenir au premier écran de la pile : navigation.popToTop();
+
+## Passage de paramètres ==============
+Donner un paramètre inital à un écran : <Stack.Screen name="Details" component={DetailsScreen} initialParams={{ itemId: 42 }} /> //L'écran aura ces params de base. Les params sont fusionnés quand il en reçoit d'autres écrans.
+Passer des paramètres entre les écrans ↓
+.........................
+    //Dans l'écran donneur appeler navigate avec un deuxième paramètre, comme cela :  navigation.navigate('RouteName', { /* params go here */ });
+    //Dans l'écran receveur, lire avec route.params 
+    //Exemple :
+// Écran donneur
+function HomeScreen({ navigation }) {
+  return (
+      <View>
+        <Button title="Go to Details" onPress={() => {
+            navigation.navigate('Details', {itemId: 86, otherParam: 'uneValeur'});
+        }}
+        />
+      </View>
+  );
+}
+// Écran receveur
+function DetailsScreen({ route, navigation }) {
+  const { itemId } = route.params;
+  const { otherParam } = route.params;
+  return (
+    <View>
+      <Text>itemId: {JSON.stringify(itemId)}</Text>
+      <Text>otherParam: {JSON.stringify(otherParam)}</Text>
+    </View>
+  );
+}
+.........................
+Passage de paramètres avec des navigateurs imbriqués ↓ 
+.........................
+// supposons que l'on a un navigateur à l'intérieur de l'Écran1
+navigation.navigate('Écran1', {
+  screen: 'Écran2',
+  params: { user: 'jane' },
+});
+.........................
+
+## Modifier en-tête de l'écran ==============
+Mettre à jour le titre d'en-tête d'un écran : navigation.setOptions({ title: 'nouveauTitre' })}   //dans le component de l'écran
+Remplacer le titre d'en-tête d'un écran par un élément graphique : https://bit.ly/2Xy2lac
+Modifier le style de l'en-tête d'un écran : https://bit.ly/2EYs1Gu  //un peu plus bas dans la page web pour tous les écrans
+
+## Navigateurs imbriqués ==============
+Voir https://bit.ly/3gF3uEg
+
+#####
+Navigateur par onglets (Tab Navigation)
+Importer Tab Navigation : import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+Exemple d'implémentation dans le fichier d'entrée ↓
+.........................
+const Tab = createBottomTabNavigator();
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
+.........................
+Modifier le style : https://bit.ly/33zeaAI
+Ajouter un badge aux onglets : <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarBadge: 3 }} />     //utiliser Redux pour transmettre la valeur du badge depuis un autre endroit
+Sauter vers un onglet à partir d'un autre avec la programmation : navigation.navigate();
+Exemple d'implémentation de StackNavigators dans des TabNavigators : https://bit.ly/2XAjkZb
+Cacher le Tab Navigator dans un écran spécifique :  https://bit.ly/30zt7kr
+
+#####
+Navigateur par tiroir (Drawer Navigation)
+Importer un DrawerNavigator : import { createDrawerNavigator } from '@react-navigation/drawer'
+Exemple d'implémentation dans le fichier d'entrée ↓
+.........................
+const Drawer = createDrawerNavigator();
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
+}
+.........................
+Ouvrir le tiroir avec la programmation : navigation.openDrawer();
+Fermer le tiroir avec la programmation : navigation.closeDrawer();
+Basculer le tiroir en ouvert/fermé avec la programmation : navigation.toggleDrawer();
+Déterminer si le tiroir est ouvert ou fermé : useIsDrawerOpen();  //retourne un booleen // il faut en premier import { useIsDrawerOpen } from '@react-navigation/drawer';
+
+#####
+Zone sure (SafeArea)
+Ne pas utiliser le SafeAreaView Basique de React Native. Plutôt suivre les instructions ici : 
+
+#####
+Autre
+Empêcher de revenir en arrière : https://bit.ly/3gNvwxD
+
+______________________________
+Redux v.7.x
+------------------------------
+Installer Redux : npm install --save redux react-redux
+Voir le reste demain : 
+https://redux.js.org/tutorials/essentials/part-1-overview-concepts
+https://www.taniarascia.com/redux-react-guide/
+https://react-redux.js.org/introduction/basic-tutorial
+https://openclassrooms.com/fr/courses/4902061-developpez-une-application-mobile-react-native/5046316-integrez-redux-dans-votre-application
+https://daveceddia.com/redux-tutorial/
