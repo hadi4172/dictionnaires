@@ -89,6 +89,7 @@ a:hover /* Apparence au survol des liens */
 :required
 :invalid
 :checked
+:not(p)      //sélectionne les balises qui ne sont pas telle balise (ici pas un paragraphe)
 ______________________
 Sélecteurs   // pour travailler sur toute la page, utiliser body
 De base :
@@ -120,3 +121,5 @@ a[title="Cliquez ici"]
 une balise, un attribut qui contient un certain mot ex <a href="http://site.com" title="Quelque part par ici">
 a[title*="ici"]
 { }
+
+autres: https://bit.ly/3ihnoFK

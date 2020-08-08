@@ -1,3 +1,6 @@
+Réalisé par Hadi Yahia
+
+Il est recommandé d'installer l'extension pour navigateur Universal Bypass pour accéder aux liens raccourcis rapidement : https://universal-bypass.org/install
 
 Installation d'une CRNA
 Components
@@ -24,7 +27,7 @@ Rechargement sur simulateur Android : Ctrl + M sur Windows et command + M sur Ma
 
 Installation React Native Paper et React Navigation ↓ 
 .........................  //écrire ces 2 lignes dans un terminal
-npm install @react-navigation/native @react-navigation/stack @react-native-community/masked-view @react-navigation/drawer @react-navigation/material-bottom-tabs react-native-paper
+npm install --save @react-navigation/native @react-navigation/stack @react-native-community/masked-view @react-navigation/drawer @react-navigation/material-bottom-tabs react-native-paper
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context
 .........................
 
@@ -144,6 +147,17 @@ useEffect(() => {
   */
 });
 .........................
+
+useEffect pour fonction asynchrone ↓
+.........................
+useEffect(() => {
+  let isMounted = true; // note this flag denote mount status
+  someAsyncOperation().then(data => {
+    if (isMounted) setState(data);
+  })
+  return () => { isMounted = false }; // use effect cleanup to set flag false, if unmounted
+});
+.........................
 componentDidMount() est appelée après que le Component a été dessiné (render) sur l'interface pour la première fois.
 componentDidUpdate() est appelée après que le Component aie été redéssiné suite à la mise à jour du state
 componentWillUnmount() est appelée lorsque le Component est sur le point d'être retiré du DOM.
@@ -159,11 +173,11 @@ React Navigation v.5
 
 ###
 Installation
-Package à installer : npm install @react-navigation/native @react-navigation/stack @react-navigation/drawer @react-navigation/bottom-tabs
+Package à installer : npm install --save @react-navigation/native @react-navigation/stack @react-navigation/drawer @react-navigation/bottom-tabs
 Installation de dépendances dans un projet géré par Expo : expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
 Installation de dépendances dans un projet React Native complet ↓
 .........................
-npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
+npm install --save react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
 // si nous sommes sur Mac, installer maintenant les pods via Cocoapods avec la commande : npx pod-install ios
 Ajouter cette ligne au plus haut (ligne 1) du fichier d'entrée (App.js ou index.js) : import 'react-native-gesture-handler';
 Ajouter cette ligne vers le haut du fichier d'entrée : import { NavigationContainer } from '@react-navigation/native';
@@ -237,6 +251,7 @@ function DetailsScreen({ route, navigation }) {
   );
 }
 .........................
+
 Passage de paramètres avec des navigateurs imbriqués ↓ 
 .........................
 // supposons que l'on a un navigateur à l'intérieur de l'Écran1
@@ -308,12 +323,240 @@ Autre
 Empêcher de revenir en arrière : https://bit.ly/3gNvwxD
 
 ______________________________
-Redux v.7.x
+Redux v.7
 ------------------------------
-Installer Redux : npm install --save redux react-redux
-Voir le reste demain : 
-https://redux.js.org/tutorials/essentials/part-1-overview-concepts
-https://www.taniarascia.com/redux-react-guide/
+Étapes pour ajouter Redux à un Projet React :
+1. Installer Redux : npm install --save redux react-redux @reduxjs/toolkit
+2. Créer un store Redux en utilisant configureStore de Redux toolkit et lui passer au moin un reducer
+3. Importer le store dans le fichier d'entrée
+4. Encapsuler le component du fichier d'entrée dans un component Provider
+
+Redux s'attend à ce que toutes les mises à jour d'état soient effectuées de manière immuable ; il faut cloner l'objet et modifier son clone.
+
+Une action est un objet qui décrit quelque chose qui s'est produit dans l'application. Il a obligatoirement une clé 'type'
+Un créateur d'action est une fonction qui retourne une action. Exemple ↓
+.........................
+const addTodo = (text) => {
+  return {
+    type: 'todos/todoAdded',        //on écrit le type dans ce format en général : "domaine/nomEvenement"
+    payload: text                   //Pour des informations supplémentaires sur ce qui s'est passé, on utilise par convention un champ payload
+  }
+}
+.........................
+
+Un reducer est une fonction qui reçoit le state actuel et une action, et retourne un nouveau state en fonction de l'action.
+Exemple de reducer ↓
+.........................
+const initialState = { value: 0 };
+function counterReducer(state = initialState, action) {
+  if (action.type === 'counter/increment') {                // Vérifier si le réducer se soucie de cette action
+    return {                                                // Si oui, retourner une copie du state mis à jour avec la nouvelle valeur
+      ...state,
+      value: state.value + 1
+    };
+  }
+  return state;                                              // sinon rendre le state existant inchangé
+}
+
+//Autre exemple plus moderne avec React Toolkit......................................
+import { createSlice } from '@reduxjs/toolkit'
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState: {
+    value: 0
+  },
+  reducers: {
+    increment: state => {       //Nous n'avons pas besoin de l'action ici donc on peut ne pas le déclarer dans ce reducer
+      state.value += 1          //createSlice nous permet d'utiliser cette syntaxe, mais il faut savoir que ce state là est un clone.
+    },
+    decrement: state => {
+      state.value -= 1
+    },
+    incrementByAmount: (state, action) => {
+      state.value += action.payload
+    }
+  }
+})
+export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export default counterSlice.reducer
+.........................
+
+Le store est créé en transmettant un reducer, et possède une méthode appelée getState qui renvoie la valeur du state actuel. Exemple ↓
+.........................
+import { configureStore } from '@reduxjs/toolkit'
+const store = configureStore({
+    rootReducer: combineReducers({
+        counter: counterReducer,
+        users: usersReducer,
+        posts: postsReducer
+    })
+});
+console.log(store.getState());              // {value: 0}
+.........................
+
+Dispatch est une méthode du store qui prends en argument une action (ou un créateur d'actions) et qui lance le reducer du store pour mettre à jour le state global. Exemple : store.dispatch({ type: 'counter/increment' });
+en utilisant createSlice : nous pouvons utiliser dispatch de cette manière : store.dispatch(counterSlice.actions.increment());   //même chose que store.dispatch({type: "counter/increment"});
+
+getState est une méthode du store pour obtenir le state global.
+
+Les sélécteurs sont des fonctions servant à extraire une clé spécifique du state. Exemple ↓
+.........................
+const selectCounterValue = state => state.value;
+const currentValue = selectCounterValue(store.getState());     //currentValue = 0  
+.........................
+
+Dans un fichier de component, nous ne pouvons pas importer le store, donc pour utiliser dispatch et les sélécteurs, nous utilsons des hooks Redux :
+tout d'abord : import { useSelector, useDispatch } from 'react-redux'
+
+Hook useSelector :
+const count = useSelector(state => state.counter.value); équivaut à const count = selectCount(store.getState()); où const selectCount = state => state.counter.value;
+Chaque fois qu'une action a été envoyée avec dispatch et que le store Redux a été mis à jour, useSelector relancera notre fonction de sélection.
+
+Hook useDispatch :
+const dispatch = useDispatch();   //au début du fichier 
+dispatch(increment());            //dans un bouton, par exemple   (où increment est une variable définie comme counterSlice.actions.increment, qui vaut {type: "counter/increment"})
+équivaut à store.dispatch(increment());
+
+Pour que les hooks puissent accéder au store, il faut encapsuler le component du fichier d'entrée dans un component Provider. Exemple ↓
+.........................
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import store from './app/store'
+import { Provider } from 'react-redux'
+
+ReactDOM.render(
+  <Provider store={store}>     //Tout ce qui est à l'interieur du Provider a accès au store Redux
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
+.........................
+
+Réference supplémentaires : 
+https://redux.js.org/tutorials/essentials/part-1-overview-concepts        //Documentation officielle
+https://www.taniarascia.com/redux-react-guide/                            //Explication de l'essentiel rapidement
 https://react-redux.js.org/introduction/basic-tutorial
 https://openclassrooms.com/fr/courses/4902061-developpez-une-application-mobile-react-native/5046316-integrez-redux-dans-votre-application
 https://daveceddia.com/redux-tutorial/
+
+______________________________
+Redux Persist v.6
+------------------------------
+Installation : npm install --save redux-persist
+
+Dans le fichier d'entrée ↓
+.........................
+import { PersistGate } from 'redux-persist/integration/react'
+//et mettre la paire de balise PersistGate juste en bas du Provider, comme ceci :
+const App = () => {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={<LoadingView />} persistor={persistor}>       //loading peut aussi être mis à null   //persistor est importé du fichier du store Redux
+        <RootComponent />
+      </PersistGate>
+    </Provider>
+  );
+};
+.........................
+
+Dans le fichier du store Redux ↓
+.........................
+//Ajouter 
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import AsyncStorage from '@react-native-community/async-storage';
+
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore(persistedReducer);      //ou createStore si on n'utilise pas Redux Toolkit
+export const persistor = persistStore(store);
+.........................
+
+###
+Listes noire et listes blanches
+Utiliser pour ne pas persister une partie du state ou pour seulement persister cette partie. Exemple ↓
+.........................
+// BLACKLIST
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+  blacklist: ['navigation'] // navigation ne sera pas persisté  //navigation est le nom de l'un de nos reducers dans combineReducers
+};
+
+// WHITELIST
+const persistConfig = {
+  key: 'root',
+  storage: storage,
+  whitelist: ['navigation'] // seul navigation sera persisté
+};
+.........................
+
+Persistances imbriquées : voir https://bit.ly/30BIrN9 et https://bit.ly/2Pz48XZ
+
+Références : https://bit.ly/3fEv2rZ et https://bit.ly/2Pz48XZ
+
+______________________________
+Passer à un projet avec du code natif
+------------------------------
+Cette étape est irréversible.  (Je pense qu'on peut quand même revenir avec git)
+Le serveur node.js doit être arrêté
+Taper les commandes ↓
+.........................
+npm install --save -g react-native-cli
+expo eject
+.........................
+À la première question posé au terminal, répondre "React Native"
+Puis, entrer le nom de l'application
+Puis, entrer le nom de l'applciation sans espaces (nom des projets Android Studio et XCode)
+Ça y est, notre application a été éjectée. Elle est passée d'une CRNA à une application React Native avec du code natif. 
+Préparer le terrain sur iOS     : https://bit.ly/2XB1up2
+Préparer le terrain sur Android : https://bit.ly/2XCMR4s
+Taper les commandes ↓
+.........................
+npm install --save react-native-gesture-handler
+react-native link
+.........................
+Créer un fichier index.js à la racine de notre projet et ajouter le code ↓
+.........................
+import { AppRegistry } from 'react-native';
+import App from './App';
+AppRegistry.registerComponent('MoviesAndMe', () => App);
+.........................
+
+Maintenant, pour lancer notre projet react native, taper sur le terminal :
+pour iOS : react-native run-ios             // un simulateur va être lancé et va afficher notre application.
+pour Android : react-native run-android     //il faut soit lancer un émulateur soi-même au préalable, soit brancher notre appareil via USB.
+
+Si on rencontre un problème : voir https://bit.ly/3gRqobP
+
+______________________________
+Livrer les applications
+------------------------------
+###
+Pour une CRNA : https://bit.ly/2XG99T5     //on pourra directement passer aux dernières lignes dans les 2 sections plus bas
+
+###
+Sur App store
+Vérifier que nos urls appelés dans l'application passent par https, sinon autorier les appels vers http avec https://bit.ly/2DvBtAI
+Passer en mode release : https://bit.ly/2F4DnZB
+Exécuter cette commande à la racine du projet ↓  //nos images doivent au préalable être dans une dossier "assets" 
+react-native bundle --entry-file ./index.js --platform ios --dev false --bundle-output ./ios/MoviesAndMe/main.jsbundle --assets-dest ./ios/
+Utiliser le bundle Javascript : https://bit.ly/3knbk7K
+Envoyer mon application au App store : https://bit.ly/33BjELe
+
+###
+Sur Google Play
+Configuration sur android : https://bit.ly/3iiyM4g
+Envoyer mon application au Google Play : https://bit.ly/33CBayB
+
+______________________________
+Autre
+------------------------------
+Intégrer React Native dans une application native existante : https://bit.ly/33JYSt3
+VS App Center : https://bit.ly/3ip5DUT
