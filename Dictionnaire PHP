@@ -11,3 +11,107 @@ Switch fonctionne comme en JavaScript
 Les comparaisons fonctionnent comme en Java
 Vérifier si une variable est indéfinie : if ($variable == null)
 Boucle for fonctionne comme en javascript
+Créer un tableau : $prenoms = array ('François', 'Michel', 'Nicole', 'Véronique', 'Benoît'); //Fonctionne comme les tableaux en JavaScript
+Ajouter un objet au tableau : $prenoms[] = 'François';       //comme si on avait fait prenom.push('François);  en JavaScript
+Créer un tableau associatif ↓               //fonctionne comme les objets littéraux en JavaScript
+.............................
+    $coordonnees = array (
+        'prenom' => 'François',
+        'nom' => 'Dupont',
+        'adresse' => '3 Rue du Paradis',
+        'ville' => 'Marseille');
+.............................
+Ajouter/Éditer/Accéder aux élements du tableau associatif : $coordonnees['prenom'] = 'François';
+Boucle foreach : Ex: foreach($prenoms as $element){echo $element . '<br />';}     //fonctionne comme for of en JavaScript. Marche de la même façon sur les tableaux associatifs
+Boucle foreach avec clé pour tableaux associatifs : foreach($coordonnees as $cle => $element){}
+Afficher rapidement un tableau : echo '<pre>';  print_r($coordonnees);   echo '</pre>';
+Vérifier si une clé existe dans l'array : array_key_exists('cle', $array);   //renvoie un booléen
+Vérifier si une valeur existe dans l'array : in_array('Cerise', $fruits)  //renvoie un booléen
+Récupérer la clé d'une valeur dans l'array : array_search('Fraise', $fruits);  // renvoie la première clé correspondante si trouvé, sinon, renvoie false
+
+Fonction pour le traitement des chaînes de caractères
+Longueur d'un string : strlen($phrase);
+Rechercher et remplacer : str_replace($string_recherché, $string_à_mettre_à_la_place, $string_sur_lequel_on_travaille);
+Mélanger: str_shuffle($chaine);
+Mettre en minuscue : strtolower($chaine);
+
+Récupérer la date: date('H');   //La date renvoyée est sur le fuseau horaire du serveur
+Paramètres : 
+H Heure
+i Minute
+d Jour
+m Mois
+Y Année
+Obtenir le timestamp actuel : time()  //en PHP, le timestamp est le nombre de *secondes* écoulées depuis le 1er janvier 1970
+
+Les fonctions sont créées de la même manière qu'en JavaScript
+Inclure du contenu html externe dans une autre : include("menus.php");          //prends en paramètre le chemin relatif vers le fichier externe
+Envoyer des données vers une autre page : ex: <a href="bonjour.php?nom=Dupont&amp;prenom=Jean">Envoyer</a>  //Envoie un nom et un prénom à bonjour.php
+Lire les données reçues avec méthode url : $_GET['nom'] renvoie "Dupont" pour l'exemple en haut  //ne pas oublier de vérifier les données reçues
+Vérifier si une variable est définie ou non : isset($variable);   //renvoie un booléen
+Transtypage : $string = (int) $string;    //force une conversion en int, si c'est impossible, convertit en 0
+Envoyer des données avec méthode post ↓ exemple
+.............................
+    <form action="cible.php" method="post">
+        <p>
+            <input type="text" name="prenom" />
+            <input type="submit" value="Valider" />
+        </p>
+    </form>
+.............................
+Lire les données reçues avec méthode post : $_POST['prenom'];   //renvoie ce que l'utilisateur a tapé dans l'input qui avait un name="prenom"
+Transformer une entrée avec des balises html en string : htmlspecialchars($string);    //utile pour empêcher un utilisateur d'entrer du code javascript avec <script><script/>
+Retirer les balises HTML d'un string : strip_tags($string);
+Envoyer un fichier ↓ exemple
+.............................
+    <form action="cible_envoi.php" method="post" enctype="multipart/form-data">
+        <p>
+            Formulaire d'envoi de fichier :<br />
+            <input type="file" name="monfichier" /><br />
+            <input type="submit" value="Envoyer le fichier" />
+        </p>
+    </form>
+.............................
+Traitement du fichier reçu dans la page de destination
+$_FILES['monfichier']['name'] :                         Chemin et nom du fichier envoyé
+$_FILES['monfichier']['type'] :                         Indique le type du fichier envoyé. Si c'est une image gif par exemple, le type sera 'image/gif'
+$_FILES['monfichier']['size'] :                         Indique la taille en octet du fichier envoyé. //Par défaut, impossible d'uploader des fichiers de plus de 8 Mo.
+$_FILES['monfichier']['error'] :                        Contient un code d'erreur pour savoir si l'envoi s'est bien effectué. La variable vaut 0 s'il n'y a pas eu d'erreur.
+$_FILES['monfichier']['tmp_name'] :                     Chemin et nom temporaire du fichier  
+pathinfo($_FILES['monfichier']['name'])['extension'];   Renvoie l'extension du fichier  ex: 'png'
+basename($chemin_et_nom_du_fichier) :                   Renvoie le nom et l'extension du fichier seulement.   ex: "fichier.png"
+move_uploaded_file($nom_temp, $nom_final) :             Valider l'upload du fichier    //ex: move_uploaded_file($_FILES['monfichier']['tmp_name'], 'uploads/' . basename($_FILES['monfichier']['name']));
+
+Vérifier qu'une variable est incluse dans un tabeau : in_array($variable, $tableau);    //renvoie un booléen
+
+Variables superglobales
+$_SERVER['REMOTE_ADDR'] :     Nous donne l'adresse IP du client qui a demandé à voir la page
+$_SESSION :                   Contient les variables qui restent stockées sur le serveur le temps de la présence d'un visiteur. 
+$_COOKIE :                    Contient les valeurs des cookies enregistrés sur l'ordinateur du visiteur.
+$_GET :                       Contient les données envoyées en paramètres dans l'URL.
+$_POST :                      Contient les informations qui viennent d'être envoyées par un formulaire.
+$_FILES :                     Contient la liste des fichiers qui ont été envoyés via le formulaire précédent.
+
+Fonctionnement des sessions
+1. Un visiteur arrive sur votre site. On demande à créer une session pour lui.
+2. Une fois la session générée, on peut créer une infinité de variables de session avec $_SESSION.
+3. Lorsque le visiteur se déconnecte de votre site, la session est fermée et les variables de session créées sont supprimées.
+Utiliser les sessions sur une page php : session_start();      //au tout début de la page php.
+Fermer la session manuellement : session_destroy();         //la session sera fermée toute seule par inactivité même sans utiliser cette fonction
+
+Cookies
+Écrire/Mettre à jour un cookie : setcookie($nom_du_cookie, $val_du_cookie, $date_exp_en_timestamp, null, null, false, true);  //doit être utilisé avant tout code html
+Lire un cookie : $_COOKIE['nom_du_cookie'];    //accessible partout, ne pas oublier de véifier si elle existe avec isset
+
+Fichiers
+Modes d'ouverture
+r   Ouvre le fichier en lecture seule.
+r+  Ouvre le fichier en lecture et écriture.
+a   Ouvre le fichier en écriture seule. Si le fichier n'existe pas, il est automatiquement créé.
+a+  Ouvre le fichier en lecture et écriture. Si le fichier n'existe pas, il est créé. Le répertoire doit avoir un chmod à 777. Si le fichier existe déjà, le texte sera ajouté à la fin.
+
+Ouvrir un fichier : $monfichier = fopen('nom.ext', 'mode');
+Fermer un fichier : fclose($monfichier);
+Lire un fichier ligne par ligne : $ligne = fgets($monfichier);    //chaque nouveau appel lit la ligne suivante et déplace le curseur
+Écrire dans un fichier : fputs($monfichier, 'Texte à écrire');    //écrit à l'endroit ou le curseur est rendu si on ouvre avec r+, si avec a+, écrit à la fin
+Replacer le curseur au début : fseek($monfichier, 0);

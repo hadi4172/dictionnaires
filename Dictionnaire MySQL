@@ -1,0 +1,9 @@
+Structure d'une base de donnée
+Base de donnée
+    Table1
+        Champs1    Champs2    Champs3    ...
+        Entrée1.1  Entrée1.2  Entrée1.3
+        Entrée2.1  Entrée2.2  Entrée2.3
+        ...
+    Table2
+    ...

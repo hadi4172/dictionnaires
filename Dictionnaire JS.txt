@@ -28,6 +28,7 @@ var : variable globale
 let : variable normale (mais plus nouvelle donc moin supportée)
 ~~ : Math.trunc()  //Enlève les décimales d'un chiffre
 ... : décompose un tableau  // mafonction(...[1,2,3,4]) ===> mafonction(1,2,3,4)
+{..}: dispersion   // let {nom, age} = joueur; est la même chose que let nom = joueur.nom; let age = joueur.age;
 
 ______________________________
 Création des Objets natifs
@@ -314,25 +315,18 @@ Rechercher un élément dans un tableau : utiliser .indexOf() et .lastIndexOf() 
 Retourner un élément qui passe un test : myArray.find(fonction);  //ex: https://bit.ly/35rDlUs //ajouter un deuxième argument pour l'index
 Retourner l'index d'un élément qui passe un test : myArray.findIndex(fonction); 
 Vérifier si un élément passe un test : myArray.some(fonction);   //retourne un booleen.  ex: https://bit.ly/2YpTdFB //ajouter un deuxième argument pour l'index
+Vérifier si un tableau contient plusieurs valeurs :  arr1.every(i => arr2.includes(i));   //renvoie un booléen true si tous les élements du tableau 1 sont dans le tableau 2
+Compter nombre d'élements qui passe un test : let count = []; myArray.forEach((x)=>if(fonction) count.push(x)); count.length;
 Inverser l'ordre des valeurs d'un tableau : myArray.reverse();
 Trier un tableau par ordre alphabétique : myArray.sort();
-Trier un tableau par ordre numérique : 
-..............
-myArray.sort(function(a, b) {
-    if (a < b) {
-        return -1;
-    } else if (a > b) {
-        return 1;
-    } else {
-        return 0;
-    }
-});
-.............
+Trier un tableau par ordre numérique : numArray.sort((a, b) => a - b);  // pour tri inverse : numArray.sort((a, b) => b - a);
 Extraire une partie d'un tableau: myArray.slice(a, b)  //a: index du début(inclus) b:index de la fin (exclus et facultatif) possibilité de b négatif
 Remplacer une partie d'un tableau: myArray.splice(1, 5, 45, 56); // On retire 5 éléments à partir de l'index 1 et on met 45 et 56 à la place. + d'infos: bit.ly/3a4mUyW  //renvoie les éléments retirés
 Tester si c'est un tableau: Array.isArray(['test']);
 Appliquer une fonction à chaque élément: monTableau.map(maFonction);   //retourne un nouveau tableau qu'on pourra stocker ex: https://bit.ly/3a4KQBC //ne fonctionne pas directement avec un htmlCollection
 Transformer une collection HTML en Tableau : Array.from(htmlCollection);
+Créer tableau de chiffres comme le range de python : [...Array(5).keys()]    //retourne [0,1,2,3,4]  pour début à fin, voir https://bit.ly/30YJtmx
+Retirer les éléments dupliqués dans un tableau : array = [...new Set(array)];
 
 ###
 Piles et Files : flemme donc http://bit.ly/2wbGTxg

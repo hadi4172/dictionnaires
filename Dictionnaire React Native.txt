@@ -27,7 +27,7 @@ Rechargement sur simulateur Android : Ctrl + M sur Windows et command + M sur Ma
 
 Installation React Native Paper et React Navigation ↓ 
 .........................  //écrire ces 2 lignes dans un terminal
-npm install --save @react-navigation/native @react-navigation/stack @react-native-community/masked-view @react-navigation/drawer @react-navigation/material-bottom-tabs react-native-paper
+npm install --save @react-navigation/native @react-navigation/stack @react-native-community/masked-view @react-navigation/drawer @react-navigation/material-bottom-tabs react-native-paper @react-navigation/material-top-tabs
 expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context
 .........................
 
@@ -102,6 +102,8 @@ KeyboardAvoidingView    https://bit.ly/3id1unc //Fournit une vue qui s'adapte qu
 SafeAreaView            https://bit.ly/2Ps8IHt //Conteneur pour les écrans iphones X et similaires
 ScrollView              https://bit.ly/39Y5V2a //Conteneur qui peut accueillir plusieurs composants. Utile pour défiler des gros paragraphes
 FlatList                https://bit.ly/31qwMQr //Conteneur performant pour accueillir une liste d'objets.
+Memo                    https://bit.ly/2PZGbJP //Pour optimiser les components principalement dans les listes. (Comme PureComponent mais pour les fonctions)
+Pressable               https://bit.ly/2E4eJYi //Conteneur pour détecter quand on appuie sur un élément enfant
 
 AppState                https://bit.ly/2C2zuTH //peut vous dire si l'application est au premier plan ou en arrière-plan et vous avertir lorsque l'état change.
 Dimensions              https://bit.ly/33uayjd //Obtenir les dimensions de l'appareil.
@@ -112,6 +114,13 @@ Share                   https://bit.ly/3kjdOnu //Ouvre une boîte de dialogue po
 StatusBar               https://bit.ly/30uiajS //Contrôle de la barre d'état de l'application
 RefreshControl          https://bit.ly/2PqSazs //Utilisé à l'intérieur d'un ScrollView pour ajouter une fonctionnalité de "pull to refresh".
 StyleSheet              https://bit.ly/3iadBkP //Fournit une couche d'abstraction similaire aux feuilles de style CSS
+
+Image                   https://bit.ly/30KxhWA
+
+## Librairie alternatives ==============
+yarn                    npm install yarn --global
+Easy grid               https://bit.ly/3aepvr4  //import { Col, Row, Grid } from "react-native-easy-grid"; //npm install react-native-easy-grid --save
+Fast Image              https://bit.ly/3akzDie  //import FastImage from 'react-native-fast-image';         // yarn add react-native-fast-image    
 
 ______________________________
 Hooks
@@ -163,9 +172,17 @@ componentDidUpdate() est appelée après que le Component aie été redéssiné 
 componentWillUnmount() est appelée lorsque le Component est sur le point d'être retiré du DOM.
 
 ###
-Hooks de Contexte : TODO mais ce tuto en attendant : https://bit.ly/30wmY8p
-Pour passer des props à un StackNavigator : https://bit.ly/33xA9YE
-
+Hooks de Contexte :
+Documentation : https://bit.ly/30wmY8p  et https://bit.ly/31XKVVE
+// Dans le parent : 
+Importer createContext : import React, { createContext } from 'react';
+Sauvegarder variable voulue dans le contexte : let MonContexte = createContext(maVariableSauvegardée);
+Envelopper les enfants avec une paire de balise Provider : ex. <MonContexte.Provider> <ComposantEnfant1/> </MonContexte.Provider> //Composant1 et ses enfants auront accès à maVariableSauvegardée
+Exporter MonContexte
+// Dans l'enfant ou plus bas : 
+Importer useContext de React
+Importer MonContexte du fichier du composant parent
+Accéder à maVariableSauvegardée : useContext(MonContexte);  //retourne maVariableSauvegardée sous sont état actuel
 ______________________________
 React Navigation v.5
 ------------------------------
@@ -252,6 +269,24 @@ function DetailsScreen({ route, navigation }) {
 }
 .........................
 
+Autre façon de passer des paramètres, mais non-recommandé car moin performant que la méthode plus haut avec initialParams :
+.........................
+//à partir du navigateur
+<Stack.Screen name="Home">
+  {props => <HomeScreen {...props} extraData={someData:32} />}
+</Stack.Screen>
+
+//à partir du Screen
+function HomeScreen(props) {
+    return (
+        <View>
+            <Button onPress={() => console.log(props.someData)}>
+            </Button>
+        </View >
+    );
+}
+.........................
+
 Passage de paramètres avec des navigateurs imbriqués ↓ 
 .........................
 // supposons que l'on a un navigateur à l'intérieur de l'Écran1
@@ -320,6 +355,7 @@ Ne pas utiliser le SafeAreaView Basique de React Native. Plutôt suivre les inst
 
 #####
 Autre
+TopTabNavigation : https://bit.ly/3kyhXo0
 Empêcher de revenir en arrière : https://bit.ly/3gNvwxD
 
 ______________________________
@@ -330,6 +366,7 @@ Redux v.7
 2. Créer un store Redux en utilisant configureStore de Redux toolkit et lui passer au moin un reducer
 3. Importer le store dans le fichier d'entrée
 4. Encapsuler le component du fichier d'entrée dans un component Provider
+5. Accéder au store dans les components avec useSelector (lecture) et useDispatch (écriture)
 
 Redux s'attend à ce que toutes les mises à jour d'état soient effectuées de manière immuable ; il faut cloner l'objet et modifier son clone.
 
@@ -383,13 +420,15 @@ export default counterSlice.reducer
 
 Le store est créé en transmettant un reducer, et possède une méthode appelée getState qui renvoie la valeur du state actuel. Exemple ↓
 .........................
+import counterReducer from "l'endroit où nous avons exporté counterSlice.reducer plus haut"
+...
 import { configureStore } from '@reduxjs/toolkit'
 const store = configureStore({
-    rootReducer: combineReducers({
+    reducer: {         
         counter: counterReducer,
         users: usersReducer,
         posts: postsReducer
-    })
+    }
 });
 console.log(store.getState());              // {value: 0}
 .........................
@@ -409,13 +448,13 @@ Dans un fichier de component, nous ne pouvons pas importer le store, donc pour u
 tout d'abord : import { useSelector, useDispatch } from 'react-redux'
 
 Hook useSelector :
-const count = useSelector(state => state.counter.value); équivaut à const count = selectCount(store.getState()); où const selectCount = state => state.counter.value;
+const count = useSelector(state => state.counter.value);       //équivaut à const count = selectCount(store.getState()); où const selectCount = state => state.counter.value;
 Chaque fois qu'une action a été envoyée avec dispatch et que le store Redux a été mis à jour, useSelector relancera notre fonction de sélection.
 
 Hook useDispatch :
 const dispatch = useDispatch();   //au début du fichier 
 dispatch(increment());            //dans un bouton, par exemple   (où increment est une variable définie comme counterSlice.actions.increment, qui vaut {type: "counter/increment"})
-équivaut à store.dispatch(increment());
+// ↑ équivaut à store.dispatch(increment());
 
 Pour que les hooks puissent accéder au store, il faut encapsuler le component du fichier d'entrée dans un component Provider. Exemple ↓
 .........................
