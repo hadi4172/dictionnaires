@@ -115,3 +115,28 @@ Fermer un fichier : fclose($monfichier);
 Lire un fichier ligne par ligne : $ligne = fgets($monfichier);    //chaque nouveau appel lit la ligne suivante et déplace le curseur
 Écrire dans un fichier : fputs($monfichier, 'Texte à écrire');    //écrit à l'endroit ou le curseur est rendu si on ouvre avec r+, si avec a+, écrit à la fin
 Replacer le curseur au début : fseek($monfichier, 0);
+
+Connexion à une BDD ↓
+.............................
+    try{        //Entrer DNS, Host, nom de la BDD, User, Password //retourne un objet qui représente la connexion à la base de données ↓
+        $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', 'root', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    } catch (Exception $e){
+            die('Erreur : ' . $e->getMessage());
+    }
+.............................
+Faire une requête à la BDD : $reponse = $bdd->query('Tapez votre requête SQL ici');    //la réponse de la BDD en vrac, sous forme d'objet.
+Parcourir les entrées reçues : while ($donnees = $reponse->fetch()) { <span> <?php echo $donnees['nom'] ?> <span> }    //$donnees  est un array renvoyé par le fetch()
+Terminer le traitement de la requête : $reponse->closeCursor(); // utiliser quand on a terminé le travail sur la requête, afin d'éviter d'avoir des problèmes à la requête suivante.
+Faire une requête préparée avec les marqueurs ↓     //pour personnaliser les requête de façon plus sécurisée qu'une concaténation string
+.............................
+$req = $bdd->prepare('SELECT nom FROM jeux_video WHERE possesseur = ? AND prix <= ?');
+$req->execute(array($_GET['possesseur'], $_GET['prix_max']));
+.............................
+Faire une requête préparée avec les marqueurs nominatifs ↓
+.............................
+$req = $bdd->prepare('SELECT nom, prix FROM jeux_video WHERE possesseur = :possesseur AND prix <= :prixmax');
+$req->execute(array('possesseur' => $_GET['possesseur'], 'prixmax' => $_GET['prix_max']));
+.............................
+Modifier une BDD : $bdd->exec('INSERT INTO jeux_video(nom, possesseur, console, prix) VALUES("Battlefield 1942", "Patrick", "PC", 45")');  //renvoie le nb de lignes modifiés //on peut aussi utiliser prepare et execute pour des requêtes préparées
+Afficher les erreurs SQL dans PHP : rajouter "or die(print_r($bdd->errorInfo()));" après une ligne contenant une requête SQL  //ex : $reponse = $bdd->query('SELECT nom FROM jeux_video') or die(print_r($bdd->errorInfo()));
+Redirection http : header('Location: lien');
