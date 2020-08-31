@@ -125,18 +125,26 @@ Connexion à une BDD ↓
     }
 .............................
 Faire une requête à la BDD : $reponse = $bdd->query('Tapez votre requête SQL ici');    //la réponse de la BDD en vrac, sous forme d'objet.
-Parcourir les entrées reçues : while ($donnees = $reponse->fetch()) { <span> <?php echo $donnees['nom'] ?> <span> }    //$donnees  est un array renvoyé par le fetch()
+Parcourir les entrées reçues : while ($donnees = $reponse->fetch()) { <span> <?php echo $donnees['nom'] ?> <span> }   //$donnees: array renvoyé par fetch() //la boucle est non nécessaire si on utilise une fonction SQL d'agrégat
 Terminer le traitement de la requête : $reponse->closeCursor(); // utiliser quand on a terminé le travail sur la requête, afin d'éviter d'avoir des problèmes à la requête suivante.
 Faire une requête préparée avec les marqueurs ↓     //pour personnaliser les requête de façon plus sécurisée qu'une concaténation string
 .............................
-$req = $bdd->prepare('SELECT nom FROM jeux_video WHERE possesseur = ? AND prix <= ?');
-$req->execute(array($_GET['possesseur'], $_GET['prix_max']));
+    $req = $bdd->prepare('SELECT nom FROM jeux_video WHERE possesseur = ? AND prix <= ?');
+    $req->execute(array($_GET['possesseur'], $_GET['prix_max']));
 .............................
 Faire une requête préparée avec les marqueurs nominatifs ↓
 .............................
-$req = $bdd->prepare('SELECT nom, prix FROM jeux_video WHERE possesseur = :possesseur AND prix <= :prixmax');
-$req->execute(array('possesseur' => $_GET['possesseur'], 'prixmax' => $_GET['prix_max']));
+    $req = $bdd->prepare('SELECT nom, prix FROM jeux_video WHERE possesseur = :possesseur AND prix <= :prixmax');
+    $req->execute(array('possesseur' => $_GET['possesseur'], 'prixmax' => $_GET['prix_max']));
 .............................
 Modifier une BDD : $bdd->exec('INSERT INTO jeux_video(nom, possesseur, console, prix) VALUES("Battlefield 1942", "Patrick", "PC", 45")');  //renvoie le nb de lignes modifiés //on peut aussi utiliser prepare et execute pour des requêtes préparées
 Afficher les erreurs SQL dans PHP : rajouter "or die(print_r($bdd->errorInfo()));" après une ligne contenant une requête SQL  //ex : $reponse = $bdd->query('SELECT nom FROM jeux_video') or die(print_r($bdd->errorInfo()));
 Redirection http : header('Location: lien');
+
+Annoncer que l'on va renvoyer une image : <?php header ("Content-type: image/png"); ?>  //à mettre avant le moindre html //dans le code html, mettre la page php : <img src="image.php" />
+Créer une image vide : $image = imagecreate(200,50);
+Créer une image à partir d'un fichier : $image = imagecreatefromjpeg("couchersoleil.jpg");    //pour un png, remplacer par imagecreatefrompng
+Écrire du texte sur une image : imagestring($image, $police, $x, $y, $texte_a_ecrire, $couleur);  //ex: imagestring($image, 4, 35, 15, "Salut les Zéros !", imagecolorallocate($image, 255, 255, 255)); 
+Plus de détail sur les images : https://bityl.co/3Fgw
+
+

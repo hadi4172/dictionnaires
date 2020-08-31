@@ -17,6 +17,8 @@ FROM : fait la liaison entre le nom des champs et la table  //suivi du nom de la
 WHERE : utilisée pour filtrer les données reçues  //suivi d'une condition, ex : possesseur='Patrick'
 ORDER BY : permet d'ordonner les données reçues  //suivi du champs par lequel on veut obtenir la table trié. ex: prix. //Rajouter DESC pour trier en ordre décroissant
 LIMIT : Pour renvoyer qu'un nombre limité de résultats. //suivi de début, nombre  //ex: 0,20 pour les 20 premières entrées
+GROUP BY : utilisé avec fonction d'agrégat, permet de grouper les données selon un certain champs. ex: SELECT AVG(prix), console FROM jeux_video GROUP BY console  //le prix moyen des jeux pour chaque console
+HAVING : filtrer les données après un regroupement. ex: SELECT AVG(prix) AS prix_moyen, console FROM jeux_video WHERE possesseur='Patrick' GROUP BY console HAVING prix_moyen <= 10
 
 Insertion: ex : INSERT INTO jeux_video(ID, nom, possesseur, console, prix, nbre_joueurs_max, commentaires) VALUES('', 'Battlefield 1942', 'Patrick', 'PC', 45, 50, '2nde guerre mondiale')  //lister les noms des champs est facultatif
 Édition :  UPDATE jeux_video SET prix = 10, nbre_joueurs_max = 32 WHERE ID = 51
@@ -25,7 +27,65 @@ Suppression: DELETE FROM jeux_video WHERE nom='Battlefield 1942'
 les fonctions scalaires : elles agissent sur chaque entrée.
 les fonctions d'agrégat : elles agissent sur l'ensemble de la table pour retourner une valeur.
 
+Exemple d'utilisation de fonction scalaire : SELECT UPPER(nom) AS nom_maj, prix, console FROM jeux_video          //retourne les champs transformés
+Fonctions scalaires utiles :
+UPPER : convertir en majuscules
+LOWER : convertir en minuscules
+LENGTH : compter le nombre de caractères
+ROUND : arrondir un nombre décimal          //prends 2 paramètres : nomDuChamp et nbDeChiffresApresLaVirgule
+autres fonctions numériques : https://bityl.co/3F77
+autres fonctions sur chaines de caractères : https://bityl.co/3F79
+autres fonctions sur dates et temps : https://bityl.co/3F9h
 
+Exemple d'utilisations de fonction d'agrégat : SELECT AVG(prix) AS prix_moyen FROM jeux_video WHERE possesseur='Florent' //retourne une seule valeur //on ne peut mélanger une fonction d'agrégat avec d'autres champs
+Fonctions d'agrégat utiles :
+AVG : calculer la moyenne
+SUM : additionner les valeurs
+MAX : retourner la valeur maximale
+MIN : retourner la valeur minimale
+COUNT : compter le nombre d'entrées  //prends en argument * pour le nombre de rangées ou un nom de champs pour le nombre de rangées définies dans ce champ. Rajouter avant l'argument le mot clé DISTINCT pour avoir le nb d'arguments différents
 
+Les différents types de dates
+DATE : stocke une date au format AAAA-MM-JJ (Année-Mois-Jour) ;
+TIME : stocke un moment au format HH:MM:SS (Heures:Minutes:Secondes) ;
+DATETIME : stocke la combinaison d'une date et d'un moment de la journée au format AAAA-MM-JJ HH:MM:SS. Ce type de champ est donc plus précis ;
+TIMESTAMP : stocke le nombre de secondes passées depuis le 1er janvier 1970 à 00 h 00 min 00 s ;
+YEAR : stocke une année, soit au format AA, soit au format AAAA.
 
+Il n'est pas recommandé d'appeler un champs "date"
+Exemple de sélection avec un date : SELECT pseudo, message, date FROM minichat WHERE date >= '2010-04-02 00:00:00' AND date <= '2010-04-18 00:00:00'   //on peut aussi utiliser BETWEEN 'date' AND 'date
+
+Exemple d'utilisation de fonctions de date : SELECT pseudo, message, DAY(date) AS jour FROM minichat
+Fonctions utiles: 
+NOW() : renvoie le datetime actuel          // ex: INSERT INTO minichat(pseudo, message, date) VALUES('Mateo', 'Message !', NOW())
+CURDATE() : renvoie la date actuelle
+CURTIME() : renvoie le time actuel
+DAY(), MONTH(), YEAR() : extraire le jour, le mois ou l'année
+HOUR(), MINUTE(), SECOND() : extraire les heures, minutes, secondes
+DATE_FORMAT() : formater une date       //ex: SELECT pseudo, message, DATE_FORMAT(date, '%d/%m/%Y %Hh%imin%ss') AS date FROM minichat  //autres params possibles : https://bityl.co/3FAQ
+DATE_ADD() et DATE_SUB() : ajouter ou soustraire des dates  //ex: SELECT pseudo, message, DATE_ADD(date, INTERVAL 2 MONTH) AS date_expiration FROM minichat //rajoute 2 mois au temps des entrées dates
+
+Les jointures permettent d'associer plusieurs tables entre elles en ayant en commun les ID de l'autre table.
+Jointure interne
+Pour sélectionner seulement les données qui ont une correspondance entre les deux tables
+Exemple ↓
+.............................
+    SELECT j.nom AS nom_jeu, p.prenom AS prenom_proprietaire
+    FROM proprietaires AS p
+    INNER JOIN jeux_video AS j
+    ON j.ID_proprietaire = p.ID
+    // WHERE j.console = 'PC'
+    // ORDER BY prix DESC
+    // LIMIT 0, 10
+.............................
+
+Jointure externe
+Pour sélectionner tous les données d'une table même si elle n'a pas de correspondance avec l'autre table
+Exemple ↓
+.............................
+    SELECT j.nom nom_jeu, p.prenom prenom_proprietaire
+    FROM proprietaires p                //table de gauche
+    LEFT JOIN jeux_video j
+    ON j.ID_proprietaire = p.ID         //récupère tout le contenu de la table de gauche même si il n'existe pas de contenu dans la table de droite qui corresponde
+.............................
 

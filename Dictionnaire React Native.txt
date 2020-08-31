@@ -124,7 +124,7 @@ RN Elements             https://bit.ly/2QfzUtt
 Easy grid               https://bit.ly/3aepvr4  //import { Col, Row, Grid } from "react-native-easy-grid"; //npm install react-native-easy-grid --save
 Fast Image              https://bit.ly/3akzDie  //import FastImage from 'react-native-fast-image';         // yarn add react-native-fast-image    
 Bottom Sheet            https://bit.ly/3hoeMwU  //Page venant par en bas
-Date/Time Picker        https://bit.ly/2EqwbGK
+Date/Time Picker        https://bityl.co/3HnO
 
 ______________________________
 Hooks
