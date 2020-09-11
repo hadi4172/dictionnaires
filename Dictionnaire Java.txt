@@ -1,0 +1,160 @@
+Créer un tableau : String[] tableauChaine = {"chaine1", "chaine2", "chaine3" , "chaine4"};
+Mettre un string en minuscule : monString.toLowerCase();
+Récuperer le char à une position : monString.charAt(4);     //retourne un char
+Récuperer une partie : chaine.substring(3,13);      //arguments sont positionInitialle, positionFinale
+Récupérer la première position d'un sous string dans un string : grosString.indexOf(unStringOuChar);  //pour la dernière occurence, utiliser .lastIndexOf();
+Génerer un nombre aléatoire : Math.random();    //retourne un double entre 0 et 1
+Obtenir valeur absolue d'un float : Math.abs(floatOuDouble);
+Lire une entrée utilisateur : Scanner scanner = new Scanner(System.in); scanner.nextLine();
+Exposant : Math.pow(nombre, puissance);
+Créer une fonction ↓           //on peut créer plusieurs fois la même fonction avec des arguments différents pour qu'elle puisse gérer plus de cas (surcharge)    
+.............................
+    public static double arrondi(double A, int B) {
+    return unDouble
+    }
+.............................
+Afficher quelque chose avec un retour à la ligne : System.out.println();        //utiliser .print() pour enlever le retour à la ligne
+Créer une classe ↓            
+.............................
+    public class Ville{   
+    public String nomVille;
+    private String nomPays;
+    protected int nbreHabitants;
+    
+    public Ville(String pNom, int pNbre, String pPays)            //Constructeur par défaut
+    {
+        System.out.println("Création d'une ville avec des paramètres !");
+        nomVille = pNom;
+        nomPays = pPays;
+        nbreHabitants = pNbre;
+    }        
+    }
+.............................
+
+Créer une classe enfant ↓          
+.............................
+    public class Capitale extends Ville {
+        
+    private String monument;
+        
+    //Constructeur par défaut
+    public Capitale(){
+        super();        //Ce mot clé appelle le constructeur de la classe mère
+        monument = "aucun";
+    }    
+        
+    //Constructeur d'initialisation de capitale
+    public Capitale(String nom, int hab, String pays, String monument){
+        super(nom, hab, pays);
+        this.monument = monument;
+    }    
+        
+    /**
+        * Description d'une capitale
+        * @return String retourne la description de l'objet
+    */
+    public String decrisToi(){
+        String str = super.decrisToi() + "\n \t ==>>" + this.monument + "en est un monument";
+        return str;
+        } 
+
+    /**
+        * @return le nom du monument
+    */
+    public String getMonument() {
+        return monument;
+    } 
+
+    //Définit le nom du monument
+    public void setMonument(String monument) {
+        this.monument = monument;
+    }   
+    }
+.............................
+
+Classe et méthodes abstraites : On ne peut pas les instancier/utiliser dans une instance, mettre abstract avant la définition de la classe/méthode
+Interface ↓         //ensemble de méthodes qu'on voudra instancier dans la classe, utile pour pouvoir utiliser ces méthodes lors de l'instanciation
+.............................       //dans la classe, ajouter implements Rintintin
+    public interface Rintintin{
+    public void faireCalin();
+    public void faireLechouille();
+    public void faireLeBeau();
+    }
+.............................
+
+Gérer exception ↓
+.............................  
+    try {
+        System.out.println(j/i);
+    } catch (ArithmeticException | NomVilleException e2) {      //peut attrapper ArithmeticException et NomVilleException
+        System.out.println("Division par zéro !");
+    }
+.............................  
+
+Créer une exception ↓
+.............................  
+    class NombreHabitantException extends Exception{ 
+    public NombreHabitantException(){
+            System.out.println("Vous essayez d'instancier une classe Ville avec un nombre d'habitants négatif !");
+        }  
+    }
+.............................
+
+Exemple d'utilisation d'exception personalisée ↓
+.............................  
+    public Ville(String pNom, int pNbre, String pPays) throws  NombreHabitantException {  
+        if(pNbre < 0) throw new NombreHabitantException();
+        else{
+            ...
+        }
+    }
+.............................
+
+Créer enum ↓
+.............................  
+    public enum Langage {
+        JAVA, C, CPlus,  PHP;  
+    }
+............................. 
+
+Exemple d'utilisation d'enum ↓
+.............................  
+    public void fait(Langage param) {
+        if(param.equals(Langage.JAVA)) ...;
+        if(param.equals(Langage.PHP)) ...;
+    }
+.............................
+
+ArrayList
+Créer un arraylist : ArrayList al = new ArrayList();
+.add(objet);    ajouter un objet 
+.get(int index) retourne l'élément à l'indice demandé ;
+.remove(int index) efface l'entrée à l'indice demandé ;
+.isEmpty() renvoie « vrai » si l'objet est vide ;
+.removeAll() efface tout le contenu de l'objet ;
+.contains(Object element) retourne « vrai » si l'élément passé en paramètre est dans l'ArrayList
+
+Tri par insertion ↓
+............................. 
+    public static void insertionSort(int[] array) {
+        for (int i = 1; i < array.length; i++) {
+            int current = array[i];
+            int j = i - 1;
+            while(j >= 0 && current < array[j]) {
+                array[j+1] = array[j];
+                j--;
+            }
+            array[j+1] = current;
+        }
+    }
+.............................
+
+Convertir un string vers un autre type ↓
+............................. 
+    int foo;
+    try {
+        foo = Integer.parseInt(myString);
+    } catch (IllegalArgumentException e){
+        foo = -1;
+    }
+............................. 
