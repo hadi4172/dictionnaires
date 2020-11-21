@@ -1,12 +1,23 @@
+Créer un nouveau projet avec VS Code : Ctrl+Shift+P
+
 Créer un tableau : String[] tableauChaine = {"chaine1", "chaine2", "chaine3" , "chaine4"};
 Mettre un string en minuscule : monString.toLowerCase();
 Récuperer le char à une position : monString.charAt(4);     //retourne un char
 Récuperer une partie : chaine.substring(3,13);      //arguments sont positionInitialle, positionFinale
 Récupérer la première position d'un sous string dans un string : grosString.indexOf(unStringOuChar);  //pour la dernière occurence, utiliser .lastIndexOf();
 Génerer un nombre aléatoire : Math.random();    //retourne un double entre 0 et 1
+Génerer un nombre entier entre 2 intervalles : Random rand = new Random(); int value = rand.nextInt((max - min) + 1) + min;
 Obtenir valeur absolue d'un float : Math.abs(floatOuDouble);
 Lire une entrée utilisateur : Scanner scanner = new Scanner(System.in); scanner.nextLine();
 Exposant : Math.pow(nombre, puissance);
+
+Équivalent setTimeout en java ↓            
+............................. 
+CompletableFuture.delayedExecutor(5, TimeUnit.SECONDS).execute(() -> {
+  // Your code here executes after 5 seconds!
+});
+............................. 
+
 Créer une fonction ↓           //on peut créer plusieurs fois la même fonction avec des arguments différents pour qu'elle puisse gérer plus de cas (surcharge)    
 .............................
     public static double arrondi(double A, int B) {
@@ -14,6 +25,7 @@ Créer une fonction ↓           //on peut créer plusieurs fois la même fonct
     }
 .............................
 Afficher quelque chose avec un retour à la ligne : System.out.println();        //utiliser .print() pour enlever le retour à la ligne
+Afficher plusieurs élements : System.out.printf("%s, %s\n", var1, var2);
 Créer une classe ↓            
 .............................
     public class Ville{   
@@ -133,6 +145,9 @@ Créer un arraylist : ArrayList al = new ArrayList();
 .isEmpty() renvoie « vrai » si l'objet est vide ;
 .removeAll() efface tout le contenu de l'objet ;
 .contains(Object element) retourne « vrai » si l'élément passé en paramètre est dans l'ArrayList
+.indexOf(valeur) renvoie l'index d'une valeur si elle est présente, sinon renvoie -1;
+
+mapper : maListe.stream().map(number -> number * 3);
 
 Tri par insertion ↓
 ............................. 
@@ -158,3 +173,189 @@ Convertir un string vers un autre type ↓
         foo = -1;
     }
 ............................. 
+Convertir int vers String : Integer.toString(monInt);
+
+______________________________
+Java Swing
+------------------------------
+
+Créer une fenêtre ↓
+............................. // appeler Fenetre fen = new Fenetre(); dans le main
+    import javax.swing.JFrame;
+    
+    public class Fenetre extends JFrame {
+        public Fenetre(){
+            this.setTitle("Ma première fenêtre Java");
+            this.setSize(400, 500);
+            this.setLocationRelativeTo(null);                        //Nous demandons maintenant à notre objet de se positionner au centre             
+            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);     //Termine le processus lorsqu'on clique sur la croix rouge
+            this.setVisible(true);
+        }
+    }
+.............................
+
+Empêcher le redimensionnement de la fenêtre : setResizable(boolean b);
+Garder la fenêtre au premier plan : setAlwaysOnTop(boolean b);
+Retirer les contours et les boutons de contrôle : setUndecorated(boolean b);
+
+Créer un JPanel : JPanel panneau = new JPanel(LayoutManager lm);
+Ajouter un JPanel à notre fenêtre : fenetre.add(panneau);  
+Ajouter un composant au JPanel : panneau.add(composant);
+
+Créer un JButton : JButton bouton = new JButton("Texte à l'intérieur"); 
+Créer une étiquette de texte (JLabel) : JLabel etiquette = new JLabel("Texte ou HTML à l'intérieur");    //peut contenir un deuxième argument pour l'allignement : ex: JLabel.RIGHT
+Créer un champ d'entrée de texte : JTextField texte = new JTextField("Texte à l'intérieur");
+
+Méthodes très utilisées des composants :
+Obtenir le texte : composant.getText();
+Changer le texte : composant.setText();
+Modifier la taille : composant.setPreferredSize(new Dimension(500,100));
+Changer la visibilité : composant.setVisible(boolean);
+
+Ajouter une image à un JLabel : new JLabel(new ImageIcon("h:\\duke.gif"));
+Ajouter un élement (JButton, JLabbel, ...) à un panneau : JButton bouton = new JButton("Mon bouton"); panneau.add(bouton);
+
+Créer une JTable : JTable(Object[][] valeurs, Object[] colonnes)  ou  JTable(int nbLignes, int nbColonnes);
+Modifier valeur JTable : jtable.setValueAt(Object valeur, int ligne, int colonne);
+"JTable" Dynamique : voir https://bityl.co/4XMs et https://bityl.co/4XMt
+
+Doc JDialog : https://bityl.co/4XOZ
+
+### Layouts
+Appliquer un Layout : new JPanel(new GridLayout(args));
+FlowLayout : Les éléments sont disposés de gauche à droite, de haut en bas. Pas d'args. Layout par défaut du JPanel.
+BorderLayout : Positions Nord/Est/Sud/Ouest/Centre. Pas d'args. Layout par défaut du JFrame. Exemple : pnlPrincipal.add(btnUn, BorderLayout.NORTH);
+GridLayout : Élements disposés dans un tableau de lignes et colonnes. ajoutés de g à d, de h en b. args : (lignes, colonnes) //mettre 0 à un des args rend la gestion automatique.
+BoxLayout : Élements disposés selon axe horizontal ou vertical. args: (panneauDeDestination, BoxLayout.X_AXIS / BoxLayout.X_AXIS)
+CardLayout : Permet d'avoir plusieurs couches de Panel et afficher celle que l'on veut quand on veut. exemple : https://bityl.co/4X1h
+
+Ajouter un écart entre les lignes/colonnes de la GridLayout : gl.setVgap(5)/.setHgap(5); //Cinq pixels d'espace
+
+Forcer la mise à jour de l'affichage swing : monPanneau.revalidate(); monPanneau.repaint();
+Taille automatique JFrame : pack(); //dans le constructeur au lieu du setSize()  //il faut mettre tout les autres composants avant de faire pack()
+
+### Gestion d'évenements
+
+Exemple ↓   // il faut obligatoirement définir tous les méthodes du listener quand on veut l'utiliser. sinon utiliser l'exemple plus bas
+.............................
+    bouton.addActionListener(new ActionListener(){
+      public void actionPerformed(ActionEvent event){
+        // code ici
+      }
+    });
+.............................
+
+Exemple optimisé (avec Adapter) ↓
+.............................
+lblCentre.addMouseListener(new MouseAdapter(){
+    @Override
+    public void mouseClicked(MouseEvent e){
+        // code ici
+    }
+});
+.............................
+
+Liste d’événements
+╔══════════════════════╦════════════════════════════════════╦════════════════════════════════════════╗
+║ interface            ║ type d'événement                   ║ méthodes                               ║
+╠══════════════════════╬════════════════════════════════════╬════════════════════════════════════════╣
+║ ActionListener       ║ • enfoncer un bouton               ║ void actionPerformed(ActionEvent e)    ║
+║ ComponentListener    ║ • composant rendu invisible        ║ void componentHidden(ComponentEvent e) ║
+║                      ║ • composant déplacé                ║ void componentMoved(ComponentEvent e)  ║
+║                      ║ • changement de taille du composant║ void componentResized(ComponentEvent e)║
+║                      ║ • composant rendu visible          ║ void componentShown(ComponentEvent e)  ║
+║ MouseListener        ║ • clique souris dans un composant  ║ void mouseClicked(MouseEvent e)        ║
+║                      ║ • entrée dans un composant         ║ void mouseEntered(MouseEvent e)        ║
+║                      ║ • sortie d'un composant            ║ void mouseExited(MouseEvent e)         ║
+║                      ║ • bouton pressé dans un composant  ║ void mousePressed(MouseEvent e)        ║
+║                      ║ • bouton relâché dans un  composant║ void mouseReleased(MouseEvent e)       ║
+║ WindowListener       ║ • Événement sur une fenêtre        ║ void windowActivated(WindowEvent e)    ║
+║                      ║                                    ║ void windowClosed(WindowEvent e)       ║
+║                      ║                                    ║ void windowDeiconified(WindowEvent e)  ║
+║                      ║                                    ║ void windowIconified(WindowEvent e)    ║
+║                      ║                                    ║ void windowOpened(WindowEvent e)       ║
+║ KeyListener          ║ • Lorsqu’une touche a été enfoncée ║ void keyPressed(KeyEvent e)            ║
+║                      ║ • Lorsqu’une touche a été lâchée   ║ void keyReleased(KeyEvent e)           ║
+║                      ║ • Lorsqu’une touche a été écrite   ║ void keyTyped(KeyEvent e)              ║
+║ ItemListener         ║ • Lorsqu’un élément a été          ║ void itemStateChanged(ItemEvent e)     ║
+║                      ║ sélectionné ou désélectionné       ║                                        ║
+║ FocusListener        ║                                    ║ void focusGained(FocusEvent e)         ║
+║                      ║                                    ║ void focusLost(FocusEvent e)           ║
+║ MouseMotionListener  ║ • Lorsqu’un composant est cliqué   ║ void mouseDragged(MouseEvent e)        ║
+║                      ║ et ensuite déplacé avec le bouton  ║ void mouseMoved(MouseEvent e)          ║
+║                      ║ de souris enfoncé                  ║                                        ║
+║                      ║ • Lorsque la souris se déplace au  ║                                        ║
+║                      ║ dessus d’un composant (sans        ║                                        ║
+║                      ║ bouton cliqué)                     ║                                        ║
+╚══════════════════════╩════════════════════════════════════╩════════════════════════════════════════╝ 
+
+Convention des noms de composants
+Type du composant               Lettres  
+======================================== 
+Case à cocher (check box)       chk      
+Liste déroulante (list box)     cbo      
+CheckedListBox                  clb      
+Button                          btn      
+ListBox                         lst      
+Image                           img      
+Label                           lbl      
+Menu                            mnu      
+Bouton radio (Radiobutton)      opt      
+Text box                        txt      
+Timer                           tmr      
+Barre de défilement vertical    vsb      
+Common dialog ctrl              dlg      
+Object (général)                obj      
+Panel                           pnl       
+
+
+Liste des composants SWING
+Composant SWING        Description                                  
+====================================================================
+JApplet                Applet                                       
+JButton                Bouton                                       
+JCheckBox              Case à cocher                                
+JColorChooser          Boîte de dialogue pour le choix des couleurs 
+JComboBox              Liste de choix                               
+JDesktopPane           Panneau de bureau                            
+JDialog                Boîte de dialogue                            
+JFileChooser           Boîte de dialogue pour le choix de fichier   
+JFrame                 Fenêtre Windows                              
+JInternalFrame         Cadre interne                                
+JLabel                 Intitulé                                     
+JLayeredPane           Panneau multicouches                         
+JList                  Liste à défilement                           
+JMenu                  Menu                                         
+JMenuBar               Barre de menu                                
+JMenuItem              Item de menu                                 
+JOptionPane            Boîte de dialogue pour options               
+JPanel                 Panneau                                      
+JPasswordField         Champ de saisie pour mot de passe            
+JPopupMenu             Menu contextuel                              
+JProgressBar           Barre de progression                         
+JRadioButton           Bouton radio                                 
+JRadioButtonMenuItem   Item de menu exclusif                        
+JScrollBar             Barre de défilement                          
+JScrollPane            Conteneur avec barres de défilement          
+JSlider                Barre d’ajustement                           
+JSplitPane             Séparateur de composants                     
+JTabbedPane            Panneau avec onglets                         
+JTable                 Matrice virtuelle                            
+JTextArea              Zone de texte                                
+JTextField             Champs de texte                              
+JTextPane              Zone de texte enrichie                       
+JToggleButton          Bouton à pression                            
+JToolBar               Barre d’outils                               
+JToolTip               Info bulle                                   
+JTree                  Explorateur de dossier                       
+
+### Patron Observateur
+
+Dans les classes vues qui doivent suivre les mises à jour du modèle :
+1 - Implémenter l'interface Observer
+2 - Redéfinir la méthode update : private void update(Observable observable, Object arg);  //rematérialiser la vue en fonction du nouveau observable (cast l'observable en classe modele utilisable)
+3 - Ajouter quelque part (par exemple dans le constructeur) une liaison entre l'observeur et l'observable : ex : observable.addObserver(this);
+
+Dans la classe modèle :
+1 - Hériter de la classe Observable
+2 - Quand les données pertinentes du modèle ont changées, appeler ces 2 méthodes : setChanged(); notifyObservers();      //cela va appeler la méthode update de chaque vue

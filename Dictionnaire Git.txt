@@ -71,7 +71,8 @@ uploader notre projet de force en ignorant ce qui est déja en ligne : git push 
 cloner un projet en ligne vers notre ordi : git clone lienSSHouHTTPS
 cloner un projet en ligne vers notre ordi et changer le nom : git clone lienSSHouHTTPS nom
 synchroniser notre projet local avec le projet en ligne : git pull
-}
+
+envoyer un pull request : https://bityl.co/43Xf   ou   https://bityl.co/43Xh
 _____________________
 ssh
 {

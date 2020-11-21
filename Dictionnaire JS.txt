@@ -51,6 +51,7 @@ Accéder aux éléments HTML : elementHTML = document.getElementById()/.getEleme
 Accéder aux éléments HTML avec les sélécteurs CSS : elementHTML = document.querySelector()/.querySelectorAll();  //renvoie le 1er élément trouvé/renvoyer tous(en tab)
 Récupérer attribut d'élément HTML : elementHTML.getAttribute("nomDeLAttributVoulu"); 
 Modifier attribut d'élément HTML : elementHTML.setAttribute("nomDeLAttributVoulu", "nouvelleValeur"); 
+Vérifier si un élément HTML a un attribut : elementHTML.hasAttribute("nomDeLAttributVoulu");
 Supprimer attribut d'élément HTML : elementHTML.removeAttribute("attribut");
 Accéder/Modifier la classe d'un élément HTML : elementHTML.className = "nouveauNomDeLaClasse";
 Ajouter/Retirer une classe : elementHTML.classList.add/.remove('new-class');
@@ -149,15 +150,15 @@ Propriétés de l'objet Event (argument e de la fonction de l'evenement,  pour l
 
 Exemple sur les événements en utilisant le DOM-2
 ..................
-<span id="clickme">Cliquez-moi !</span>
+    <span id="clickme">Cliquez-moi !</span>
 
-<script>
-    var clickme = document.getElementById('clickme');
-  
-    clickme.addEventListener('click', function(e) {
-        e.target.innerHTML = 'Vous avez cliqué !';
-    });
-</script>
+    <script>
+        var clickme = document.getElementById('clickme');
+    
+        clickme.addEventListener('click', function(e) {
+            e.target.innerHTML = 'Vous avez cliqué !';
+        });
+    </script>
 ..................
 
 ______________________________
@@ -167,22 +168,22 @@ Objets
 ###
 Classes :
 ......................
-// Définition de l'objet Person via un constructeur
-function Person(nick, age, sex, parent, work, friends) {
-    this.nick = nick;
-    this.age = age;
-    this.sex = sex;
-    this.parent = parent;
-    this.work = work;
-    this.friends = friends;
+    // Définition de l'objet Person via un constructeur
+    function Person(nick, age, sex, parent, work, friends) {
+        this.nick = nick;
+        this.age = age;
+        this.sex = sex;
+        this.parent = parent;
+        this.work = work;
+        this.friends = friends;
 
-    this.addFriend = function(nick, age, sex, parent, work, friends) {
-        this.friends.push(new Person(nick, age, sex, parent, work, friends));
-    };
-}
+        this.addFriend = function(nick, age, sex, parent, work, friends) {
+            this.friends.push(new Person(nick, age, sex, parent, work, friends));
+        };
+    }
 
-// On crée des variables qui vont contenir une instance de l'objet Person :
-var seb = new Person('Sébastien', 23, 'm', 'aîné', 'JavaScripteur', []);
+    // On crée des variables qui vont contenir une instance de l'objet Person :
+    var seb = new Person('Sébastien', 23, 'm', 'aîné', 'JavaScripteur', []);
 ....................
 
 ###
@@ -193,35 +194,35 @@ Différences entre méthode dans le constructeur et méthode via prototype : htt
 Créer une nouvelle méthode/variable pour un objet natif : https://bit.ly/2TK3RD6   //très déconseillé, de plus, les nouvelles méthodes seront listés dans une boucle for
 Ajouter une méthode via prototype : MaClasse.prototype.nomMéthode = function(arguments...){}    //exemple plus bas
 ....................
-Person.prototype.addFriend = function(nick, age, sex, parent, work, friends) {
-    this.friends.push(new Person(nick, age, sex, parent, work, friends));
-}
+    Person.prototype.addFriend = function(nick, age, sex, parent, work, friends) {
+        this.friends.push(new Person(nick, age, sex, parent, work, friends));
+    }
 .....................
 
 ###
 Héritage :   
 .................... Exemple
-function Car(licensePlate, tankSize, trunkSize) {
+    function Car(licensePlate, tankSize, trunkSize) {
 
-    // On appelle le constructeur de « Vehicle » par le biais de la méthode call() afin qu'il fait hériter ses propriétés à « Car ». 
-	// Méthode call et apply  http://bit.ly/38C06Fp très bien expliqué : http://bit.ly/2Q49oUi
-	// Ressemble au super(); de Java
-    Vehicle.call(this, licensePlate, tankSize);   
+        // On appelle le constructeur de « Vehicle » par le biais de la méthode call() afin qu'il fait hériter ses propriétés à « Car ». 
+        // Méthode call et apply  http://bit.ly/38C06Fp très bien expliqué : http://bit.ly/2Q49oUi
+        // Ressemble au super(); de Java
+        Vehicle.call(this, licensePlate, tankSize);   
 
-    // Une fois le constructeur parent appelé, l'initialisation de notre objet peut continuer.
-    this.trunkOpened = false; // Notre coffre est-il ouvert ?
-    this.trunkSize = trunkSize; // La taille de notre coffre en mètres cube.
-}
-
-// L'objet prototype de « Vehicle » doit être copié au sein du prototype de « Car » afin que ce dernier puisse bénéficier des mêmes méthodes.
-Car.prototype = Object.create(Vehicle.prototype, {        //Référence sur Object.create()  https://mzl.la/38BjP8i
-    constructor: {
-        value: Car,
-        enumerable: false,
-        writable: true,
-        configurable: true
+        // Une fois le constructeur parent appelé, l'initialisation de notre objet peut continuer.
+        this.trunkOpened = false; // Notre coffre est-il ouvert ?
+        this.trunkSize = trunkSize; // La taille de notre coffre en mètres cube.
     }
-});
+
+    // L'objet prototype de « Vehicle » doit être copié au sein du prototype de « Car » afin que ce dernier puisse bénéficier des mêmes méthodes.
+    Car.prototype = Object.create(Vehicle.prototype, {        //Référence sur Object.create()  https://mzl.la/38BjP8i
+        constructor: {
+            value: Car,
+            enumerable: false,
+            writable: true,
+            configurable: true
+        }
+    });
 ..................
 
 ###
@@ -304,12 +305,12 @@ Créer un string à partir du tableau : myArray.join('-');
 Concaténer deux tableaux : var myArray = ['test1', 'test2'].concat(['test3', 'test4']);
 .forEach() :  // plus efficace que parcourir avec une boucle for mais ne fonctionne pas avec les collections d'éléments retournées par le DOM
 ..................
-myArray.forEach(function(value, index, array) {
-    alert(
-        'Index : ' + index + '\n' +
-        'Valeur : ' + value
-    );
-});
+    myArray.forEach(function(value, index, array) {
+        alert(
+            'Index : ' + index + '\n' +
+            'Valeur : ' + value
+        );
+    });
 ..................
 Rechercher un élément dans un tableau : utiliser .indexOf() et .lastIndexOf() qui fonctionnent comme avec les string
 Retourner un élément qui passe un test : myArray.find(fonction);  //ex: https://bit.ly/35rDlUs //ajouter un deuxième argument pour l'index
@@ -404,11 +405,11 @@ Polyfills:
 Les polyfills sont un moyen de s'assurer de la prise en charge d'une méthode si celle-ci n'est pas supportée par le navigateur
 Exemple
 ...................
-if (!Array.isArray) { // Si isArray() n'existe pas, alors on crée notre méthode alternative :
-    Array.isArray = function(element) {
-        return Object.prototype.toString.call(element) == '[object Array]';
-    };
-}
+    if (!Array.isArray) { // Si isArray() n'existe pas, alors on crée notre méthode alternative :
+        Array.isArray = function(element) {
+            return Object.prototype.toString.call(element) == '[object Array]';
+        };
+    }
 ...................
 Remarque : la plupart du temps, chaque méthode a déja été créée donc on peut taper le nom d'une méthode suivi du mot-clé « polyfill » et prendre le code de l'internet
 
@@ -424,36 +425,36 @@ Closure
 ###
 Expression de fonction immédiatement invoquée (IIFE) :
 ................ Exemple
-(function() {
- var x = 20;
- var y = 20;
- var answer = x + y;
- console.log(answer);
- })();
+    (function() {
+    var x = 20;
+    var y = 20;
+    var answer = x + y;
+    console.log(answer);
+    })();
 ...............
  
 On peut aussi mettre des arguments et les donner comme ceci :
 ...............  Dans cette exemple, on donne la variable [pomme] à cette fonction et on l'execute tout de suite
-(function(maVariable) {
-    alert(maVariable);
- })(pomme);
+    (function(maVariable) {
+        alert(maVariable);
+    })(pomme);
 ...............
  
 ###
 Un closure est une fonction interne qui va pouvoir continuer d’accéder à des variables définies dans la fonction externe à laquelle elle appartient même après que cette fonction externe ait été exécutée.
 Exemple d'utilisation : 
 ......................
-for (var i = 0; i < divsLen; i++) {
+    for (var i = 0; i < divsLen; i++) {
 
-    (function(currentI) {
+        (function(currentI) {
 
-        setTimeout(function() {
-            divs[currentI].style.display = 'block';
-        }, 200 * i);
+            setTimeout(function() {
+                divs[currentI].style.display = 'block';
+            }, 200 * i);
 
-    })(i);
+        })(i);
 
-}
+    }
 ............................
 Plus d'info : https://bit.ly/2vFxei9
 
@@ -464,21 +465,21 @@ Une promesse est un objet qui représente l’état d’une opération asynchron
 Une promesse contient 2 propriétés internes: 1. state: initialement à « pending » (en attente) puis devient « fulfilled » (résolue) ou « rejected » (erreur)  2. result: va contenir la valeur de notre choix
 Exemple d'utilisation : 
 ......................
-function uneFonctionAsynchrone(){
-    return new Promise((resolve, reject)=>{
-        //Tache asynchrone à réaliser
+    function uneFonctionAsynchrone(){
+        return new Promise((resolve, reject)=>{
+            //Tache asynchrone à réaliser
 
-        Appel de resolve(arg) si la promesse est accomplie    //mettre dans arg la valeur qu'on veut utiliser plus tard  (result = arg)
+            Appel de resolve(arg) si la promesse est accomplie    //mettre dans arg la valeur qu'on veut utiliser plus tard  (result = arg)
 
-        Appel de reject(arg) si la promesse échoue            //mettre dans arg la valeur qu'on veut utiliser plus tard  (result = arg)
-    });
-}
-let maValeur;
+            Appel de reject(arg) si la promesse échoue            //mettre dans arg la valeur qu'on veut utiliser plus tard  (result = arg)
+        });
+    }
+    let maValeur;
 
-uneFonctionAsynchrone().then(           //avec notation fléchée: uneFonctionAsynchrone().then(result => maValeur = result, error => maValeur = error);
-    function(result){maValeur = result;},
-    function(error){maValeur = error;}
-);
+    uneFonctionAsynchrone().then(           //avec notation fléchée: uneFonctionAsynchrone().then(result => maValeur = result, error => maValeur = error);
+        function(result){maValeur = result;},
+        function(error){maValeur = error;}
+    );
 ......................
 On peut enchainer les .then() pour effectuer plusieurs opérations asynchrones en ordre.
 
@@ -492,8 +493,8 @@ Appels réseaux
 
 Demander une réponse à partir d'une url :
 ......................
-return fetch(url)
-    .then((response) => response.json())
-    .catch((error) => console.error(error))
-}
+    return fetch(url)
+        .then((response) => response.json())
+        .catch((error) => console.error(error))
+    }
 ......................

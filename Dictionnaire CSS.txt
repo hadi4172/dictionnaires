@@ -36,7 +36,7 @@ Largeur d'un bloc : width: 50%;  // on peut mettre une valeur en px ou en % ou e
 Hauteur d'un bloc : height: 50%; // on peut mettre une valeur en px ou en % ou en vh/vw
 Largeur minimale et maximale d'un bloc : min-width: / max-width:      //valeurs en px ou % ou en vh/vw 
 Hauteur minimale et maximale d'un bloc : min-height: / max-height:    //valeurs en px ou % ou en vh/vw
-Marge intérieure du bloc : padding: 12px;  //2 arguments pour haut/bas ou 4 pour sens d'une montre
+Marge intérieure du bloc : padding: 12px;  //2 arguments pour haut/bas ou 4 pour sens d'une montre // pour empêcher padding d'aggrandir l'élement, utiliser : box-sizing: border-box;
 Marge extérieure du bloc : margin: 50px;   //2 arguments pour haut/bas ou 4 pour sens d'une montre // mettre argument auto pour centrer (nécessite de mettre width aussi)
 Gérer dépassements d'élements dans le bloc / Empecher le défilement de la page : overflow : visible/hidden/scroll/auto/initial/inherit;  //mettre auto est le plus conseillé //coupler avec une modification du height
 Couper textes trop larges dans un bloc : word-wrap: break-word;
@@ -61,6 +61,8 @@ Empecher les clics sur un élément : pointer-events: none/auto/inherit;    // E
 Changer l'apparence du curseur quand il survole un élément:  cursor : http://bit.ly/339XJsg ;   //voir le site pour tous les arguments
 Flouer un élément HTML : filter: blur(3px);
 Flouer l'arrière plan : backdrop-filter: blur(2px);
+Modifier l'échelle d'un élement entier : transform: scale(0.7);     //l'élement aura 70% de sa taille originelle // rajouter transform-origin: top left; pour remettre au repère initial
+Couper ce qui dépasse des limites de taille : overflow: hidden;
 ______________
 Importer une police téléchargée:    //télécharger de http://www.fontsquirrel.com/
 ex:
