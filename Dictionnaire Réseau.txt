@@ -1,0 +1,212 @@
+Il existe 2 types de réseau :
+
+* Réseau Internet
+* Réseau Télécom
+
+Carte réseau (NIC) : C'est par elle que transitent toutes les données à envoyer et à recevoir du réseau dans un ordinateur. Une clé Wi-Fi est aussi une carte réseau.
+Adresse MAC :   Permet d'identifier la machine dans un réseau.
+Elle lui est attribuée à sa fabrication et ne doit généralement pas changer.
+Utilisée pour la communication entre plusieurs machines appartenant à un même sous-réseau.
+C'est une adresse associée à la carte réseau d'un hôte pour distinguer les hôtes dans un réseau local.
+Adresse IP :    Elle est relative au réseau : elle change suivant le réseau.
+C'est elle qui est utilisée pour pour faire communiquer des machines de sous-réseaux différents. Ce qui est impossible avec une adresse MAC.
+C'est une adresse unique assignée à un hôte pour permettre de distinguer chaque hôte dans des réseaux.
+
+Concentrateur (hub) : Dispositif qui reçoit des données d'un port de réception et les envoies à tous les ports de diffusion. Ces derniers vérifieront si le message leur est destiné ou non.
+Commutateur (switch) : Fonctionne à peu près comme un hub, sauf qu'il n'envoie pas tout ce qu'il reçoit à tout le monde, mais uniquement au bon destinataire (en se basant sur son adresse MAC).
+Routeur : Ressemble au switch, mais permet aussi de mettre en contact 2 réseaux fondamentalement différents (ex: réseau local et Internet)
+Répéteur : Permet de réémettre un signal reçu pour couvrir une portée plus longue. (ex: En plaçant un répéteur peu avant ~50m (portée Wi-Fi en interieur), il est possible d'étendre la portée à ~100m, mais la qualité du signal étendu sera dégradée)
+LAN (Local Area Network): Réseau local ; ?Constitué d'un switch/hub/routeur (ex: dans une école) //WLAN : Comme LAN mais sans fil
+WAN (Wide Area Network) : Réseau étendu ; quand plusieurs LAN sont connectés ensemble (plusieurs switch/hub/routeur)  //on parle souvent de WAN pour des réseaux très grands, à échelle régionale voire nationale
+
+Topologie physique : la structure physique de votre réseau (l'apparence physique, la forme)
+Topologie logique : définit comment se passe la communication dans la topologie physique
+
+Topologie de type bus : https://bityl.co/5HYs pas pratique du tout car toutes les machines utilisent le même câble, s'il vient à ne plus fonctionner, le réseau n'existe plus. De plus il ne faut pas que 2 machines communiquent simultanément sinon ça créé des collisions
+Topologie de type étoile: https://bityl.co/5HYh Généralement composé d'un switch au milieu qui est connecté avecd'autres appareils. Son principal défaut : si l'élément central ne fonctionne plus, plus rien ne fonctionne. De plus, avec un hub au milieu, la topologie logique devient le bus
+Topologie de type anneau : https://bityl.co/5HZD la topologie logique est le token ring : une machine connectée au réseau possède un jeton virtuel. (autorisation de communiquer) Une fois que la machine a transmis ce qu'elle voulait ou qu'elle n'a rien à dire, elle passe le jeton à la machine suivante, et ainsi de suite.
+Topologie maillée : https://bityl.co/5HZK relier tous les ordinateurs entre eux : le nombre de câbles est n(n-1)/ 2, avec n = le nombre d'ordinateurs. Utilisé sur de petits réseaux dans des cas bien précis.
+
+Protocole : un ensemble de règles qui définissent comment se produit une communication dans un réseau, en d'autre termes : ce qui permet la communication dans un réseau
+
+Exigences d'un protocole :
+// Les fonctions citées ne peuvent pas être réalisées par un seul protocole. Il s'agit d'une suite de protocoles. Il y a des protocoles qui s'occupent de la transmission, d'autres du routage, etc.
+
+* Gestion du format des données : doit avoir des « fonctions » permettant de gérer le format des données échangées. En général, les données seront constituées de deux choses : d'une entête et du contenu. L'entête contient les informations techniques et est « réservée » au protocole.
+* La gestion du format d'adresses : il faudrait qu'un protocole soit en mesure de spécifier l'adresse de l'émetteur et du destinataire
+* Correspondance d'adresses: doit assurer des fonctions de correspondance entre les adresses logiques (IP) et les adresses physiques (MAC)  (adress mapping)
+* Routage : « diriger » les données entre deux réseaux d'un plan d'adressage différent
+* Détection d'erreurs de transmission : Un protocole devrait être en mesure de détecter qu'une erreur s'est produit dans la procédure de transmission des informations
+* Accusé de réception : Certains protocoles permettent à un hôte récepteur d'informer un hôte émetteur qu'il a reçu le paquet envoyé pour empêcher ce dernier de renvoyer les mêmes choses. D'autres par contre n'implémentent pas cette fonction
+* La gestion de perte d'informations
+* Dicter la direction de flux : A et B peuvent-ils communiquer simultanément ? Si oui, il s'agit d'un système de communication full-duplex. Sinon, il s'agit d'un système de communication half-duplex. Un protocole doit dicter la direction de flux dans la communication
+* Contrôle de séquences : « numéroter » chaque information ségmentée envoyée sur un réseau afin que le destinataire sache les « remettre en ordre » ou supprimer les doublons.
+* Gestion de flux : un hôte-émetteur ne doit pas transmettre plus vite que ne peut recevoir un hôte-récepteur
+
+Suite protocolaire (protocol stack): un ensemble de protocoles fonctionnant en harmonie et cohésion pour le bon déroulement de la communication
+
+Modèle OSI (Open Systems Interconnection) : Une façon standardisée de segmenter en plusieurs blocs (appelés couche) le processus de communication entre deux entités.
+
+Les 7 couches du modèle OSI :
+//Chaque couche utilise les services de celle en dessous et donne des services à celle au dessus
+
+* Application : Point de contact avec les services réseaux.
+  Par exemple, votre navigateur web est une application qui vous permet d’être en contact avec un service offert par le protocole HTTP/FTP/SMTP...
+* Présentation : Elle s'occupe de tout aspect lié à la présentation des données : format, cryptage, encodage, etc.
+  En d'autres termes, elle offre des services permettant de convertir des données d’un système d’encodage à un autre (de l'EBCDIC vers l'ASCII, par exemple), de compresser des fichiers, de les crypter, etc.
+* Session : Responsable de l'initialisation de la session, de sa gestion et de sa fermeture. Les protocoles de la couche 5, tels que X.225, peuvent déterminer la direction de la communication.
+  Il existe deux types de communication : Half Duplex et Full Duplex
+* Transport :   Communication logique entre les processus. Choix du protocole de transmission et préparation de l'envoi des données.
+  Elle spécifie le numéro de port utilisé par l'application émettrice ainsi que le numéro de port de l'application réceptrice.
+  Elle fragmente les données en plusieurs séquences (ou segments).
+  Utilise les protocoles UDP ou TCP le plus souvent
+* Réseau :  Connexion logique entre les hôtes.
+  Elle traite de tout ce qui concerne l'identification et le routage dans le réseau.
+  Le plus souvent, c'est le protocole IP qui est utilisé.
+* Liaison de données : Établissement d'une liaison physique entre les hôtes. Fragmente les données en plusieurs trames.
+* Physique : Conversion des trames en bits et transmission physique des données sur le média.
+
+But des modèles :
+
+* modèle OSI : vocation normative : a été développé pour servir de référence dans le déroulement de la communication entre deux hôtes.
+* modèle TCP/IP : vocation descriptive : il décrit la façon dont se passe la communication entre deux hôtes.
+
+Nom des données selon la couche :
+Modèle OSI :
+
+* Application/Presentation/Session : Data Unit
+* Transport : Segment
+* Réseau : Packet
+* Liaison de données : Frame
+* Physique : Bit
+
+Modèle TCP-IP
+
+* Application : Message
+* Transport : Segment
+* Internet : Datagram
+* Interface réseau : Frame
+
+Modèle Internet
+
+* Application : Data Unit
+* Transport : Segment
+* Réseau : Datagram
+* Liaison de données : Trame (Frame)
+* Physique :
+
+Les données transmises dans un réseau sont appelées PDU (Protocol Data Unit)
+Les données que la couche C + 1 transmet à la couche C sont appelées SDU tant qu’ils n’ont pas encore été encapsulée par cette dernière. Après l'encapsulation, elles s'appellent PDU.
+Les données sont encapsulées pour être envoyées à la couche suivante.
+Le contenu de chaque couche est composé du [contenu et de l'en tête de la couche précedente].
+Schéma illustrant l'encapsulation des SDU dans le modèle OSI : https://bityl.co/5I9R
+Lors de la réception des données : les en têtes sont supprimées pour restaurer le contenu initial.
+
+Un switch a 2 couches : liaison et physique
+Un routeur en a 3 : réseau, liaison et physique
+
+Fonctionnement de BitTorrent : si un utilisateur X télécharge un film Y provenant d'un serveur Z, les autres utilisateurs pourront télécharger le même film à travers X pour ne pas alourdir le serveur de base Z.
+Terminologie de BitTorrent : https://bityl.co/5I9y
+
+SMTP (Simple Mail Transfer Protocol) : Protocole de transfert utilisé dans les applications de messagerie.
+POP (Post Office Protocol) : Protocole servant d'intermediaire lors de la transmission par SMTP.
+... Détails sur la messagerie : https://bityl.co/5IAU
+
+Pour que 2 hôtes (machines connectées) communiquent :
+
+* Ils doivent utiliser le même protocole ;
+* Ils doivent appartenir au même sous-réseau ;
+* Chaque hôte doit connaître l'adresse IP de l'autre.
+
+Passerelle : C'est un ordinateur qui a plusieurs cartes réseau (en général, c'est un routeur) qui permet la communication entre deux sous-réseaux différent.
+Masque de sous-réseau (subnet mask): il définit quelle partie de l'adresse IP identifie le réseau (network ID) et quelle partie identifie l'hôte sur le réseau (host ID)
+
+Exemple :
+129.51.3.5 et 255.255.0.0
+Les octets du masque ayant pour valeur 255 sont les mêmes que les octets de l'adresse IP définissant le network ID. De même, les octets du masque valant 0 correspondent aux octets de l'adresse IP définissant l'host ID. L'adresse IP ci-dessus est donc celle d'un hôte 3.5 dans le réseau 129.51.
+
+Subnetting : Permet de diviser un réseau en plusieurs sous-réseaux
+S = 2^n - 1
+S : nombre de sous-réseaux désirés
+n : nombre de bits devant être masqués (nombre entier positif)
+
+Par convention, l'octet de l'adresse IP définissant le sous-réseau ne peut >= à l'octet modifié du masque de sous-réseau personnalisé. Ex: si on a un réseau 198.15.2.0 et qu'on applique aux hôtes un masque 255.255.255.192, on ne pourra pas avoir de sous-réseau ayant pour identité 198.15.2.192.
+Subnetting en pratique (calculs) : https://bityl.co/5JHq
+
+Processus : instance d'une application en cours d'exécution (l'application qui est actuellement exécutée)
+
+Numéro de port :  le numéro qui nous permet de faire la distinction entre les applications
+                  C'est un nombre entier codé sur 16 bits (2 octets). Ainsi, il peut avoir une valeur allant de 0 à 65 335.
+
+L'organisme IANA (Internet Assigned Numbers Authority) (en) classe les numéros de port en trois catégories principales, comme l'illustre le tableau ci-dessous.
+Portée          Catégorie           Description
+0 - 1023        Ports bien connus   Ports réservés pour des services bien connus (web, envoi de mail, etc.).
+1024 – 49 151   Ports réservés      Ports réservés pour être utilisés par des applications propriétaires.
+49 152 – 65 635 Ports dynamiques    Ports « libres » que vous pouvez utiliser pour vos applications. Ils ne sont ni pour des services bien connus, ni réservés par une entreprise quelconque.
+
+Énumération des numéros de port assignés : https://bityl.co/5JjO
+
+Exemple de ports bien connus :
++-----------------------------------------+-----------------------------------------------------------------------------------+------------------------+----------------+
+| Protocole                               | Description                                                                       | Protocole transmission | Numéro de port |
++=========================================+===================================================================================+========================+================+
+| File Transfert Protocole (FTP)          | Protocole de transfert de fichier                                                 | TCP                    | 21             |
+| Secured SHell (SSH)                     | Protocole permettant l'échange de données par le biais d'un canal sécurisé        | TCP & UDP              | 22             |
+| Telnet                                  | Utilisé pour l'établissement des sessions à distance                              | TCP                    | 23             |
+| Simple Mail Transfer Protocol (SMTP)    | Protocole d'envoi de courrier électronique                                        | TCP                    | 25             |
+| WHOIS protocol                          | Protocole pour l'identification d'une machine par son nom de domaine/adresse IP.  | TCP                    | 43             |
+| Domain Name System (DNS)                | Protocole de résolution des noms de domaine                                       | TCP & UDP              | 53             |
+| HyperText Transfer Protocol (HTTP)      | Protocole de téléchargement (principalement de pages web)                         | TCP & UDP              | 80             |
+| Post Office Protocol Version 2 (POP2)   | Protocole de retrait de mails d'un serveur de messagerie                          | TCP                    | 109            |
+| Post Office Protocol Version 3 (POP3)   | Protocole de retrait de mails d'un serveur de messagerie                          | TCP                    | 110            |
+| Internet Message Access Protocol (IMAP) | Protocole de retrait et consultation de mails d'un serveur de messagerie          | TCP & UDP              | 143            |
++-----------------------------------------+-----------------------------------------------------------------------------------+------------------------+----------------+
+
+Le scan de port (port scanning) : technique qui consiste à « scanner » un hôte afin de découvrir les ports ouverts et d'avoir la liste des services exécutés sur cet hôte.
+
+Socket :    C'est une interface entre les processus : Il sert à faire communiquer un processus avec un service qui gère le réseau. Controlé par le programmeur de l’application.
+Exemple : Un protocole applicatif (SMTP, POP, HTTP, etc) peut être interfacé à un protocole de transport (UDP, TCP) grace aux sockets
+Chaque socket a une adresse de socket. Cette adresse est constituée de deux choses : une adresse IP et un numéro de port.
+
+Démultiplexage : C'est le fait de transmettre un PDU donné au bon processus d'une application donnée.
+Multiplexage : Encapsulation (Rajout d'en-tête)
+
+Les protocoles TCP et UDP sont responsables de la modification des en-têtes des unités de données lors du multiplexage / démultiplexage.
+Les en-têtes contiennent le numéro de port source (application émettrice) et le numéro de port destination (application réceptrice) et d'autres champs selon le protocole.
+
+Poignée de main (handshake): on se sert du principe de la poignée de main pour l'initialisation d'une connexion.
+                             l'hôte émetteur envoie un paquet qui dit « Est-ce qu'on peut parler ? » et l'hôte récepteur répond « Vas-y, j'écoute ». Et là les deux peuvent s'échanger des données !
+UDP (Datagram Protocol) : C'est un protocole de transport qui ne peut pas garantir que les données arriveront toutes à destination. 
+                          On ne peut pas être sûr que les données arriveront au destinataire car UDP n'a pas de mécanisme de retransmission quand un paquet se perd.
+                          il est un protocole non orienté connexion.
+                          Possède 2 champs d'en tête de plus :
+                                  Length: taille du Datagramme en bits
+                                  Checksum (somme de contrôle) : La valeur présente dans ce champ indiquera si une erreur s'est produite durant la transmission du datagramme. 
+                          il n'implémente pas le principe de connexion par poignée de main
+                          ne maintient pas d'informations sur l'état de la connexion
+                          la vitesse (ou le taux) de transmission est intimement liée aux caractéristiques de l'environnement du système d'exploitation. 
+                          C'est-à-dire que cette vitesse dépend des ressources système (fréquence du processeur, etc.) d'une part, et de la bande passante d'autre part.
+
+TCP (Transmission Control Protocol) : vérification périodique de l'état de la session de communication ; 
+                                      chaque un certain laps de temps, l'hôte X enverra un paquet de « vérification de session » pour savoir si l'hôte Y est toujours connecté.
+                                      supporte le full-duplex
+                                      Paramètres de procédure d'établissement de connexion TCP : 
+                                        * Etat du serveur
+                                        * Etat du Client
+                                        * Segment transmis par le client
+                                        * Segment transmis par le serveur
+                                        * Etat de transition du client
+                                        * Etat de transition du serveur
+                                      Fonctionnement (//TODO) https://bityl.co/5JlK
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Routage : Algorithme pour déterminer l'itinéraire qui doit être emprunté par les paquets
+Commutation (forwarding) : Déplacer les paquets d’une entrée du routeur à la sortie appropriée du routeur
+Commutation de paquets : Le paquet doit être reçu en entier par le routeur avant d'être transmis sur le lien suivant
+
+Délai total d'envoi de paquet = dTraitement + dAttente + dTransmission + dPropagation
+dTraitement : négligeable
+dAttente : Dépend du niveau de congestion du routeur (généralement négligeable)
+dTransmission = taille du paquet [L] (bits) / Capacité du lien [C] (bps)
+dPropagation = longueur du lien physique [d] (m) / vitesse de propagation [s] (m/s) (~2*10^8 m/s)

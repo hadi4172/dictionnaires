@@ -22,8 +22,10 @@ Installation et lancement d'une CRNA
 Installer expo : npm install -g expo-cli   //dans un terminal dans le répertoire voulu
 Créer une CRNA : expo init nomDuProjet  //choisir le template blank sur la console
 Lancer la CRNA : npm start
+Fermer expo : Ctrl + C
 Rechargement sur simulateur iOS : command + R
 Rechargement sur simulateur Android : Ctrl + M sur Windows et command + M sur Mac
+Vérifier version des paquets installés : npm list  --depth=0
 
 Installation React Native Paper et React Navigation ↓ 
 .........................  //écrire ces 2 lignes dans un terminal
@@ -124,25 +126,37 @@ RN Elements             https://bit.ly/2QfzUtt
 Easy grid               https://bit.ly/3aepvr4  //import { Col, Row, Grid } from "react-native-easy-grid"; //npm install react-native-easy-grid --save
 Fast Image              https://bit.ly/3akzDie  //import FastImage from 'react-native-fast-image';         // yarn add react-native-fast-image    
 Bottom Sheet            https://bit.ly/3hoeMwU  //Page venant par en bas
+Swipeable panel         https://bityl.co/4u1S   //Autre libraire pour page venant par le bas
 Date/Time Picker        https://bityl.co/3HnO
+React Native Swipeable  https://bityl.co/4u1G   //Pour glisser des components
 
+______________________________
+Divers
+------------------------------
+## Props
+Lorsqu'on ne passe pas un props , il est évalué à undefined lors du chargement du component
+Si on le passe sans argument, il est évalué à true
+
+## Syntaxe générale
+import : https://bityl.co/4zzK
+export : https://bityl.co/4zzM
 ______________________________
 Hooks
 ------------------------------
 
 ###
-Hooks d'états :
+Hooks d'états :       //comme une variable normale mais qui recharge le component lors d'une modification
 Importer useState : import React, { useState } from 'react';
 Déclarer une variable de state : let [maVariable, setMaVariable] = useState(valeurInitiale);   //useState renvoie un tableau de 2 élements //il est possible de déclarer plusieurs variables
 Lire l'état : ex: <p>Vous avez cliqué {maVariable} fois</p>
 Mettre à jour l’état : setMaVariable(nouvelleValeur);
 
 ###
-Hooks d'éffets :
+Hooks d'éffets :        //fonctionnement proche d'un action listener qui se déclenche au lancement premier d'un component, lors d'une modification, ou lors du déchargement
 Importer useEffect : import React, { useEffect } from 'react';
 // useEffect est une combinaison de componentDidMount, componentDidUpdate, et componentWillUnmount
 Implémenter useEffect : useEffect(() => { /* code */ });    //fonctionne comme componentDidMount + componentDidUpdate, retourner une fonction pour nettoyer (componentWillUnmount)
-Implémenter useEffect avec seulement componentDidMount : useEffect(() => { /* code */ }, []);
+Implémenter useEffect avec seulement componentDidMount : useEffect(() => { /* code */ }, []);   // le deuxième argument sert a définir par rapport à quelles variables l'effect doit réagir au changment
 Implémenter useEffect en séparant les cycles de vie ↓
 .........................  //nécessite d'importer useRef
 const mounted = useRef();
@@ -174,6 +188,11 @@ useEffect(() => {
 componentDidMount() est appelée après que le Component a été dessiné (render) sur l'interface pour la première fois.
 componentDidUpdate() est appelée après que le Component aie été redéssiné suite à la mise à jour du state
 componentWillUnmount() est appelée lorsque le Component est sur le point d'être retiré du DOM.
+
+###
+Hooks de Réference :
+// Utile pour garder une réference à un certain objet du DOM JSX
+Documentation : https://bityl.co/4uDv
 
 ###
 Hooks de Contexte :
@@ -355,12 +374,16 @@ Déterminer si le tiroir est ouvert ou fermé : useIsDrawerOpen();  //retourne u
 
 #####
 Zone sure (SafeArea)
-Ne pas utiliser le SafeAreaView Basique de React Native. Plutôt suivre les instructions ici : 
+Ne pas utiliser le SafeAreaView Basique de React Native. Plutôt suivre les instructions ici : https://bityl.co/4thc
 
 #####
 Autre
 TopTabNavigation : https://bit.ly/3kyhXo0
 Empêcher de revenir en arrière : https://bit.ly/3gNvwxD
+
+#####
+Libraires de navigation alternatives
+React native Swiper : https://bityl.co/4u0y  npm i --save react-native-swiper@next  import Swiper from 'react-native-swiper'
 
 ______________________________
 Redux v.7

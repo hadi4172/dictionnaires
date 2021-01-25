@@ -222,11 +222,11 @@ Modifier valeur JTable : jtable.setValueAt(Object valeur, int ligne, int colonne
 Doc JDialog : https://bityl.co/4XOZ
 
 ### Layouts
-Appliquer un Layout : new JPanel(new GridLayout(args));
+Appliquer un Layout : new JPanel(new GridLayout(args));     //ou utiliser .setLayout(); sur un JComponent
 FlowLayout : Les éléments sont disposés de gauche à droite, de haut en bas. Pas d'args. Layout par défaut du JPanel.
 BorderLayout : Positions Nord/Est/Sud/Ouest/Centre. Pas d'args. Layout par défaut du JFrame. Exemple : pnlPrincipal.add(btnUn, BorderLayout.NORTH);
 GridLayout : Élements disposés dans un tableau de lignes et colonnes. ajoutés de g à d, de h en b. args : (lignes, colonnes) //mettre 0 à un des args rend la gestion automatique.
-BoxLayout : Élements disposés selon axe horizontal ou vertical. args: (panneauDeDestination, BoxLayout.X_AXIS / BoxLayout.X_AXIS)
+BoxLayout : Élements disposés selon axe horizontal ou vertical. args: (panneauDeDestination, BoxLayout.X_AXIS / BoxLayout.Y_AXIS)
 CardLayout : Permet d'avoir plusieurs couches de Panel et afficher celle que l'on veut quand on veut. exemple : https://bityl.co/4X1h
 
 Ajouter un écart entre les lignes/colonnes de la GridLayout : gl.setVgap(5)/.setHgap(5); //Cinq pixels d'espace

@@ -1,0 +1,54 @@
+Formattage : 
+Format  Type attendu
+"%d"    int
+"%ld"   long
+"%f"    float   (et double dans printf)
+"%lf"   double
+"%p"    pointeur (int)  (mettre '&' avant le nom de la variable)
+
+Exemple : printf("Vous avez %d vies et vous etes au niveau n° %d", nombreDeVies, niveau);
+
+Récupérer une saisie : scanf("%d", &age);    //arg1 : type, arg2 : &variable de destination
+
+Créer constante : const int vies = 5;
+
+Attributs
+const : Permet d'empêcher la variable de changer de valeur
+signed : Accepte des nombre positifs et négatifs
+unsigned : Accepte seulement des nombres négatifs mais peut avoir une capacité double.
+static : {
+    Pour variable globale ou fonctions : restreint son accessibilité à son fichier seulement, 
+    Pour variable dans fonctions : sa valeur n'est pas supprimée à la fin de la fonction. La prochaine fois qu'on appellera la fonction, la variable aura conservé sa valeur.
+}
+Les divisions sont entières par défaut.
+
+Librairies:
+<math.h> : {
+    fabs(nombre);  //valeur absolue
+    ceil(nombre);  //partie entière au dessus
+    floor(nombre); //partie entière en dessous
+    pow(nombre, puissance); 
+    sqrt(nombre);
+}
+
+-----------------------
+Exemple de fonction :
+int triple(int nombre)
+{
+    int resultat = 0;
+
+    resultat = 3 * nombre;  // On multiplie le nombre fourni par 3
+    return resultat;       // On retourne la variable resultat qui vaut le triple de nombre
+}
+-----------------------
+
+L'ordre de déclaration d'une fonction a une importance en C; utiliser les prototypes (indication pour l'ordinateur) pour appeler une fonction de nimporte ou : https://bityl.co/5FnO
+
+Préprocesseur : le préprocesseur est un programme qui démarre avant la compilation. Son rôle est d'exécuter les instructions spéciales qu'on lui a données dans des directives de préprocesseur, ces fameuses lignes qui commencent par un #
+
+------------------------
+maVariable: désigne la valeur de la variable ;
+&maVariable: désigne l'adresse de la variable.
+
+créer un pointeur : int *monPointeur = &maVariable;   //le type d'initialisation est par rapport au type de la variable pour laquelle on mémorise l'adresse; si ma variable était un double, on aurait initialisé le pointeur avec double
+accéder à la valeur pointée : *monPointeur      // la valeur de monPointeur (sans *) est une adresse

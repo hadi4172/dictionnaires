@@ -240,6 +240,7 @@ Connaître la position avec un regex : monString.search(/regex/);
 Extraire un string : myString.slice(a, b) extrait de a a b. b est facultatif. Si a ou b > string.length, il sera == string.length. Si b est négatif : prends de la fin
 Couper une chaîne en un tableau : monString.split("séparateur");   //le séparateur peut aussi être un regex
 Caractères accentués en français : zâäàéèùêëîïôöçñ
+Espace insécable : "\u00a0"
 String sur plusieurs lignes : `Placer ici`    //Cette syntaxe supporte le formatage. ex: `J'ai ${nbCrayon} crayons!`
 
 ###

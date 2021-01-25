@@ -59,6 +59,7 @@ Stash : mettre les modification de cotés pour les remettre dans une branche vou
 {
 creer un dépot des dernieres modifications stagés non commités : git stash
 relacher notre dernier dépot dans une branche : git stash apply
+supprimer stash : git stash drop
 obtenir l'historique des stash : git stash list
 relacher un certain dépot dans une branche : git stash apply stash@{numéro}
 }
@@ -73,6 +74,7 @@ cloner un projet en ligne vers notre ordi et changer le nom : git clone lienSSHo
 synchroniser notre projet local avec le projet en ligne : git pull
 
 envoyer un pull request : https://bityl.co/43Xf   ou   https://bityl.co/43Xh
+}
 _____________________
 ssh
 {
