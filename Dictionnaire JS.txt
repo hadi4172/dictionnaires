@@ -138,6 +138,8 @@ select		Sélectionner le contenu d'un champ de texte (input,textarea, etc.)
 submit		Envoyer un formulaire    //attacher l'EventListener au <form>
 reset		Réinitialiser un formulaire   //attacher l'EventListener au <form>
 
+Lancer un script après le chargement complet d'une page web : window.onload = () => {};
+
 Propriétés de l'objet Event (argument e de la fonction de l'evenement,  pour la propriété faire exemple : e.leType)
 '''''''''''''''''''''''''''''''''''''''
 .type  : retourne le nom de l'événement
@@ -242,6 +244,7 @@ Couper une chaîne en un tableau : monString.split("séparateur");   //le sépar
 Caractères accentués en français : zâäàéèùêëîïôöçñ
 Espace insécable : "\u00a0"
 String sur plusieurs lignes : `Placer ici`    //Cette syntaxe supporte le formatage. ex: `J'ai ${nbCrayon} crayons!`
+Multiplier un string : monString.repeat(nombreDeFois);      //ex: "ab".repeat(5); donnera ababababab
 
 ###
 Expressions régulières (Regex) :

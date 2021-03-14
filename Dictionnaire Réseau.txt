@@ -5,19 +5,26 @@ Il existe 2 types de réseau :
 
 Carte réseau (NIC) : C'est par elle que transitent toutes les données à envoyer et à recevoir du réseau dans un ordinateur. Une clé Wi-Fi est aussi une carte réseau.
 Adresse MAC :   Permet d'identifier la machine dans un réseau.
-Elle lui est attribuée à sa fabrication et ne doit généralement pas changer.
-Utilisée pour la communication entre plusieurs machines appartenant à un même sous-réseau.
-C'est une adresse associée à la carte réseau d'un hôte pour distinguer les hôtes dans un réseau local.
+  Elle lui est attribuée à sa fabrication et ne doit généralement pas changer. (mais on peut la changer si on veut et si notre carte réseau le supporte)
+  Utilisée pour la communication entre plusieurs machines appartenant à un même sous-réseau.
+  C'est une adresse associée à la carte réseau d'un hôte pour distinguer les hôtes dans un réseau local.
+  Elle est codée sur 6 octets (soit 48 bits) et s'écrit en hexadecimal. ex : 00:23:5e:bf:45:6a
+  L'adresse de broadcast (ff:ff:ff:ff:ff:ff) permet de communiquer avec toutes les machines du sous réseau
 Adresse IP :    Elle est relative au réseau : elle change suivant le réseau.
+  codée sur 32 bits (4 octets), une partie de ses bits est l'adresse du réseau et l'autre est l'adresse de l'hote
 C'est elle qui est utilisée pour pour faire communiquer des machines de sous-réseaux différents. Ce qui est impossible avec une adresse MAC.
 C'est une adresse unique assignée à un hôte pour permettre de distinguer chaque hôte dans des réseaux.
 
 Concentrateur (hub) : Dispositif qui reçoit des données d'un port de réception et les envoies à tous les ports de diffusion. Ces derniers vérifieront si le message leur est destiné ou non.
 Commutateur (switch) : Fonctionne à peu près comme un hub, sauf qu'il n'envoie pas tout ce qu'il reçoit à tout le monde, mais uniquement au bon destinataire (en se basant sur son adresse MAC).
+         Le switch aiguille donc les trames grâce à l'adresse MAC de destination située dans l'en-tête et à sa table CAM qui lui dit sur quel port renvoyer cette trame.
+         La table CAM est mise à jour intelligement en comparant ce qui sort des ports et les adresses MAC d'en tête et de destination. Si il ne connait pas encore la destination, il envoie à tous les appareils
+         Les informations de la table CAM ont un TTL (time to live) qui expirent s'ils ne sont pas mis à jour, pour éviter de remplir la table avec des informations obsolètes
 Routeur : Ressemble au switch, mais permet aussi de mettre en contact 2 réseaux fondamentalement différents (ex: réseau local et Internet)
 Répéteur : Permet de réémettre un signal reçu pour couvrir une portée plus longue. (ex: En plaçant un répéteur peu avant ~50m (portée Wi-Fi en interieur), il est possible d'étendre la portée à ~100m, mais la qualité du signal étendu sera dégradée)
 LAN (Local Area Network): Réseau local ; ?Constitué d'un switch/hub/routeur (ex: dans une école) //WLAN : Comme LAN mais sans fil
 WAN (Wide Area Network) : Réseau étendu ; quand plusieurs LAN sont connectés ensemble (plusieurs switch/hub/routeur)  //on parle souvent de WAN pour des réseaux très grands, à échelle régionale voire nationale
+VLAN (Virtual LAN): Permet de couper notre switch en plusieurs morceaux, comme si l'on avait plusieurs switchs. (Donc plusieurs réseaux locaux différents dans le même switch) Plus de détail : bit.ly/3tLtMMe
 
 Topologie physique : la structure physique de votre réseau (l'apparence physique, la forme)
 Topologie logique : définit comment se passe la communication dans la topologie physique
@@ -26,6 +33,8 @@ Topologie de type bus : https://bityl.co/5HYs pas pratique du tout car toutes le
 Topologie de type étoile: https://bityl.co/5HYh Généralement composé d'un switch au milieu qui est connecté avecd'autres appareils. Son principal défaut : si l'élément central ne fonctionne plus, plus rien ne fonctionne. De plus, avec un hub au milieu, la topologie logique devient le bus
 Topologie de type anneau : https://bityl.co/5HZD la topologie logique est le token ring : une machine connectée au réseau possède un jeton virtuel. (autorisation de communiquer) Une fois que la machine a transmis ce qu'elle voulait ou qu'elle n'a rien à dire, elle passe le jeton à la machine suivante, et ainsi de suite.
 Topologie maillée : https://bityl.co/5HZK relier tous les ordinateurs entre eux : le nombre de câbles est n(n-1)/ 2, avec n = le nombre d'ordinateurs. Utilisé sur de petits réseaux dans des cas bien précis.
+
+CSMA/CD : Méthode pour empêcher les collisions de données (envoi et réception) pour les concentrateurs (hub), cette méthode est abandonnée quand la carte réseau fonctionne en full duplex
 
 Protocole : un ensemble de règles qui définissent comment se produit une communication dans un réseau, en d'autre termes : ce qui permet la communication dans un réseau
 
@@ -51,20 +60,30 @@ Les 7 couches du modèle OSI :
 //Chaque couche utilise les services de celle en dessous et donne des services à celle au dessus
 
 * Application : Point de contact avec les services réseaux.
-  Par exemple, votre navigateur web est une application qui vous permet d’être en contact avec un service offert par le protocole HTTP/FTP/SMTP...
+    Par exemple, votre navigateur web est une application qui vous permet d’être en contact avec un service offert par le protocole HTTP/FTP/SMTP...
+    Matériel associé : le proxy.
 * Présentation : Elle s'occupe de tout aspect lié à la présentation des données : format, cryptage, encodage, etc.
-  En d'autres termes, elle offre des services permettant de convertir des données d’un système d’encodage à un autre (de l'EBCDIC vers l'ASCII, par exemple), de compresser des fichiers, de les crypter, etc.
+    En d'autres termes, elle offre des services permettant de convertir des données d’un système d’encodage à un autre (de l'EBCDIC vers l'ASCII, par exemple), de compresser des fichiers, de les crypter, etc.
 * Session : Responsable de l'initialisation de la session, de sa gestion et de sa fermeture. Les protocoles de la couche 5, tels que X.225, peuvent déterminer la direction de la communication.
-  Il existe deux types de communication : Half Duplex et Full Duplex
+    Il existe deux types de communication : Half Duplex et Full Duplex
 * Transport :   Communication logique entre les processus. Choix du protocole de transmission et préparation de l'envoi des données.
-  Elle spécifie le numéro de port utilisé par l'application émettrice ainsi que le numéro de port de l'application réceptrice.
-  Elle fragmente les données en plusieurs séquences (ou segments).
-  Utilise les protocoles UDP ou TCP le plus souvent
-* Réseau :  Connexion logique entre les hôtes.
-  Elle traite de tout ce qui concerne l'identification et le routage dans le réseau.
-  Le plus souvent, c'est le protocole IP qui est utilisé.
-* Liaison de données : Établissement d'une liaison physique entre les hôtes. Fragmente les données en plusieurs trames.
-* Physique : Conversion des trames en bits et transmission physique des données sur le média.
+    Elle spécifie le numéro de port utilisé par l'application émettrice ainsi que le numéro de port de l'application réceptrice.
+    Elle fragmente les données en plusieurs séquences (ou segments).
+    Utilise les protocoles UDP ou TCP le plus souvent
+* Réseau : interconnecter les réseaux entre eux
+    Connexion logique entre les hôtes.
+    Elle traite de tout ce qui concerne l'identification et le routage dans le réseau. Le plus souvent, c'est le protocole IP qui est utilisé.
+    Rôle secondaire : fragmenter les paquets.
+    Matériel associé : le routeur.
+* Liaison de données : connecter les machines entre elles sur un réseau local.
+    Établissement d'une liaison physique entre les hôtes. Fragmente les données en plusieurs trames.
+    Utilise en général le protocole Ethernet. Ses messages sont composés de 1-Adresse MAC DST (destinataire) (6o) 2-Adresse MAC SRC (source) (6o) 3-Protocole courche 3 (2o) 4- Message  5-CRC (détermine si il y a eu une erreur)(4o)
+    Taille trame Ethernet : Entre 64 octets et 1518
+    Rôle secondaire : détecter les erreurs de transmission.
+    Matériel associé : le switch, ou commutateur.
+* Physique : offrir un support de transmission pour la communication.
+    Conversion des trames en bits et transmission physique des données sur le média.
+    Matériel associé : le hub, ou concentrateur en français.
 
 But des modèles :
 
@@ -86,14 +105,6 @@ Modèle TCP-IP
 * Transport : Segment
 * Internet : Datagram
 * Interface réseau : Frame
-
-Modèle Internet
-
-* Application : Data Unit
-* Transport : Segment
-* Réseau : Datagram
-* Liaison de données : Trame (Frame)
-* Physique :
 
 Les données transmises dans un réseau sont appelées PDU (Protocol Data Unit)
 Les données que la couche C + 1 transmet à la couche C sont appelées SDU tant qu’ils n’ont pas encore été encapsulée par cette dernière. Après l'encapsulation, elles s'appellent PDU.
@@ -118,6 +129,12 @@ Pour que 2 hôtes (machines connectées) communiquent :
 * Ils doivent appartenir au même sous-réseau ;
 * Chaque hôte doit connaître l'adresse IP de l'autre.
 
+Une RFC est un document qui propose et présente une technologie que l'on souhaite voir utiliser sur Internet.
+Dans un réseau local, les adresses ip doivent utiliser ces plages (réservés à usage local par le RFC 1918) :
+10.0.0.0/255.0.0.0
+172.16.0.0/255.240.0.0
+192.168.0.0/255.255.0.0
+
 Passerelle : C'est un ordinateur qui a plusieurs cartes réseau (en général, c'est un routeur) qui permet la communication entre deux sous-réseaux différent.
 Masque de sous-réseau (subnet mask): il définit quelle partie de l'adresse IP identifie le réseau (network ID) et quelle partie identifie l'hôte sur le réseau (host ID)
 
@@ -125,18 +142,97 @@ Exemple :
 129.51.3.5 et 255.255.0.0
 Les octets du masque ayant pour valeur 255 sont les mêmes que les octets de l'adresse IP définissant le network ID. De même, les octets du masque valant 0 correspondent aux octets de l'adresse IP définissant l'host ID. L'adresse IP ci-dessus est donc celle d'un hôte 3.5 dans le réseau 129.51.
 
-Subnetting : Permet de diviser un réseau en plusieurs sous-réseaux
-S = 2^n - 1
-S : nombre de sous-réseaux désirés
-n : nombre de bits devant être masqués (nombre entier positif)
+Tous les bits de la partie réseau des machines appartenant à un même réseau sont identiques
 
-Par convention, l'octet de l'adresse IP définissant le sous-réseau ne peut >= à l'octet modifié du masque de sous-réseau personnalisé. Ex: si on a un réseau 198.15.2.0 et qu'on applique aux hôtes un masque 255.255.255.192, on ne pourra pas avoir de sous-réseau ayant pour identité 198.15.2.192.
-Subnetting en pratique (calculs) : https://bityl.co/5JHq
+Table binaire
+2^8  2^7  2^6  2^5  2^4  2^3  2^2  2^1  2^0
+256  128  64   32   16   8    4    2    1
+
+45 =   32 +            8 +     4 +             1 
+      (1*2^5)+(0*2^4)+(1*2^3)+(1*2^2)+(0*2^1)+(1*2^0)
+      101101 [2]
+
+Subnetting : Permet de diviser un réseau en plusieurs sous-réseaux
+S = 2^n - 2
+S : nombre d'hôtes possibles par sous-réseau
+n : nombre de bits 0 dans le Masque de sous réseau (nombre entier positif)
+    -2 car 
+    la première adresse de la plage hote sert à identifier le réseau (adresse de réseau) [toujours paire]
+    et la dernière sert à envoyer un message à toutes les machines du sous réseau (adresse de broadcast) [toujours impaire]
+    toute les autres adresses dans la plage hote sont des adresses machines
+
+S = 2^n
+S : nombre d'adresses dans un sous-réseau
+
+Par convention, l'octet de l'adresse IP définissant le sous-réseau ne peut être >= à l'octet modifié du masque de sous-réseau personnalisé. Ex: si on a un réseau 198.15.2.0 et qu'on applique aux hôtes un masque 255.255.255.192, on ne pourra pas avoir de sous-réseau ayant pour identité 198.15.2.192.
+
+###
+Méthode de subnetting 1 :
+  Pour une plage initiale de 10.0.0.0/16 et un découpage voulu pour 3 plages de 1000, 200 et 20 adresses
+1- Déterminer si la plage initiale à une capacité suffiante ↓
+................................
+    Oui car 2^16 >= (1000 + 200 + 20)
+................................
+2- Calculer le masque à partir du nombre d'adresses ↓
+................................
+    Masque plage 1: 1000 <= 2^10 donc Masque1 = 255.255.252.0   == /22 == 11111111.11111111.11111100.00000000 
+    Masque plage 2: 200  <= 2^8  donc Masque2 = 255.255.255.0   == /24 == 11111111.11111111.11111111.00000000
+    Masque plage 3: 20   <= 2^5  donc Masque3 = 255.255.255.224 == /27 == 11111111.11111111.11111111.11100000
+................................
+3- Définition des plages d'adresses ↓
+................................
+    En commençant par le plus grand vers le plus petit, nous avons :
+    Plage 1 : 10.0.0.0/22 -> 10.0.0.0 à 10.0.3.255  (00001010.00000000.00000000.00000000 à 00001010.00000000.00000011.11111111)
+    Plage 2 : 10.0.4.0/24 -> 10.0.4.0 à 10.0.4.255  (00001010.00000000.00000100.00000000 à 00001010.00000000.00000100.11111111)
+    Plage 3 : 10.0.5.0/27 -> 10.0.5.0 à 10.0.5.31   (00001010.00000000.00000101.00000000 à 00001010.00000000.00000101.00011111)
+................................
+
+###
+Méthode de subnetting 2 :
+  Pour une plage initiale de 192.168.160.0/19 et un découpage voulu pour 3 plages de 550, 130 et 10 adresses
+Étapes 1 et 2 similaires à la méthode 1 ↓
+................
+    Masque plage initiale = 255.255.224.0
+    Masque 1 = 255.255.252.0   (/22) car 550 <= 2^10
+    Masque 2 = 255.255.255.0   (/24) car 130 <= 2^8
+    Masque 3 = 255.255.255.240 (/28) car 10  <= 2^4
+................
+3- Calculer le nombre H ↓ (Pour plage initiale)
+................
+    H = 256 - octet significatif du masque (celui où se produit la coupure)  [Position octet]
+      = 256 - 224
+      = 32 [3]
+................
+4- Calcul de l'intervalle des adresses possibles ↓ (Pour plage initiale)
+................
+    Octet significatif de la première adresse = dernier multiple de H <= à l'octet significatif de la plage initiale
+    Octet significatif de la dernière adresse = Octet significatif de la première adresse + H - 1
+    Donc OSPA = 160  (32*5 <= 160)
+    OSDA = 160 + 32 - 1 = 191
+    Donc intervalle plage initiale = 192.168.160.0 -> 192.168.191.255
+................
+5- Définition des plages d'adresses ↓
+................
+    Refaire étapes 3 et 4 pour chaque masque numéroté
+    H1 = 4  (256-252) [3]
+    H2 = 1  (256-255) [3]
+    H3 = 16 (256-240) [4]
+    Intervalle 1 = 192.168.160.0/22 = 192.168.160.0 -> 192.168.163.255
+    Intervalle 2 = 192.168.164.0/24 = 192.168.164.0 -> 192.168.164.255
+    Intervalle 3 = 192.168.165.0/28 = 192.168.165.0 -> 192.168.165.15
+................
+
+NAT dynamique : associe n adresses privées à une seule adresse publique.
+NAT statique  : on fixe une adresse publique pour chaque adresse privée.
+Port-forwarding : rediriger un port de notre routeur vers un port donné sur une machine locale. //permet à une machine possédant une adresse ip locale d'être être joignable depuis l'extérieur.
+Avantages du NAT et du port forwarding : permet de ne rendre accessible QUE les adresses/ports nécessaires, les autres seront inaccessibles
 
 Processus : instance d'une application en cours d'exécution (l'application qui est actuellement exécutée)
 
 Numéro de port :  le numéro qui nous permet de faire la distinction entre les applications
                   C'est un nombre entier codé sur 16 bits (2 octets). Ainsi, il peut avoir une valeur allant de 0 à 65 335.
+
+Afficher adresses et ports sous écoute sous windows : netstat -an
 
 L'organisme IANA (Internet Assigned Numbers Authority) (en) classe les numéros de port en trois catégories principales, comme l'illustre le tableau ci-dessous.
 Portée          Catégorie           Description
@@ -150,13 +246,13 @@ Exemple de ports bien connus :
 +-----------------------------------------+-----------------------------------------------------------------------------------+------------------------+----------------+
 | Protocole                               | Description                                                                       | Protocole transmission | Numéro de port |
 +=========================================+===================================================================================+========================+================+
-| File Transfert Protocole (FTP)          | Protocole de transfert de fichier                                                 | TCP                    | 21             |
+| File Transfert Protocol  (FTP)          | Protocole de transfert de fichier                                                 | TCP                    | 21             |
 | Secured SHell (SSH)                     | Protocole permettant l'échange de données par le biais d'un canal sécurisé        | TCP & UDP              | 22             |
 | Telnet                                  | Utilisé pour l'établissement des sessions à distance                              | TCP                    | 23             |
 | Simple Mail Transfer Protocol (SMTP)    | Protocole d'envoi de courrier électronique                                        | TCP                    | 25             |
 | WHOIS protocol                          | Protocole pour l'identification d'une machine par son nom de domaine/adresse IP.  | TCP                    | 43             |
 | Domain Name System (DNS)                | Protocole de résolution des noms de domaine                                       | TCP & UDP              | 53             |
-| HyperText Transfer Protocol (HTTP)      | Protocole de téléchargement (principalement de pages web)                         | TCP & UDP              | 80             |
+| HyperText Transfer Protocol (HTTP)      | Protocole de téléchargement (principalement de pages web)                         | TCP                    | 80             |
 | Post Office Protocol Version 2 (POP2)   | Protocole de retrait de mails d'un serveur de messagerie                          | TCP                    | 109            |
 | Post Office Protocol Version 3 (POP3)   | Protocole de retrait de mails d'un serveur de messagerie                          | TCP                    | 110            |
 | Internet Message Access Protocol (IMAP) | Protocole de retrait et consultation de mails d'un serveur de messagerie          | TCP & UDP              | 143            |
@@ -164,7 +260,8 @@ Exemple de ports bien connus :
 
 Le scan de port (port scanning) : technique qui consiste à « scanner » un hôte afin de découvrir les ports ouverts et d'avoir la liste des services exécutés sur cet hôte.
 
-Socket :    C'est une interface entre les processus : Il sert à faire communiquer un processus avec un service qui gère le réseau. Controlé par le programmeur de l’application.
+Socket : C'est une interface entre les processus : Il sert à faire communiquer un processus avec un service qui gère le réseau. Controlé par le programmeur de l’application.
+          Est une combinaison du numéro de port de la couche transport et de l'adresse IP de la couche réseau de l'hôte
 Exemple : Un protocole applicatif (SMTP, POP, HTTP, etc) peut être interfacé à un protocole de transport (UDP, TCP) grace aux sockets
 Chaque socket a une adresse de socket. Cette adresse est constituée de deux choses : une adresse IP et un numéro de port.
 
@@ -199,6 +296,9 @@ TCP (Transmission Control Protocol) : vérification périodique de l'état de la
                                         * Etat de transition du serveur
                                       Fonctionnement (//TODO) https://bityl.co/5JlK
 
+
+Commandes utiles Packet Tracer : config t
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Routage : Algorithme pour déterminer l'itinéraire qui doit être emprunté par les paquets
@@ -210,3 +310,5 @@ dTraitement : négligeable
 dAttente : Dépend du niveau de congestion du routeur (généralement négligeable)
 dTransmission = taille du paquet [L] (bits) / Capacité du lien [C] (bps)
 dPropagation = longueur du lien physique [d] (m) / vitesse de propagation [s] (m/s) (~2*10^8 m/s)
+
+RTT = Délai total d'envoi de client à serveur + Délai total d'envoi de serveur à client

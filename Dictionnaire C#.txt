@@ -1,0 +1,287 @@
+Documentation dotnet : https://bit.ly/3bIkFEQ
+Créer un nouveau projet .NET : dotnet new console|classlib|winforms[lib]|wpf[lib] -n "nomProjet" 
+Lancer un projet .NET : dotnet run -p "cheminProjet"
+
+Types : bit.ly/3ti6Xi4
+Tableau de conversions de nombres : bit.ly/30Dltoc
+Guillemets  (") servent à encadrer une chaîne de caractères 
+Apostrophes (') servent à encadrer un caractère.
+
+Afficher quelque chose : Console.WriteLine(variable);
+
+Valeur par défaut
+    type numérique : 0
+    string : null 
+    char : '\0'
+    objet : null
+
+Exemple enum
+    enum Weather
+    {
+        Unknown,
+        Sunny,
+        Cloudy,
+        Rainy
+    }
+    Weather todaysWeather = Weather.Sunny;   //Si vous ne faites que déclarer la variable, sans l'initialiser, elle prendra automatiquement la première valeur.
+
+Opérateurs : comme Java sauf | et & qui sont les équivalents non lazy de || et && (tous les paramètres seront évalués)
+
+Syntaxe méthode :
+    typeDuRésultat nomDeLaMéthode(...arguments)
+    {
+        // Code à exécuter quand la méthode est appelée.
+        return xxx;
+    }
+
+Passage par référence
+//Lorsqu'un paramètre est passé par référence, il est lui-même utilisé dans le corps de la méthode.
+    void ChangeInt(ref int myParameter)
+    {
+        myParameter = 5;
+    }
+    ChangeInt(ref myInt);
+// imposer à la méthode d'assigner une valeur au paramètre
+void ChangeInt(out int myParameter)
+    {
+        myParameter = 5;
+    }
+    ChangeInt(out myInt);
+
+
+Convertir string en int : bool success = int.TryParse("1234", out myInt);
+
+Surcharge : fonctionne comme en Java
+
+Classes 
+// Par défaut, champs et méthodes utilisent le modificateur private
+//Exemple
+    public class Person
+    {
+        private string m_name;      //membres
+
+        //getter et setter de m_name
+        public string Name          //propriétés (ici des accesseurs/mutateurs)
+        //peut être simplifié comme ça : public string Name { get; set; }       //pour un seul droit seulement : public string Name { get; private set; }
+        {
+            get { return m_name; }          //on l'appelle comme ça : string userName = toto.Name;
+            set { m_name = value; }         //on l'appelle comme ça : toto.Name = 10;
+        }
+
+        //constructeur
+        public Person(string name, ushort age)
+        {
+            this.m_age = age;
+            this.m_name = name;
+            Console.WriteLine("Nouvelle personne créée. Cette personne s'appelle " + name + " et a " + age + " an(s).");
+        }
+
+        //destructeur
+        ~Person()
+        {
+            Console.WriteLine("Objet détruit.");
+        }
+
+        public static int s_myStaticInt;
+
+        public static void SayHi()
+        {
+            Console.WriteLine("Bonjour !");
+        }
+    }
+
+    Exemple instanciation : Person toto = new Person("Toto", 10);
+    
+    //partial signifie que la classe est définie à plusieurs endroits. Ici vous ne voyez que ce que vous devez toucher. L'autre partie de la classe a été faite automatiquement et se charge du reste.
+
+    
+Espace de noms : à peu près l'équivalent des packages Java
+
+Alias : using Utils = Company.Application.Utilities;        //nous pourrons écrire Utils.xxx plutôt que d'écrire Company.Application.Utilities.xxx
+
+Tableaux à deux dimensions
+    type[,] nom = new type[n, m];
+    ou 
+    double[,] myArray =
+    {
+        {0.1, 0.5},
+        {1.3, 1.7}
+    };
+
+    // on y accède comme ceci : double myDouble = myArray[1, 1];
+
+Tableaux de tableaux : fonctionnent comme en Java mais accepte cette syntaxe : int[][] myIntArrayArray = new int[5][];  //on peut définir par la suite la taille de chaque sous tableaux
+
+Concaténation en string : string s = "M@teo" + 21;        //fonctionne sans problème
+Formattage : string s = String.Format("{0} est remplacé par paramètre2 et {1} par paramètre3", "paramètre2", "paramètre3");      //spécifier type caractère : bit.ly/2Q3LYRJ
+StringBuilder : 
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < 1000; i++)  sb.Append(name);
+    string fullString = sb.ToString();
+    
+Lire une entrée : string input = Console.ReadLine();
+
+Commentaires spéciaux : Équivalent du Javadoc pour C#
+// Exemple :
+    /// <summary>
+    /// Clean up any resources being used.
+    /// </summary>
+    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+
+Évènements
+S'abonner à un évènement : this.m_myTestButton.EvenementVoulu += new System.EventHandler(this.methodeALancerLorsDuDeclenchement);
+Exemple méthode d'évènement : 
+    private void m_myTestButton_Click(object sender, EventArgs e) 
+    {
+        //sender est une référence vers l'objet qui a envoyé l'évènement. Exemple ↓
+        Button senderButton = (Button)sender;
+        senderButton.Text = "Bouton cliqué";
+    }
+
+Temps
+Objet date avec date spécifiée : new DateTime(2009, 8, 8);
+Aujourd'hui à 00:00:00 : DateTime.Today;
+Maintenant heure locale: DateTime.Now;
+Maintenant heure UTC : DateTime.UtcNow;
+Décalage : DateTime.Today.AddDays(1);       //retourne la date de demain
+
+Conversion de date en string
++---------------------+-----------------------------+---------------------+
+| Méthode             | Description                 | Exemple             |
++=====================+=============================+=====================+
+| ToLongDateString()  | date (long format)          | samedi 8 août 2009  |
+| ToLongTimeString()  | heure (long format)         | 22:55:37            |
+| ToShortDateString() | date (court format)         | 08/08/2009          |
+| ToShortTimeString() | heure (court format)        | 22:55               |
+| ToString()          | date + heure (court format) | 08/08/2009 22:55:37 |
++---------------------+-----------------------------+---------------------+
+
+Timespan : intervalle de temps  //Exemple : TimeSpan exeDuration = DateTime.Now.Subtract(DateTime.Today.AddDays(-1));
+MonthCalendar et DateTimePicker : bit.ly/3qJHZGz
+
+Timer Windows:
+Instanciation : Timer s_myTimer = new Timer();
+Définir la durée d'une intervalle : s_myTimer.Interval = 1000;      //en milliseconde
+Lancer un évenement à chaque intervalle x : s_myTimer.Tick += new EventHandler(s_myTimer_Tick);
+Démarrer le Timer : s_myTimer.Start();
+Arrêter le Timer : s_myTimer.Stop();
+Vérifier si le Timer est en marche : Timer.Enabled;     /retourne un booléen
+
+Exceptions
+Exceptions courantes : bit.ly/3rNTrSK
+Lancer une exception : throw new NotImplementedException("Le code n'a pas encore écrit !");     //Exemple
+Intercepter une exception : ↓
+    try
+    {
+        Console.Write("Entrez un nombre : ");
+        int n = int.Parse(Console.ReadLine());
+        Console.WriteLine(
+            "100/nombre = {0}",
+            100/n);
+    }
+    catch (DivideByZeroException dbzEx)     //C# permet aussi de ne pas déclarer une variable si on en a pas besoin, donc on aurait pu écrire catch(DivideByZeroException) seulement
+    {
+        Console.WriteLine("Erreur : division par zéro.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(
+            "Une autre exception a eu lieu : {0}.",
+            ex.Message);
+    }
+
+Créer une exception :
+    public class MyException : Exception            //: comme extends de Java
+    {
+        DateTime m_errorTime;
+        static ushort s_errorNumber;
+
+        public MyException() : base("Message par défaut de l'exception.") {
+            m_errorTime = DateTime.Now;
+            s_errorNumber++;
+        }
+
+        public MyException(string message) : base(message) {
+            m_errorTime = DateTime.Now;
+            s_errorNumber++;
+        }
+
+        public void DisplayError() {
+            MessageBox.Show(base.Message,string.Format("Erreur n°{0} survenue à {1}.", s_errorNumber, m_errorTime.ToLongTimeString()), MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+Interface 
+Créer une interface ↓
+    interface IAnimal       //une interface est toujours publique
+    {
+        string Name { get; }
+        void Move();
+    }
+
+Implémenter une interface ↓
+    class Dog : IAnimal
+    {
+        private string m_name;
+
+        public string Name {
+            get { return m_name; }
+        }
+
+        public Dog(string name) {
+            m_name = name;
+        }
+        
+        public void Move() {
+            Console.WriteLine("{0} bouge.", m_name);
+        }
+    }
+
+Implémenter plusieurs interfaces : class SampleClass : IControl, ISurface
+Si 2 interfaces ont un même attribut/méthode ↓
+    class SampleClass : IControl, ISurface
+    {
+        public void Paint()
+        {
+            // Implémentation du Paint appelé par un objet SampleClass
+            // (ou d'une interface qui n'a pas d'implémentation spécialement pour elle)
+        }
+        void IControl.Paint()
+        {
+            // Implémentation du Paint appelé par un objet IControl seulement
+        }
+        void ISurface.Paint()
+        {
+            // Implémentation du Paint appelé par un objet ISurface seulement
+        }
+    }
+
+Fichiers
+Lire et écrire dans un fichier texte : bit.ly/3tkD2G6
+
+Généricité
+Créer méthode générique : static void WriteType<T, U>(T tObj, U uObj) {}
+Appeler méthode générique : WriteType<int, string>(-1, "fooBarToto");
+Classes génériques : fonctionnent globalement comme Java : bit.ly/3lgJ1J5
+
+Collections 
+Liste
+Instanciation : List<typeVoulu> firstNameList = new List<typeVoulu>(tailleInitiale);
+Obtenir nombre d'éléments : firstNameList.Count;
+Ajouter des éléments : firstNameList.Add("Matt");
+Enlever des éléments : firstNameList.Remove("Tim");     //retourne un booléen si la supression a réussi ou non
+Enlever tous les éléments : firstNameList.Clear();
+
+Dictionnaires
+Instanciation : Dictionary<typeCle, typeValeur> openWith = new Dictionary<typeCle, typeValeur>();
+Ajouter des éléments : openWith.Add("txt", "notepad.exe");   // La méthode Add lance une exception si la clé existe déjà.
+Accéder/Assigner à un élément : openWith["doc"] = "winword.exe";
+
+Pile
+Instanciation : Stack<typeVoulu> numbers = new Stack<typeVoulu>();
+Ajouter un élément au sommet de la pile : numbers.Push(32);
+Enlever le dernier élément de la pile : numbers.Pop();      //retourne l'élément enlevé
+Récupérer le dernier élément de la pile sans le supprimer : numbers.Peek();
+
+Foreach : foreach (string firstName in firstNameList){}
+Foreach avec dictionnaire : bit.ly/3vpwJ5G

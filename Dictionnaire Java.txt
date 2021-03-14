@@ -140,6 +140,7 @@ Exemple d'utilisation d'enum ↓
 ArrayList
 Créer un arraylist : ArrayList al = new ArrayList();
 .add(objet);    ajouter un objet 
+.addAll(tableau); ajouter tous les élements
 .get(int index) retourne l'élément à l'indice demandé ;
 .remove(int index) efface l'entrée à l'indice demandé ;
 .isEmpty() renvoie « vrai » si l'objet est vide ;
@@ -147,7 +148,9 @@ Créer un arraylist : ArrayList al = new ArrayList();
 .contains(Object element) retourne « vrai » si l'élément passé en paramètre est dans l'ArrayList
 .indexOf(valeur) renvoie l'index d'une valeur si elle est présente, sinon renvoie -1;
 
+concaténer: Arrays.asList(Stream.concat(Stream.of(a), Stream.of(b)).toArray());
 mapper : maListe.stream().map(number -> number * 3);
+Verifier si un élément correspond : maListe.stream().anyMatch(x -> x > 4);
 
 Tri par insertion ↓
 ............................. 
