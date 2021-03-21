@@ -1,0 +1,6 @@
+Types de données Oracle: Officiel: https://bit.ly/3ab36LD w3r: tinyurl.com/y3w665pn fr: tinyurl.com/y6xegcrp
+NUMBER(taille[,decimales]) : Nombre entier ou flottant
+VARCHAR2 (taille) : texte jusqu'à 2000 caractères
+LONG(taille) : texte pouvant être très long
+DATE 'YYYY-MM-DD' : date (jour, mois, année).
+TIMESTAMP 'YYYY-MM-DD hh:mm:ss' : Date et temps

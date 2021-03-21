@@ -51,7 +51,7 @@ void ChangeInt(out int myParameter)
 
 Convertir string en int : bool success = int.TryParse("1234", out myInt);
 
-Surcharge : fonctionne comme en Java
+Surcharge (Overload) : fonctionne comme en Java
 
 Classes 
 // Par défaut, champs et méthodes utilisent le modificateur private
