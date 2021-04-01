@@ -1,0 +1,213 @@
+Passer en mode console : Ctrl + Alt + F6
+Retour en mode graphique : Ctrl + Alt + F7
+
+~ : dossier /home/utilisateur
+/ : racine
+
+Niveau d'utilisation
+$ : utilisateur normal
+# : superutilisateur (root)
+
+Combinaison des paramètres courts : commande -d -a -U -h  est équivalent à  commande -daUh
+Syntaxe paramètres longs : commande --parametre1 --parametre2 ...
+
+Passer des valeurs aux paramètres :
+Pour paramètres courts : commande -p 14
+Pour paramètres longs : commande --parametre=14
+
+Autocomplétion : on peut écrire le début d'une commande puis tapper 2 fois tab pour que la console nous donne les commandes commençant par ce qu'on a écrit
+Historique des commandes tapées : history
+rechercher une commande tapée : Ctrl + R            // écrire un mot contenu dans la commande tappée, passer a la détection suivante en appuyant de nouveau sur Ctrl + R
+
+effacer le contenu de la console : Ctrl + L
+fermer la console : exit  ou  Ctrl + D
+ramener le curseur au début de la commande : Ctrl + A
+ramener le curseur à la fin de la commande : Ctrl + E
+supprimer tout ce qui se trouve à gauche du curseur : Ctrl + U
+supprimer tout ce qui se trouve à droite du curseur : Ctrl + K
+supprime le premier mot situé à gauche du curseur : Ctrl + W
+Coller le dernier texte supprimé avec les commandes en haut : Ctrl + Y
+
+Arrêter une commande : Ctrl + C
+
+Les dossiers de la racine
+bin : contient des programmes (exécutables) susceptibles d'être utilisés par tous les utilisateurs de la machine.
+boot : fichiers permettant le démarrage de Linux.
+dev : fichiers contenant les périphériques. On y retrouve ainsi par exemple le fichier qui représente le lecteur CD.
+etc : fichiers de configuration.
+home : répertoires personnels des utilisateurs. c'est dans ce dossier que vous placerez vos fichiers personnels, à la manière du dossier Mes documents de Windows.
+lib : dossier contenant les bibliothèques partagées (généralement des fichiers.so) utilisées par les programmes. C'est en fait là qu'on trouve l'équivalent des .dll de Windows.
+media : lorsqu'un périphérique amovible est inséré dans votre ordinateur, Linux vous permet d'y accéder à partir d'un sous-dossier de media. On parle de montage.
+mnt : c'est un peu pareil que media, mais pour un usage plus temporaire.
+opt : répertoire utilisé pour les add-ons de programmes.
+proc : contient des informations système.
+root : c'est le dossier personnel de l'utilisateur « root ».
+sbin : contient des programmes système importants.
+tmp : dossier temporaire utilisé par les programmes pour stocker des fichiers.
+usr : c'est un des plus gros dossiers, dans lequel vont s'installer la plupart des programmes demandés par l'utilisateur.
+var : ce dossier contient des données « variables », souvent des logs (traces écrites de ce qui s'est passé récemment sur l'ordinateur).
+
+trou noir du système : /dev/null            //Tout ce qui est envoyé là-dedans est immédiatement supprimé
+
+Couleurs:
+bleu : dossiers
+bleu clair : raccourci
+blanc/noir : fichiers
+
+afficher le dossier actuel : pwd
+connaître l'emplacement d'une commande : which commande         //permet de localiser la position du programme correspondant à une commande.
+
+afficher la date : date
+lister contenu du répertoire : ls 
+    [-a : affiche dossiers/fichiers cachés] 
+    [cheminRépertoire : utilise ce répertoire au lieu du répertoire courant]
+    [-F : indique le type d'élément]
+    [-l : liste détaillée]  //colonnes : 1. droits, 2. nb de liens physiques, 3. nom du propriétaire, 4. groupe du propriétaire, 5. taille en octets, 6. date de modification, 7. nom
+    [-h : lisible par un humain]        //affiche la taille en Ko, Mo, Go ...
+    [-t : trier par date de dernière modification]
+    [-r : inverser l'ordre de tri]
+
+changer de dossier : cd [chemin (défaut à ~)]   //autocomplete avec tab après avoir tapé le début du chemin
+obtenir taille occupée par le dossier actuel : du [-h : lisible par un humain] [-a : dossiers ET fichiers] [-s : avoir juste le grand total]
+
+afficher tout le contenu d'un fichier : cat chemin [-n : afficher les numéros des lignes]
+afficher le fichier par parties : less chemin  //Appuyer sur Espace pour avancer d'une page, sur Enter pour une ligne, b retour d'une page, y retour d'une ligne, q sortir
+afficher le début d'un fichier : head -n nombreDeLignes chemin 
+afficher la fin d'un fichier : tail -n nombreDeLignes chemin        // il y a aussi -f qui permet de « suivre » la fin du fichier au fur et à mesure de son évolution.
+
+créer un fichier : touch nomfichier         // on peut créer plusieurs fichiers à la fois : ex : touch nomfichier1 nomfichier2 ...
+créer un dossier : mkdir nomDossier         // pour création profonde : mkdir -p animaux/vertebres/chat     //peut aussi créer plusieurs dossiers comme la syntaxe de touch
+copier un fichier : cp nomFichier nomCopie  // Copier dans un autre dossier : cp fichierbidon mondossier/   (copie fichierbidon avec le même nom dans mondossier)
+copier des dossiers : cp -r cheminDossierACopier cheminDestination
+copier avec joker (wildcard): ex : cp *.jpg mondossier/       //copie tout les .jpg dans mondossier.   autre exemple : cp so* mondossier/   //copie tout les fichier commençant pas so
+déplacer un fichier/dossier : mv cheminFichierOuDossier cheminDestinationFichierOuDossier       //ex avec joker : mv *.jpg mondossier/
+renommer un fichier/dossier : mv cheminFichierOuDossier cheminFichierOuDossierAvecNouveauNom
+supprimer un fichier : rm cheminFichierOuDossier        //on peut mettre plusieurs fichiers/dossiers pour supprimer en même temps
+    [-i : demander confirmation]
+    [-f : forcer la suppression]
+    [-v : afficher les opérations produites]
+    [-r : supprimer un dossier et son contenu]
+
+______________________________
+Droits
+------------------------------
+vérifier droits dans un répertoire : ls -l [*.type]
+exécuter une commande en root : sudo commande
+passer en root pour la session actuelle : sudo su -      //taper exit quand on a terminé
+ajouter un utilisateur : adduser nomUtilisateur         //n'existe que pour debian et ses descendant, ailleurs, on doit utiliser useradd
+changer le mot de passe : passwd nomUtilisateur
+supprimer un compte : deluser [--remove-home] nomUtilisateur    // --remove-home enlève les dossiers personnels  //n'existe que pour debian et ses descendant, ailleurs, on doit utiliser userdel
+créer un groupe : addgroup nomGroupe
+renommer un utilisateur : usermod -g nomUtilisateur nouveauNomUtilisateur
+changer les groupe d'un utilisateur : usermod -G ...groupes nomUtilisateur
+ajouter des groupes à un utilisateur : usermod -aG ...groupes nomUtilisateur
+supprimer un groupe : delgroup nomGroupe
+changer le propriétaire d'un fichier : chown nomUtilisateur nomFichier
+changer le groupe propriétaire d'un fichier : chgrp nomGroupe nomFichier
+changer le groupe propriétaire du contenu d'un dossier : chgrp -R nomGroupe cheminDossier
+colonne droits : [d(dossier) ou l(lien) ou -(autre)] [droits propriétaire] [droits groupe du propriétaire] [droits autres utilisateurs]
+valeurs droits : r:4 w:2 x:1        //donc pour autoriser la lecture et l'execution : 4 + 1 = 5
+changer les droits sur un fichier : chmod 600 nomFichier    //il faut être le root ou le propriétaire
+changer les droits sur le contenu d'un répertoire : chmod -R 731 chemin
+
+créer un lien physique : ln nomFichier nomLienFichier           //dans un lien physique, le lien pointe vers le contenu du fichier
+créer des liens symboliques : ln -s nomFichier nomLienFichier   //un lien symbolique pointe vers le fichier (qui pointe vers son contenu)  //ressemble aux raccourcis de windows
+
+recherche rapide : locate nomFichierOuDossier        //peut être une partie de nom  //ne recherche pas sur le disque dur mais sur une base de donnée 
+mettre à jour la bd de locate : sudo updatedb
+recherche approfondie : find 
+    [chemin]
+    [-name "nomFichierOuDossier"]
+    [-size +10M]           //k pour Ko G pour Go M pour Mo - pour fichiers moin que et + pour plus grand que, ne mettre aucun signe pour égal
+    [-atime 6]             //dernier accès il y a 7 jours (numérotation commence à 0)
+    [-type d]              //d pour directories (répertoires) ou f pour files (fichiers)
+    [-printf "%p - %u\n"]  //exemple d'affichage formatté : ./photos/australie1.jpg - mateo21
+    [-delete]
+    [-exec chmod 600 {} \;]//-exec pour lancer une commande sur ce qui a été trouvé, {} seront remplacées par le nom du fichier et la commande doit finir par un \; 
+
+rechercher mot dans fichier : grep "texteARechercher" nomfichier
+    [-i : ne pas tenir compte de la casse (majuscules / minuscules)]
+    [-n : connaître les numéros des lignes]
+    [-v : inverser la recherche : ignorer un mot]
+    [-r : rechercher dans tous les fichiers et sous-dossiers]       //indiquer un répertoire au lieu de nomfichier
+    [-E : Utiliser grep avec des expressions régulières]            //sous linux, on peut utiliser les regex même sans -E mais ce n'est pas le cas dans toutes les machines Unix
+
+trier les lignes d'un fichier : sort nomfichier                     //tri en ordre alphabétique par défaut (ne prend pas en compte la casse)
+    [-o nomfichierTrie : écrire le résultat dans un fichier]
+    [-r : trier en ordre inverse]
+    [-R : trier aléatoirement]
+    [-n : trier des nombres]
+
+compter le nombre de lignes : wc nomfichier 
+    [-l : compter le nombre de lignes]
+    [-w : compter le nombre de mots]
+    [-c : compter le nombre d'octets]
+    [-m : compter le nombre de caractères]
+
+supprimer les doublons : uniq nomFichier [nomFichierSansDoublons]           //le fichier doit être préalablement trié
+    [-c : compter le nombre d'occurrences]
+    [-d : afficher uniquement les lignes présentes en double]
+
+couper une partie du fichier : cut     
+    [-c [début]-[fin] nomFichier : couper selon un nombre de caractères]  //conserve uniquement ces caractères pour chaque ligne. On peut mettre début sans fin ou fin sans début
+    [-d délimiteur -f numérosVoulus]  //ex : cut -d , -f 1,3 notes.csv donne les champs 1 et 3. Il est également possible d'utiliser [début]-[fin] comme -c
+
+rediriger le résultat d'une commande dans un fichier en écrasant : commande > nomFichier        //si le fichier n'existe pas, il sera créé
+rediriger le résultat d'une commande à la fin d'un fichier : commande >> nomFichier             //si le fichier n'existe pas, il sera créé
+rediriger les erreurs : ... redirection ... 2> nomFichierDestination  // on peut mettre &1 au lieu de nomFichierDestination pour rediriger vers le même fichier que les résultats sans erreurs
+
+envoyer du contenu à une commande : commande < sourceContenu
+envoyer du contenu progressivement à une commande : commande << entreeQuiDelimiteLaFin         //exemple : bit.ly/2QTYmEk
+
+Combiner des commandes : commande1 | commande2          //tout ce qui sort de la commande1 est immédiatement envoyé à la commande2
+
+Vérifier ce qui se passe sur la machine : w 
+afficher liste des processus qui tournent à cet instant : ps
+lister tous les processus lancés par tous les utilisateurs sur toutes les consoles : ps -ejHf
+lister les processus lancés par un utilisateur : ps -u nomUtilisateur
+liste dynamique des processus : top     //ne peut pas afficher tous les processus à la fois, il ne conserve que les premiers pour qu'ils tiennent sur une « page » de la console.
+tuer un processus : kill [-9 : forcer l'arrêt] PID      //on peut mettre plusieurs PID à la suite (séparés par des espaces)
+tuer plusieurs processus : killall nomProcessus
+arrêter l'ordinateur : sudo halt
+redémarrer l'ordinateur : sudo reboot
+
+lancer un processus en arrière-plan et détaché de la console : nohup commande
+passer en arrière plan un processus déja lancé : appuyer sur Ctrl + Z  puis taper bg
+connaître les processus qu'on a lancé et qui tournent en arrière-plan : jobs
+reprendre un processus au premier plan : fg %numéroProcessus            //utiliser jobs pour connaitre le numéro
+
+modifier la date : sudo date MMDDhhmmYYYY
+exécuter une commande à une heure précise : echo "commande à lancer" | at 09:00         //spécifier un temps plus précis (ex: dans 2 jours à 5h pm) : bit.ly/2PIpHIY
+exécuter un fichier à une heure précise : at 09:00 -f /home/linuxize/script.sh
+lister les commandes qui seront lancés plus tard : atq
+supprimer une commandes qui sera lancée plus tard : atrm numéroCommande         //utiliser atq pour trouver le numéro
+Faire une pause : sleep nbSecondes      //on peut aussi spécifier des minutes/heures/jours : bit.ly/31xx7l4
+enchainer des commandes sur la même ligne : séparer par ; ou && pour empêcher les prochaines de s'executer si une précédente échoue
+exécuter une commande à chaque intervalle : taper  crontab -e  puis suivre la doc ici   bit.ly/3wfKBQv  ou ici   bit.ly/3sHnvQv
+
+______________________________
+Compression
+------------------------------
+créer une archive tar : tar -cvf nom_archive.tar nom_dossier/           //enlever -v pour ne pas voir le détail des opérations
+afficher contenu archive tar : tar -tf nomArchive.tar
+ajouter un fichier à une archive tar : tar -rvf nomArchive.tar nom_fichier_supplementaire
+extraire les fichiers de l'archive tar : tar -xvf nomArchive.tar 
+compresser en gzip : gzip nomArchive.tar
+décompresser un gzip : gunzip nomArchive.tar.gz
+compresser en bzip2 : bzip2 nomArchive.tar
+décompresser un bzip2 : bunzip2 nomArchive.tar.bz2
+archiver et compresser en gzip : tar -zcvf nom_archive.tar.gz nom_dossier/
+décompresser et désarchiver un gzip : tar -zxvf nom_archive.tar.gz
+archiver et compresser en bzip2 : tar -jcvf nom_archive.tar.bz2 nom_dossier/
+décompresser et désarchiver un bzip2 : tar -jxvf nom_archive.tar.bz2
+afficher directement un fichier compressé : utiliser zcat et zless (même fonctionnement que cat et less) 
+travailler avec des zip et des rar : bit.ly/3czGo2i
+
+en-tête de script bash  : #!/bin/bash
+donner droits éxecution à un fichier : chmod +x nomfichier
+éxecuter un script bash : ./nomfichier.sh
+
+
+
+
+

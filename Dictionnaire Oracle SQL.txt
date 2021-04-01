@@ -4,3 +4,107 @@ VARCHAR2 (taille) : texte jusqu'à 2000 caractères
 LONG(taille) : texte pouvant être très long
 DATE 'YYYY-MM-DD' : date (jour, mois, année).
 TIMESTAMP 'YYYY-MM-DD hh:mm:ss' : Date et temps
+
+Déclarer une variable du même type qu’une colonne : nom_variable TABLE.colonne%TYPE [:=val_initiale];
+Déclarer une variable de type ligne (enregistrement) : nom_variable TABLE%ROWTYPE;
+Déclarer une constante : nom_constante CONSTANT TYPE_DONNEE :=val_initiale;
+Afficher un message : DBMS_OUTPUT.PUT_LINE('Message');
+
+Dans les triggers, les pseudo-enregistrements sont :OLD et :NEW
+Déclarer un curseur : CURSOR cursor_name IS SELECT_statement;
+Vérifier si il reste des lignes dans le curseur : nom_curseur%NOTFOUND;     -- retourne un "booléen"
+
+Créer une fonction ↓
+................
+    CREATE OR REPLACE FUNCTION nomFonction[ (déclarationParam[,déclarationParam…]) ]
+    RETURN typeRetour { IS | AS }
+        [déclarationVar;            -- variables qu'on va retourner
+        [déclarationVar;] …]
+    BEGIN
+        instructions
+        [EXCEPTION
+        énoncéException
+        [énoncéException]…]
+    END;
+    /
+................
+
+Tester fonction : SELECT nom_fonction(45) from DUAL;        -- DUAL est une pseudo table spéciale
+
+Exemple curseur implicite ↓
+................
+    BEGIN
+        FOR un_enregistrement IN 
+        ( 
+            SELECT *
+            FROM Produit
+            WHERE cout > 1000
+        )
+        LOOP
+            DBMS_OUTPUT.PUT_LINE(un_enregistrement.desc_produit);
+        END LOOP;
+    END;
+................
+
+Exceptions prédéfinies les plus utilisées :
+INVALID_NUMBER: La conversion d’une chaine de caractères en un nombre n’a pas fonctionné (ex.: la chaine ne contenait pas un nombre)
+NO_DATA_FOUND: Une requête de type SELECT…INTO n’a retourné aucune valeur (donc l’affectation ne peut fonctionner)
+TOO_MANY_ROWS: Une requête de type SELECT…INTO retourne plus d’une ligne
+ZERO_DIVIDE: Une opération de division par 0 a eu lieu.
+
+Gérer une exception exemple ↓
+................
+    BEGIN
+        ...
+        EXCEPTION
+        WHEN nom_de_l_exception1 THEN
+        ...                                 -- instructions si l’exception nom_de_l_exception1 se produit
+        WHEN nom_de_l_exception1 THEN
+        ....                                -- instructions si l’exception nom_de_l_exception2 se produit
+        WHEN OTHERS THEN
+        ...                                 -- instructions si un autre type d’exception se produit
+    END;
+
+    -- Exemple avec valeurs
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No de sortie introuvable!’);
+        RETURN 0;
+................
+
+Lancer une exception exemple ↓
+................
+    CREATE OR REPLACE FUNCTION f_moyenne_sorties ( le_produit Produit.code_produit%TYPE)
+    RETURN NUMBER IS
+        la_moyenne NUMBER(10,2);
+        E_AUCUNE_SORTIE EXCEPTION;          -- déclaration
+    BEGIN
+        SELECT AVG(cout*Sortie.quantite)
+        INTO la_moyenne
+        FROM Sortie
+        JOIN Produit ON Sortie.code_produit = Produit.code_produit
+        WHERE Sortie.code_produit = le_produit;
+
+        IF la_moyenne IS NULL THEN
+            RAISE E_AUCUNE_SORTIE;          -- lancement
+        END IF;
+
+        RETURN la_moyenne;
+
+        EXCEPTION
+            WHEN E_AUCUNE_SORTIE THEN       -- attraper
+            RETURN 0;
+    END;
+................
+
+Conventions de nommage :
+variables : snail_case
+procédures : ex: p_Salaire_Moyen
+fonctions : ex: f_Salaire_Moyen
+curseurs : ex : cur_liste_produits
+exceptions : ex : E_PRODUIT_INTROUVABLE
+
+Conventions de commentaire :
+Dans une fonction/procédure : Chaque entrée dans la zone de déclarations (variables, curseurs, exceptions) doit être commentée en expliquant sa raison d’exister
+
+Autres convetions :
+Les instructions suivantes déclarent des sous-bloc, et ils doivent être indentés : DECLARE, IS, BEGIN, EXCEPTION, THEN, ELSE, LOOP

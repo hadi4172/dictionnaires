@@ -1,6 +1,6 @@
 Créer un nouveau projet avec VS Code : Ctrl+Shift+P
 
-Créer un tableau : String[] tableauChaine = {"chaine1", "chaine2", "chaine3" , "chaine4"};
+Créer un tableau : String[] tableauChaine = new String[]{"chaine1", "chaine2", "chaine3" , "chaine4"};
 Mettre un string en minuscule : monString.toLowerCase();
 Récuperer le char à une position : monString.charAt(4);     //retourne un char
 Récuperer une partie : chaine.substring(3,13);      //arguments sont positionInitialle, positionFinale
@@ -99,7 +99,7 @@ Gérer exception ↓
     try {
         System.out.println(j/i);
     } catch (ArithmeticException | NomVilleException e2) {      //peut attrapper ArithmeticException et NomVilleException
-        System.out.println("Division par zéro !");
+        System.out.println(e2.getMessage());
     }
 .............................  
 
@@ -148,6 +148,7 @@ Créer un arraylist : ArrayList al = new ArrayList();
 .contains(Object element) retourne « vrai » si l'élément passé en paramètre est dans l'ArrayList
 .indexOf(valeur) renvoie l'index d'une valeur si elle est présente, sinon renvoie -1;
 
+Stream
 concaténer: Arrays.asList(Stream.concat(Stream.of(a), Stream.of(b)).toArray());
 mapper : maListe.stream().map(number -> number * 3);
 Verifier si un élément correspond : maListe.stream().anyMatch(x -> x > 4);

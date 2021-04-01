@@ -4,6 +4,8 @@ Format  Type attendu
 "%ld"   long
 "%f"    float   (et double dans printf)
 "%lf"   double
+"%c"    char
+"%s"    string
 "%p"    pointeur (int)  (mettre '&' avant le nom de la variable)
 
 Exemple : printf("Vous avez %d vies et vous etes au niveau n° %d", nombreDeVies, niveau);

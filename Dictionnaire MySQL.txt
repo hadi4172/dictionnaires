@@ -548,6 +548,8 @@ SQLWARNING  : tous les identifiants SQL commençant par '01', c'est-à-dire les 
 NOT FOUND  : tous les identifiants SQL commençant par '02'
 SQLEXCEPTION  : tous les identifiants SQL ne commençant ni par '00', ni par '01', ni par '02', donc les erreurs
 
+Lancer une exception : SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Custom error';
+
 Curseurs   -- permettent de parcourir un jeu de résultats d'une requête SELECT, quel que soit le nombre de lignes récupérées, et d'en exploiter les valeurs.
            -- on déclare les curseurs après les variables locales et les conditions, mais avant les gestionnaires d'erreurs.
 Déclaration d'un curseur : DECLARE nom_curseur CURSOR FOR requete_de_selection ;
@@ -558,6 +560,61 @@ Parcours du curseur : FETCH nom_curseur INTO variable(s);   -- il faut donner au
 Exemple de code pour parcourir toute les lignes d'une table avec un curseur : bit.ly/3c6CH3T
 Exemple de code pour combiner la gestion d'erreur avec les transactions : bit.ly/3r3QeO0
 
+Triggers
+événement déclencheur : INSERT ou UPDATE ou DELETE     -- un trigger ne peut pas être déclenché par deux événements différents. On peut par contre créer plusieurs triggers par table pour couvrir chaque événement.
+créer un trigger : CREATE TRIGGER nom_trigger BEFORE|AFTER INSERT|UPDATE|DELETE ON nom_table FOR EACH ROW corps_trigger;
+supprimer un trigger : DROP TRIGGER nom_trigger;
+
+convention nom trigger : nom_trigger = moment_evenement_table        -- ex: before_update_animal  pour un trigger BEFORE UPDATE ON Animal
+-- Dans le corps du trigger, MySQL met à disposition deux mots-clés : OLD (pour DELETE et UPDATE) et NEW (pour INSERT et UPDATE)
+OLD : les valeurs des colonnes de la ligne traitée avant qu'elle ne soit modifiée par l'événement déclencheur. Ces valeurs peuvent être lues, mais pas modifiées.
+NEW : représente les valeurs des colonnes de la ligne traitée après qu'elle a été modifiée par l'événement déclencheur. Ces valeurs peuvent être lues et modifiées.
+-- Exemple ↓
+................
+    -- Pour la commande INSERT INTO Adoption (client_id, animal_id, date_reservation, prix, paye) VALUES (12, 15, NOW(), 200.00, FALSE);
+    -- Pour un trigger attaché à cette table et à cet évènement déclencheur :
+        -- NEW.client_id  vaudra 12 ;
+        -- NEW.animal_id  vaudra 15 ;
+        -- NEW.date_reservation  vaudra NOW();
+        -- NEW.date_adoption  vaudra NULL;
+        -- NEW.prix  vaudra 200.00 ;
+        -- NEW.paye  vaudra FALSE
+................
+-- Dans le cas d'une table transactionnelle, si une erreur est déclenchée, un ROLLBACK  sera fait.
+
+-- Exemple implémentation de trigger ↓
+................
+    DELIMITER |
+    CREATE TRIGGER after_insert_adoption AFTER INSERT
+    ON Adoption FOR EACH ROW
+    BEGIN
+        UPDATE Animal
+        SET disponible = FALSE
+        WHERE id = NEW.animal_id;
+    END |
+    DELIMITER ;
+................
+
+-- Exemple implémentation de trigger pour historisation ↓
+................
+    DELIMITER |
+    CREATE TRIGGER before_insert_race BEFORE INSERT
+    ON Race FOR EACH ROW
+    BEGIN
+        SET NEW.date_insertion = NOW();
+        SET NEW.utilisateur_insertion = CURRENT_USER();
+        SET NEW.date_modification = NOW();
+        SET NEW.utilisateur_modification = CURRENT_USER();
+    END |
+
+    CREATE TRIGGER before_update_race BEFORE UPDATE
+    ON Race FOR EACH ROW
+    BEGIN
+        SET NEW.date_modification = NOW();
+        SET NEW.utilisateur_modification = CURRENT_USER();
+    END |
+    DELIMITER ;
+................
 ------------------------------------------------------- OLD
 
 Les différents types de dates
