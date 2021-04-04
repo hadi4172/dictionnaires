@@ -15,7 +15,7 @@ Passer des valeurs aux paramètres :
 Pour paramètres courts : commande -p 14
 Pour paramètres longs : commande --parametre=14
 
-Autocomplétion : on peut écrire le début d'une commande puis tapper 2 fois tab pour que la console nous donne les commandes commençant par ce qu'on a écrit
+Autocomplétion : on peut écrire le début d'une commande puis taper 2 fois tab pour que la console nous donne les commandes commençant par ce qu'on a écrit
 Historique des commandes tapées : history
 rechercher une commande tapée : Ctrl + R            // écrire un mot contenu dans la commande tappée, passer a la détection suivante en appuyant de nouveau sur Ctrl + R
 
@@ -30,7 +30,9 @@ Coller le dernier texte supprimé avec les commandes en haut : Ctrl + Y
 
 Arrêter une commande : Ctrl + C
 
-Les dossiers de la racine
+______________________________
+Dosiers dans la racine
+------------------------------
 bin : contient des programmes (exécutables) susceptibles d'être utilisés par tous les utilisateurs de la machine.
 boot : fichiers permettant le démarrage de Linux.
 dev : fichiers contenant les périphériques. On y retrouve ainsi par exemple le fichier qui représente le lecteur CD.
@@ -54,10 +56,12 @@ bleu : dossiers
 bleu clair : raccourci
 blanc/noir : fichiers
 
+______________________________
+Commandes de base
+------------------------------
 afficher le dossier actuel : pwd
 connaître l'emplacement d'une commande : which commande         //permet de localiser la position du programme correspondant à une commande.
 
-afficher la date : date
 lister contenu du répertoire : ls 
     [-a : affiche dossiers/fichiers cachés] 
     [cheminRépertoire : utilise ce répertoire au lieu du répertoire courant]
@@ -88,9 +92,7 @@ supprimer un fichier : rm cheminFichierOuDossier        //on peut mettre plusieu
     [-v : afficher les opérations produites]
     [-r : supprimer un dossier et son contenu]
 
-______________________________
-Droits
-------------------------------
+
 vérifier droits dans un répertoire : ls -l [*.type]
 exécuter une commande en root : sudo commande
 passer en root pour la session actuelle : sudo su -      //taper exit quand on a terminé
@@ -161,6 +163,9 @@ envoyer du contenu progressivement à une commande : commande << entreeQuiDelimi
 
 Combiner des commandes : commande1 | commande2          //tout ce qui sort de la commande1 est immédiatement envoyé à la commande2
 
+______________________________
+Processus
+------------------------------
 Vérifier ce qui se passe sur la machine : w 
 afficher liste des processus qui tournent à cet instant : ps
 lister tous les processus lancés par tous les utilisateurs sur toutes les consoles : ps -ejHf
@@ -176,6 +181,10 @@ passer en arrière plan un processus déja lancé : appuyer sur Ctrl + Z  puis t
 connaître les processus qu'on a lancé et qui tournent en arrière-plan : jobs
 reprendre un processus au premier plan : fg %numéroProcessus            //utiliser jobs pour connaitre le numéro
 
+______________________________
+Temps
+------------------------------
+afficher la date : date
 modifier la date : sudo date MMDDhhmmYYYY
 exécuter une commande à une heure précise : echo "commande à lancer" | at 09:00         //spécifier un temps plus précis (ex: dans 2 jours à 5h pm) : bit.ly/2PIpHIY
 exécuter un fichier à une heure précise : at 09:00 -f /home/linuxize/script.sh
@@ -192,9 +201,9 @@ créer une archive tar : tar -cvf nom_archive.tar nom_dossier/           //enlev
 afficher contenu archive tar : tar -tf nomArchive.tar
 ajouter un fichier à une archive tar : tar -rvf nomArchive.tar nom_fichier_supplementaire
 extraire les fichiers de l'archive tar : tar -xvf nomArchive.tar 
-compresser en gzip : gzip nomArchive.tar
+compresser en gzip : gzip nomArchive.tar                    //la compression gzip est plus rapide que la bzip2
 décompresser un gzip : gunzip nomArchive.tar.gz
-compresser en bzip2 : bzip2 nomArchive.tar
+compresser en bzip2 : bzip2 nomArchive.tar                  //la compression bzip2 est meilleure en terme de taille que celle de la gzip
 décompresser un bzip2 : bunzip2 nomArchive.tar.bz2
 archiver et compresser en gzip : tar -zcvf nom_archive.tar.gz nom_dossier/
 décompresser et désarchiver un gzip : tar -zxvf nom_archive.tar.gz
@@ -203,11 +212,154 @@ décompresser et désarchiver un bzip2 : tar -jxvf nom_archive.tar.bz2
 afficher directement un fichier compressé : utiliser zcat et zless (même fonctionnement que cat et less) 
 travailler avec des zip et des rar : bit.ly/3czGo2i
 
+______________________________
+Communication à distance
+------------------------------
+Transformer sa machine en serveur
+installer openssh-server : sudo apt-get install openssh-server
+générer clés : sudo ssh-keygen -A
+lancer le serveur ssh : sudo /etc/init.d/ssh start          //normalement, le serveur SSH est lancé à chaque démarrage de linux.
+arrêter le serveur ssh : sudo /etc/init.d/ssh stop
+recharger le serveur ssh : sudo /etc/init.d/ssh reload
+
+Se connecter via SSH à partir d'une machine Linux : ssh [-p port] nomUtilisateur@adresseIpDestination
+Se déconnecter d'une machine distante : logout
+Identification automatique par clé : bit.ly/3mg0Ecu
+
+télécharger un fichier de l'internet : wget url
+    [-c : reprendre un téléchargement arrêté]
+
+copier des fichiers sur le réseau : scp [user@SRC_HOST:]nomFichierSource [user@DEST_HOST:]nomFichierDestination  //garder le même nom : mettre un .
+    [-P numeroDePort : spécifier le numéro de port s'il est différent de 22]
+
+se connecter à un serveur ftp : ftp adresseIpDestination    //il va demander un login et un mot de passe. Pour les serveurs FTP publics, le login à utiliser est toujours anonymous avec n'importe quel mot de passe
+envoyer un fichier vers le serveur ftp : put nomFichier     // pour plusieurs fichiers en même temps, utiliser : mput nomFichier1 nomFichier2 ...
+télécharger un fichier du serveur ftp : get nomFichier          //pour plusieurs fichiers en même temps, utiliser : mget nomFichier1 nomFichier2 ...
+définir la destination d'un téléchargement sur notre machine pendant qu'on est connecté à un serveur ftp : lcd chemin
+lancer une commande sur notre machine pendant qu'on est connecté à un serveur ftp : précéder la commande par !      //ex: !pwd
+supprimer un fichier sur le serveur ftp : delete nomFichier     //et non pas rm (sauf en sftp)
+se déconnecter d'un serveur ftp : exit 
+
+se connecter à un serveur sftp : sftp [-oPort=27401] nomUtilisateur@adresseIpDestination
+
+synchroniser le contenu de deux répertoires : rsync -arv répertoire1 répertoire2            //exemple pour 2 ordinateurs différents : rsync -arv --delete Images/ mateo21@IP_du_serveur:mes_backups/ -e "ssh -p 12473"
+    [--delete : supprime les fichiers supprimés dans le répertoire1 aussi dans le répertoire2]
+    [--backup --backup-dir=cheminAbsolu : garder une trace des fichiers supprimés]
+    [à mettre après le répertoire : -e "ssh -p numeroDePort" : spécifier le numéro de port s'il est différent de 22]
+
+Obtenir adresse ip à partir d'un nom d'hote ou inversement : host adresseIpOuNomHote            //retourne le nom d'hote / l'adresse ip correspondant
+Obtenir des informations sur un nom de domaine ou une adresse ip : whois adresseIpOuNomHote
+lister les interfaces réseau de la machine : ifconfig
+activer/désactiver interface réseau : ifconfig nomInterface {down|up}        //ex : ifconfig eth0 up
+afficher statistiques des interfaces réseau : netstat -i
+afficher statistiques résumées : netstat -s
+lister toutes les connexions ouvertes : netstat -uta            //-utan pour voir les ports en numéro
+gérer le pare-feu : bit.ly/3fQXsTF
+
+______________________________
+Bash
+------------------------------
 en-tête de script bash  : #!/bin/bash
-donner droits éxecution à un fichier : chmod +x nomfichier
-éxecuter un script bash : ./nomfichier.sh
+éxecuter un script bash : ./nomfichier.sh           //s'assurer d'avoir les droits d'éxecution -> donner droits éxecution à un fichier : chmod +x nomfichier
+déclarer une variable : maVariable='Bonjour tout le monde'      //il ne faut pas mettre d'espaces autour du =       //en bash, toutes les variables sont des string
+afficher une variable : echo $maVariable        //echo supporte qu'on lui envoie plusieurs paramètres (on les sépare par un espace)
+double quotes : maDeuxiemeVariable="Le message est $maVariable"     //évalue le contenu des variables à l'intérieur, donc maDeuxiemeVariable vaudra Le message est Bonjour tout le monde
+back quotes : maVariable=`pwd`      //pwd sera executée et son résultat sera stocké dans maVariable
+demander une saisie : read uneVariable      //uneVariable sera déclarée ou modifiée avec la valeur entrée 
+    [-p 'un message' : afficher un message de prompt]
+    [-n nombreMax : limiter le nombre de caractères]
+    [-t secondesMax : limiter le temps autorisé pour saisir un message]
+    [-s : ne pas afficher le texte saisi]
+effectuer des opérations mathématiques : let "c *= a + b"
+Opérateurs mathématiques : + (addition) - (soustraction) * (multiplication) / (division entière) % (modulo) ** (puissance)
+travailler avec des nombres décimaux : se renseigner sur la commande bc
+afficher les variables d'environnement : env
+variables automatiquements créés dans un script : 
+    $# : contient le nombre de paramètres
+    $0 : contient le nom du script exécuté
+    $1 : contient le premier paramètre
+    ...
+    $9 : contient le 9ième paramètre
+pour utiliser plus que 9 paramètres, décaler les paramètres avec : shift
 
+Tableaux
+définir un tableau : tableau=('valeur0' 'valeur1' 'valeur2')    //la taille du tableau n'est pas fixe. rien ne nous empêche de modifier la case 10, par exemple, pour cet exemple
+accéder à une case de tableau : ${tableau[2]}       //la première case commence à 0
+modifier le contenu d'une case : tableau[2]='valeur2'
+afficher l'ensemble du contenu d'un tableau : echo ${tableau[*]}
 
+Conditions
+Syntaxe if ↓
+................
+    if [ $1 == "Bruno" ]; then               //il faut absolument mettre des espaces autour de la condition (if[test] ne marchera pas)
+            echo "C'est vrai"
+    elif [ $# -ge 1 ] && [ ! -e fichier ]; then   
+            echo "Hey"
+    else 
+            echo "wow"
+    fi
+................
+Opérateurs de comparaison 
+$chaine1 == $chaine2 : Vérifie si les deux chaînes sont identiques. Notez que bash est sensible à la casse : « b » est donc différent de « B ».
+$chaine1 != $chaine2 : Vérifie si les deux chaînes sont différentes.
+-z $chaine           : Vérifie si la chaîne est vide.
+-n $chaine           : Vérifie si la chaîne est non vide.
+$num1 -eq $num2 : Vérifie si les nombres sont égaux (equal). À ne pas confondre avec le « = » qui, lui, compare deux chaînes de caractères.
+$num1 -ne $num2 : Vérifie si les nombres sont différents (nonequal). Encore une fois, ne confondez pas avec « != » qui est censé être utilisé sur des chaînes de caractères.
+$num1 -lt $num2 : Vérifie si num1 est inférieur ( < ) à num2 (lowerthan).
+$num1 -le $num2 : Vérifie si num1 est inférieur ou égal ( <= ) à num2 (lowerorequal)
+$num1 -gt $num2 : Vérifie si num1 est supérieur ( > ) à num2 (greaterthan).
+$num1 -ge $num2 : Vérifie si num1 est supérieur ou égal ( >= ) à num2 (greaterorequal).
+-e $nomfichier : Vérifie si le fichier existe.
+-d $nomfichier : Vérifie si le fichier est un répertoire. N'oubliez pas que sous Linux, tout est considéré comme un fichier, même un répertoire !
+-f $nomfichier : Vérifie si le fichier est un… fichier. Un vrai fichier cette fois, pas un dossier.
+-L $nomfichier : Vérifie si le fichier est un lien symbolique (raccourci).
+-r $nomfichier : Vérifie si le fichier est lisible (r).
+-w $nomfichier : Vérifie si le fichier est modifiable (w).
+-x $nomfichier : Vérifie si le fichier est exécutable (x).
+$fichier1 -nt $fichier2 : Vérifie sifichier1est plus récent que fichier2 (newerthan).
+$fichier1 -ot $fichier2 : Vérifie sifichier1est plus vieux que fichier2 (olderthan).
 
+Opérateurs de logique : && (et) || (ou) ! (non)
 
+Syntaxe case ↓
+................
+    case $1 in
+            "Chien" | "Chat" | "Souris")
+                    echo "C'est un mammifère"
+                    ;;
+            "Moineau" | "Pigeon")
+                    echo "C'est un oiseau"
+                    ;;
+            *)
+                    echo "Je ne sais pas ce que c'est"
+                    ;;
+    esac
+................
 
+Boucles
+Syntaxe boucle while ↓
+................
+while [ test ]; do
+echo 'Action en boucle'
+done
+................
+
+Syntaxe boucle for ↓
+................
+for i in `seq 1 10`;            //autre exemple : for fichier in $liste_fichiers
+do
+        echo $i
+done
+................
+
+déclarer une fonction ↓
+................
+function maFonction
+
+{
+echo $1
+}
+................
+appeler une fonction : maFonction arg1 arg2 ...
+enregistrer valeur de retour d'une fonction : maVariable="$(maFonction arg1)"
