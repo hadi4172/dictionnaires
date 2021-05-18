@@ -11,11 +11,14 @@ Obtenir valeur absolue d'un float : Math.abs(floatOuDouble);
 Lire une entrée utilisateur : Scanner scanner = new Scanner(System.in); scanner.nextLine();
 Exposant : Math.pow(nombre, puissance);
 
+i++ : incrémente le nombre après l'évaluation de l'expression.
+++i : incrémente le nombre avant l'évaluation de l'expression.
+
 Équivalent setTimeout en java ↓            
 ............................. 
-CompletableFuture.delayedExecutor(5, TimeUnit.SECONDS).execute(() -> {
-  // Your code here executes after 5 seconds!
-});
+    CompletableFuture.delayedExecutor(5, TimeUnit.SECONDS).execute(() -> {
+    // Your code here executes after 5 seconds!
+    });
 ............................. 
 
 Créer une fonction ↓           //on peut créer plusieurs fois la même fonction avec des arguments différents pour qu'elle puisse gérer plus de cas (surcharge)    
@@ -247,6 +250,11 @@ Exemple ↓   // il faut obligatoirement définir tous les méthodes du listener
         // code ici
       }
     });
+
+    //version avec lambda
+    bouton.addActionListener(event -> {
+        // code ici
+    });
 .............................
 
 Exemple optimisé (avec Adapter) ↓
@@ -352,14 +360,3 @@ JToggleButton          Bouton à pression
 JToolBar               Barre d’outils                               
 JToolTip               Info bulle                                   
 JTree                  Explorateur de dossier                       
-
-### Patron Observateur
-
-Dans les classes vues qui doivent suivre les mises à jour du modèle :
-1 - Implémenter l'interface Observer
-2 - Redéfinir la méthode update : private void update(Observable observable, Object arg);  //rematérialiser la vue en fonction du nouveau observable (cast l'observable en classe modele utilisable)
-3 - Ajouter quelque part (par exemple dans le constructeur) une liaison entre l'observeur et l'observable : ex : observable.addObserver(this);
-
-Dans la classe modèle :
-1 - Hériter de la classe Observable
-2 - Quand les données pertinentes du modèle ont changées, appeler ces 2 méthodes : setChanged(); notifyObservers();      //cela va appeler la méthode update de chaque vue

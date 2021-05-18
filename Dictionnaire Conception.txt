@@ -1,0 +1,723 @@
+______________________________
+UML
+------------------------------
+Association                ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ liaison entre deux classificateurs
+Association dirigée        ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯> liaison au classificateur
+Aggrégation                ⎯⎯⎯⎯⎯⎯⎯⎯⎯◇ (subordonné à). les classificateur sont configurés ensemble pour créer un classificateur plus complexe.
+Composition                ⎯⎯⎯⎯⎯⎯⎯⎯⎯◆ similaire à l'aggrégation mais l'existence du classificateur de gauche est dépendante à celle de celui à droite
+Dépendance                 ---------> l'implémentation du classificateur dépendant peut changer si le classificateur à l'extrémité de la pointe de la flèche est changé.
+Héritage                   ⎯⎯⎯⎯⎯⎯⎯⎯⎯▷ est enfant de
+Implémentation d'interface ---------▷ implémente l'interface
+
++ Public
+- Private
+# Protected
+  Package Private
+
+______________________________
+Patrons de conception
+------------------------------
+documentation : bit.ly/3hwZV6r bit.ly/3oxHSyw 
+
+#####
+Patrons de création
+
+//permettent de créer des objets tout en masquant la logique de création, plutôt que d'instancier des objets directement à l'aide d'un nouvel opérateur. 
+//Cela donne au programme plus de flexibilité pour décider quels objets doivent être créés pour un cas d'utilisation donné.
+
+### Patron Monteur (Builder)
+permet de construire des objets complexes étape par étape de façon propre. 
+
+Exemple ↓
+................
+    public interface Builder {
+        void setCarType(CarType type);
+        void setSeats(int seats);
+        void setEngine(Engine engine);
+        void setTransmission(Transmission transmission);
+        void setTripComputer(TripComputer tripComputer);
+        void setGPSNavigator(GPSNavigator gpsNavigator);
+    }
+
+    public class CarBuilder implements Builder {
+        private CarType type;
+        private int seats;
+        private Engine engine;
+        private Transmission transmission;
+        private TripComputer tripComputer;
+        private GPSNavigator gpsNavigator;
+
+        public void setCarType(CarType type) {
+            this.type = type;
+        }
+
+        @Override
+        public void setSeats(int seats) {
+            this.seats = seats;
+        }
+
+        @Override
+        public void setEngine(Engine engine) {
+            this.engine = engine;
+        }
+
+        @Override
+        public void setTransmission(Transmission transmission) {
+            this.transmission = transmission;
+        }
+
+        @Override
+        public void setTripComputer(TripComputer tripComputer) {
+            this.tripComputer = tripComputer;
+        }
+
+        @Override
+        public void setGPSNavigator(GPSNavigator gpsNavigator) {
+            this.gpsNavigator = gpsNavigator;
+        }
+
+        public Car getResult() {
+            return new Car(type, seats, engine, transmission, tripComputer, gpsNavigator);
+        }
+    }
+
+    public class Director {
+
+        public void constructSportsCar(Builder builder) {
+            builder.setCarType(CarType.SPORTS_CAR);
+            builder.setSeats(2);
+            builder.setEngine(new Engine(3.0, 0));
+            builder.setTransmission(Transmission.SEMI_AUTOMATIC);
+            builder.setTripComputer(new TripComputer());
+            builder.setGPSNavigator(new GPSNavigator());
+        }
+
+        public void constructCityCar(Builder builder) {
+            builder.setCarType(CarType.CITY_CAR);
+            builder.setSeats(2);
+            builder.setEngine(new Engine(1.2, 0));
+            builder.setTransmission(Transmission.AUTOMATIC);
+            builder.setTripComputer(new TripComputer());
+            builder.setGPSNavigator(new GPSNavigator());
+        }
+
+        public void constructSUV(Builder builder) {
+            builder.setCarType(CarType.SUV);
+            builder.setSeats(4);
+            builder.setEngine(new Engine(2.5, 0));
+            builder.setTransmission(Transmission.MANUAL);
+            builder.setGPSNavigator(new GPSNavigator());
+        }
+    }
+
+    public class Demo {
+
+        public static void main(String[] args) {
+            Director director = new Director();
+
+            CarBuilder builder = new CarBuilder();
+            director.constructSportsCar(builder);
+
+            Car car = builder.getResult();
+        }
+    }
+................
+
+
+### Patron Prototype
+utilisé lorsque nous avons une instance de la classe (prototype) et que nous aimerions créer de nouveaux objets en le copiant 
+(pour peut-être faire des ajustements mineurs par la suite) 
+
+Exemple ↓
+................
+    public abstract class Tree {
+        // ...
+        public abstract Tree copy();
+    }
+
+    public class PlasticTree extends Tree {
+
+        // ...
+
+        @Override
+        public Tree copy() {
+            PlasticTree plasticTreeClone = new PlasticTree(this.getMass(), this.getHeight());
+            plasticTreeClone.setPosition(this.getPosition());
+            return plasticTreeClone;
+        }
+    }
+
+    public class Test {
+        public void main(String[] args) {
+            // ...
+
+            PlasticTree plasticTree = new PlasticTree(mass, height);
+            plasticTree.setPosition(position);
+            PlasticTree anotherPlasticTree = (PlasticTree) plasticTree.copy();
+            anotherPlasticTree.setPosition(otherPosition);
+        }
+    }
+................
+
+
+### Patron Singleton
+garantit que l’instance d’une classe n’existe qu’en un seul exemplaire, tout en fournissant un point d’accès global à cette instance
+
+Exemple ↓
+................
+    public class SingleObject {
+        private static SingleObject instance = new SingleObject();
+
+        private SingleObject(){}
+
+        public static SingleObject getInstance(){
+            return instance;
+        }
+    }
+
+    public class SingletonPatternDemo {
+        public static void main(String[] args) {
+            SingleObject object = SingleObject.getInstance();
+        }
+    }
+................
+
+
+
+#####
+Patrons structurels
+
+//concernent la composition des classes et des objets. 
+//Le concept d'héritage est utilisé pour composer des interfaces et définir des manières de composer des objets pour obtenir de nouvelles fonctionnalités.
+
+### Patron Adaptateur
+créer un objet qui va se charger de rendre un objet imcompatible avec une partie du programme compatible
+
+Exemple ↓       //détails : bit.ly/33LzYYP bit.ly/3htIy6i
+................
+    public interface Movable {
+        // returns speed in MPH 
+        double getSpeed();
+    }
+
+    public interface MovableAdapted {
+        // returns speed in KM/H 
+        double getSpeed();
+    }
+
+    public class MovableAdapter implements MovableAdapted {
+        private Movable luxuryCars;     //contient l'objet incompatible
+        
+        // standard constructors
+
+        @Override
+        public double getSpeed() {      //renvoie des valeurs compatibles
+            return convertMPHtoKMPH(luxuryCars.getSpeed());
+        }
+        
+        private double convertMPHtoKMPH(double mph) {
+            return mph * 1.60934;
+        }
+    }
+................
+
+
+### Patron Composite
+permet de traiter des objets individuels et des compositions d'objets de la même manière. 
+
+Exemple ↓       //détails : bit.ly/3yfYUpc bit.ly/345CzNr bit.ly/3yjr5DK
+................
+    public interface Objet {
+        int obtenirPrix();
+    }
+
+    public class GrosseBille implements Objet {
+
+        private int prix = 5;
+
+        public int obtenirPrix() {
+            return prix;
+        }
+
+        // standard constructor, getters, setters
+    }
+
+    public class Boite implements Objet {
+        private List<Objet> contenu = new ArrayList<>();
+
+        public int obtenirPrix() {
+            return contenu.stream().reduce(0, (subtotal, element) -> subtotal + element.obtenirPrix());
+        }
+
+        public void addObjet(Objet Objet) {
+            contenu.add(Objet);
+        }
+
+        public void removeObjet(Objet Objet) {
+            contenu.remove(Objet);
+        }
+    }
+................
+
+
+### Patron Décorateur
+permet d'ajouter des fonctionnalités à un objet existant sans avoir à en hériter
+
+Ex : Nous avons une interface (ou classe abstraite) A dont héritent les classes B, C et D
+Nous voulons ajouter une certaine fonctionnalités à ces classes sans vouloir hériter de celles-ci
+1 - Créer une classe abstraite Décorateur implémentant l'interface A et prenant en argument pour le constructeur un objet implémentant A, qui sera un attribut privé
+2 - Implémenter les méthodes de l'interface A en renvoyant vers les méthodes de l'objet qui a été donné dans le constructeur
+3 - Maintenant, nous pouvons créer d'autres classes héritant de la classe Décorateur et pouvant ajouter des fonctionnalités à B, C ou D peu importe lequel
+
+Exemple ↓       //exemple complet et plus détaillé ici : bit.ly/3uJKKdP
+................
+    public interface  A {   
+        public  String prepareFood ();  
+        public double  foodPrice ();   
+    }
+
+    public class B implements A {  
+        public String prepareFood() {  
+            return "Veg Food";  
+        }  
+    
+        public double foodPrice() {  
+            return 50.0;  
+        }  
+    }
+
+    public abstract class ADecorator implements A{  
+        private A newFood;  
+        public ADecorator(A newFood)  {  
+            this.newFood=newFood;  
+        }  
+        
+        public String prepareFood(){  
+            return newFood.prepareFood();   
+        } 
+
+        public double foodPrice(){  
+            return newFood.foodPrice();  
+        }  
+    }  
+
+    public class E extends ADecorator{    
+        public E(A newFood) {  
+            super(newFood);  
+        }  
+        public String prepareFood(){  
+            return super.prepareFood() +" With Roasted Chiken and Chiken Curry  ";   
+        }  
+        public double foodPrice()   {  
+            return super.foodPrice()+150.0;  
+        }  
+    }
+
+    public class App{
+        public static void main(String[] args) {
+            A f1 = new E((A)new B());
+            System.out.println(f1.prepareFood());       //Veg Food With Roasted Chiken and Chiken Curry
+        }
+    }
+................
+
+
+### Patron Procuration (Proxy)
+permet d’utiliser un substitut pour un objet afin d’effectuer des manipulations avant ou après que la demande ne lui parvienne.
+Ex: Considérez un objet Java lourd (comme une connexion JDBC ou une SessionFactory ) qui nécessite une configuration initiale.
+Nous voulons uniquement que ces objets soient initialisés à la demande, et une fois qu'ils le sont, nous voudrions les réutiliser pour tous les appels:
+
+Exemple ↓       //détails : bit.ly/3hy6Vjy bit.ly/3bzJzpH bit.ly/2SOBeYI
+................
+    public interface ExpensiveObject {
+        void process();
+    }
+
+    public class ExpensiveObjectImpl implements ExpensiveObject {
+
+        public ExpensiveObjectImpl() {
+            heavyInitialConfiguration();
+        }
+        
+        @Override
+        public void process() {
+            System.out.println("processing complete.");
+        }
+        
+        private void heavyInitialConfiguration() {
+            System.out.println("Loading initial configuration...");
+        }
+        
+    }
+
+    public class ExpensiveObjectProxy implements ExpensiveObject {
+        private static ExpensiveObject object;
+
+        @Override
+        public void process() {
+            if (object == null) {
+                object = new ExpensiveObjectImpl();
+            }
+            object.process();
+        }
+    }
+................
+
+
+
+#####
+Patrons comportementaux
+
+//concernent spécifiquement la communication entre les objets.
+
+### Patron Observateur et MVC
+
+Dans les classes vues qui doivent suivre les mises à jour du modèle :
+1 - Implémenter l'interface Observer
+2 - Redéfinir la méthode update : private void update(Observable observable, Object arg);  //rematérialiser la vue en fonction du nouveau observable (cast l'observable en classe modele utilisable)
+3 - Ajouter quelque part (par exemple dans le constructeur) une liaison entre l'observeur et l'observable : ex : observable.addObserver(this);
+
+Dans la classe modèle :
+1 - Hériter de la classe Observable
+2 - Quand les données pertinentes du modèle ont changées, appeler ces 2 méthodes : setChanged(); notifyObservers();      //cela va appeler la méthode update de chaque vue
+
+Exemple ↓
+................
+    public abstract class Observable{
+        ArrayList<Observer> observers = new ArrayList<Observer>();
+        
+        public void addObserver(Observer observer){
+            observers.add(observer);
+        }
+
+        public void removeObserver(Observer observer) {
+            observers.remove(observer);
+        }
+        
+        public void notifyAllObservers(){
+            for(Observer observer:observers){
+                observer.update(this);
+            }
+        }	
+    }
+
+    public interface Observer{
+        public void update(Object o);
+    }
+................
+
+
+### Patron Itérateur
+permet d'accéder aux éléments d'un tableau/collection sans exposer sa représentation sous-jacente.
+
+1 - Implémenter une classe Container qui va avoir comme attribut privé la collection sur laquelle on veut itérer
+2 - Implémenter une classe interne dans Container qui implémente Iterator (elle va pouvoir accéder à la collection puisqu'elle est interne)
+3 - Implémenter une méthode qui retourne une instance de l'itérateur produit par la classe interne
+
+Exemple d'utilisation dans une autre classe ↓
+................
+    public class NameRepository implements Container {
+        public String names[] = {"Robert" , "John" ,"Julie" , "Lora"};
+
+        @Override
+        public Iterator getIterator() { return new NameIterator(); }
+
+        private class NameIterator implements Iterator {
+            int index;
+
+            @Override
+            public boolean hasNext() { return index < names.length; }
+
+            @Override
+            public Object next() {
+                if(this.hasNext()) return names[index++];
+
+                return null;
+            }		
+        }
+    }
+
+    public static void main(String[] args) {
+        NameRepository namesRepository = new NameRepository();      // la classse container
+
+        //exemple d'itération avec boucle for
+        for(Iterator iter = namesRepository.getIterator(); iter.hasNext();) 
+            System.out.println("Name : " + (String)iter.next());
+
+        //exemple d'itération avec boucle while
+        Iterator iter = namesRepository.getIterator();
+        while (iter.hasNext()) System.out.println("Name : " + (String)iter.next());
+    }
+................
+
+
+### Patron de méthode
+permet de mettre la structure d’un algorithme dans la classe mère, mais laisse les sous-classes redéfinir certaines étapes de l’algorithme.
+utile quand on a plusieurs fois le même algortihme qui se répète mais avec des légères variations
+
+Exemple ↓       //tiré d'ici : bit.ly/2RkWfKi
+................
+    public abstract class DataMiner {
+        // ...
+        public final void mine(path) {
+            openFile(path);
+            extractData(file);
+            parseData(rawData);
+            analyzeData(data);
+            sendReport(analysis);
+            closeFile(file);
+        }
+
+        public abstract void openFile(path);    // nous pouvons définir l'implémentation des étapes qui seront la plus part du temps les mêmes et redéfinir au besoin
+        public abstract void extractData(file);
+        public abstract void parseData(rawData);
+        // ...
+    }
+................
+
+
+### Patron Commande
+créer un objet qui se chargera de demander l'execution d'une certaine commande qui pourrait être commune à plusieurs objets différents
+Ex: au lieu qu'un bouton, un raccourci clavier et un item de menu servant à sauvegarder aient à demander séparément à l'objet de métier de sauvegarder,
+ils utilisent un objet commun qui se chargera, lui, de demander une sauvegarde à l'objet de métier
+
+Plus d'info : bit.ly/3tLormR
+Exemple Java : bit.ly/33M3uxp bit.ly/2SOhmVz bit.ly/3hyrOef
+
+
+### Patron Médiateur
+permet de réduire la complexité et les dépendances entre des objets étroitement couplés communiquant directement les uns avec les autres . 
+Ceci est réalisé en créant un objet médiateur qui s'occupe de l'interaction entre les objets dépendants.
+
+Exemple ↓       //détails : bit.ly/3ePEtaQ bit.ly/3tVpuAu
+................
+    public class Mediator {
+        private Button button;
+        private Fan fan;
+        private PowerSupplier powerSupplier;
+
+        // constructor, getters and setters
+
+        public void press() {
+            if (fan.isOn()) {
+                fan.turnOff();
+            } else {
+                fan.turnOn();
+            }
+        }
+
+        public void start() {
+            powerSupplier.turnOn();
+        }
+
+        public void stop() {
+            powerSupplier.turnOff();
+        }
+    }
+
+    public class Button {
+        private Mediator mediator;
+
+        // constructor, getters and setters
+
+        public void press() {
+            mediator.press();
+        }
+    }
+
+    public class Fan {
+        private Mediator mediator;
+        private boolean isOn = false;
+
+        // constructor, getters and setters
+
+        public void turnOn() {
+            mediator.start();
+            isOn = true;
+        }
+
+        public void turnOff() {
+            isOn = false;
+            mediator.stop();
+        }
+    }
+................
+
+
+### Patron État
+permet de modifier le comportement d’un objet lorsque son état interne change en gardant le code propre et sans beaucoup d'instructions if / else.
+
+Exemple ↓       //détails : bit.ly/3bsfuZa bit.ly/3v5EP2I
+................
+    public interface State {
+        public void doAction(Context context);
+    }
+
+    public class StartState implements State {
+
+        public void doAction(Context context) {
+            context.changeState(new StopState());	
+        }
+
+        @Override
+        public String toString(){
+            return "Start State";
+        }
+    }
+
+    public class StopState implements State {
+
+        public void doAction(Context context) {
+            context.changeState(new StartState());	
+        }
+
+        @Override
+        public String toString(){
+            return "Stop State";
+        }
+    }
+
+    public class Context {
+        private State state;
+
+        public Context(){
+            state = null;
+        }
+
+        public void doAction() {
+            state.doAction(this);
+        }
+
+        public void changeState(State state){
+            this.state = state;		
+        }
+    }
+................
+
+
+### Patron Mémento
+permet de sauvegarder et de rétablir l’état précédent d’un objet sans révéler les détails de son implémentation
+
+Exemple ↓       //détails : bit.ly/33M2MjB bit.ly/3yfWeb0 bit.ly/3uOQ3IW
+................
+    public class Memento {
+        private String state;
+
+        public Memento(String state){
+            this.state = state;
+        }
+
+        public String getState(){
+            return state;
+        }	
+    }
+
+    public class Originator {
+        private String state;
+
+        public void setState(String state){
+            this.state = state;
+        }
+
+        public String getState(){
+            return state;
+        }
+
+        public Memento saveStateToMemento(){
+            return new Memento(state);
+        }
+
+        public void getStateFromMemento(Memento memento){
+            state = memento.getState();
+        }
+    }
+
+    public class CareTaker {
+        private List<Memento> mementoList = new ArrayList<Memento>();
+        private int size = 0;
+
+        public void add(Memento state){
+            mementoList.add(state);
+            size++;
+        }
+
+        public Memento get(int index){
+            return mementoList.get(index);
+        }
+
+        public int getSize(){
+            return size;
+        }
+    }
+
+    public class MementoPatternDemo {
+        public static void main(String[] args) {
+        
+            Originator originator = new Originator();
+            CareTaker careTaker = new CareTaker();
+            
+            originator.setState("Bonjour");
+            careTaker.add(originator.saveStateToMemento());
+            
+            originator.setState("Bonjour mon nom est John");
+            careTaker.add(originator.saveStateToMemento());
+            
+            originator.setState("Bonjour mon nom est John et je suis un programmeur.");	
+            
+            originator.getStateFromMemento(careTaker.get(careTaker.getSize() - 1));       //annuler la dernière action
+            System.out.println(originator.getState());        //"Bonjour mon nom est John"
+        }
+    }
+................
+
+
+### Patron Stratégie
+permet de modifier un comportement de classe ou son algorithme au moment de l'exécution
+
+Exemple ↓       //détails : bit.ly/3u0o1J7 bit.ly/3owSvBx bit.ly/3fpIWAd
+................
+    public interface Strategy {
+        public int doOperation(int num1, int num2);
+    }
+
+    public class OperationAdd implements Strategy{
+        @Override
+        public int doOperation(int num1, int num2) {
+            return num1 + num2;
+        }
+    }
+
+    public class OperationSubstract implements Strategy{
+        @Override
+        public int doOperation(int num1, int num2) {
+            return num1 - num2;
+        }
+    }
+
+    public class Context {
+        private Strategy strategy;
+
+        public Context(Strategy strategy){
+            this.strategy = strategy;
+        }
+
+        public int executeStrategy(int num1, int num2){
+            return strategy.doOperation(num1, num2);
+        }
+    }
+
+    public class StrategyPatternDemo {
+        public static void main(String[] args) {
+            Context context = new Context(new OperationAdd());		
+            System.out.println("10 + 5 = " + context.executeStrategy(10, 5));
+
+            context = new Context(new OperationSubstract());		
+            System.out.println("10 - 5 = " + context.executeStrategy(10, 5));
+        }
+    }
+................
+
+
+
+
+

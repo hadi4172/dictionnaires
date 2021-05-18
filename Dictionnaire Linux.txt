@@ -116,6 +116,7 @@ créer un lien physique : ln nomFichier nomLienFichier           //dans un lien 
 créer des liens symboliques : ln -s nomFichier nomLienFichier   //un lien symbolique pointe vers le fichier (qui pointe vers son contenu)  //ressemble aux raccourcis de windows
 
 recherche rapide : locate nomFichierOuDossier        //peut être une partie de nom  //ne recherche pas sur le disque dur mais sur une base de donnée 
+recherche rapide dans le répertoire actuel : locate "`pwd`*nomFichierOuDossier*"
 mettre à jour la bd de locate : sudo updatedb
 recherche approfondie : find 
     [chemin]

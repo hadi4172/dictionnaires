@@ -626,3 +626,5 @@ Autre
 ------------------------------
 Intégrer React Native dans une application native existante : https://bit.ly/33JYSt3
 VS App Center : https://bit.ly/3ip5DUT
+
+//TODO se renseigner sur AsyncStorage et sur ses avantages et inconvénients face à Redux

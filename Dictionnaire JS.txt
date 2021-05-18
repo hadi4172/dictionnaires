@@ -492,13 +492,31 @@ Créer une Promesse qui va être résolue si tous les promesses passées en  arg
 Plus d'info : https://bit.ly/2yCPn1c
 
 ______________________________
-Appels réseaux
+AJAX
 ------------------------------
 
-Demander une réponse à partir d'une url :
+Obtenir code source d'une page avec son url ↓
 ......................
-    return fetch(url)
-        .then((response) => response.json())
-        .catch((error) => console.error(error))
+    function getSourceFromLink(link) {
+        let r = new XMLHttpRequest();
+
+        r.open('GET', link, false);
+        r.send(null);
+        if (r.status == 200) {
+            return minifyHTML(r.responseText);
+        } else {
+            return "Error";
+        }
     }
 ......................
+
+Obtenir code source d'une page avec son url de façon asynchrone ↓
+......................
+    async function getSourceFromLinkAsync(link, callback) {
+        let response = await fetch(link);
+        if (response.status == 200) {
+            callback(await response.text());
+        }
+    }
+......................
+
