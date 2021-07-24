@@ -1,6 +1,8 @@
 Créer un nouveau projet avec VS Code : Ctrl+Shift+P
 
 Créer un tableau : String[] tableauChaine = new String[]{"chaine1", "chaine2", "chaine3" , "chaine4"};
+Trier un tableau d'une certaine façon : Arrays.sort(tableauNonTrie, (a, b) -> Integer.compare(a.quantite, b.quantite));
+
 Mettre un string en minuscule : monString.toLowerCase();
 Récuperer le char à une position : monString.charAt(4);     //retourne un char
 Récuperer une partie : chaine.substring(3,13);      //arguments sont positionInitialle, positionFinale
@@ -359,4 +361,114 @@ JTextPane              Zone de texte enrichie
 JToggleButton          Bouton à pression                            
 JToolBar               Barre d’outils                               
 JToolTip               Info bulle                                   
-JTree                  Explorateur de dossier                       
+JTree                  Explorateur de dossier          
+
+
+______________________________
+Sérialisation
+------------------------------
+Ouverture d’un fichier binaire en lecture : DataInputStream fichier = new DataInputStream(new FileInputStream("fichier1.bin"));
+Ouverture d’un fichier binaire en écriture : DataOutputStream fichier = new DataOutputStream(new FileOutputStream("fichier2.bin"));
+Ouverture d’un fichier binaire en mode append : DataOutputStream fichierSortie = new DataOutputStream(new FileOutputStream("fichier2.data", true));
+
+Écrire une donnée string : fichier.writeUTF("bonjour");
+Écrire une donnée d'un autre type primitif : fichier.writeInt|writeLong|writeFloat...(4);
+
+Pour lire les données : fichier.readUTF|readInt|readDouble...();        //le type de lecture doit se faire dans le même ordre que le type d'écriture (String pour String , int pour int...)
+
+Lecture et Écriture de données dans un fichier binaire ↓
+................
+    try {
+        DataOutputStream ecrivain;
+        ecrivain = new DataOutputStream(new FileOutputStream("fichier.data"));
+        ecrivain.writeUTF("bonjour");
+        ecrivain.writeInt(3);
+        ecrivain.writeLong(100000);
+        ecrivain.close();
+
+        DataInputStream lecteur = lecteur = new DataInputStream(new FileInputStream("Fichier.data"));
+        System.out.println(lecteur.readUTF());
+        System.out.println(lecteur.readInt());
+        System.out.println(lecteur.readLong());
+        lecteur.close();
+    } catch (FileNotFoundException ex) {
+        System.out.println("Fichier inexistant.");
+    } catch (IOException ex) {
+        System.out.println("Erreur d'accès au fichier.");
+    }
+................
+
+
+writeObject(monObjet) : écrit l'objet dans le fichier binaire spécifié ;
+readObject() : Cette méthode permet de "lire" dans le fichier les états sauvegardés de l'objet.
+flush() : vide le cache et force l'écriture dans le fichier binaire
+close() : Permet de fermer le flux.
+IOException : Permet de lever l’exception s’il y a problème avec le fichier.
+ClassNotFoundException : Permet de lever l’exception si l'objet est transtypé vers une classe qui n'existe plus ou pas au moment de l'exécution.
+StreamCorruptedException : Permet de lever l’exception si le fichier a été corrompu (par exemple en le modifiant avec un éditeur).
+
+Écriture d’un objet (« Sérialiser ») dans un fichier ↓
+................
+    public class TestPersonne {
+
+        public static void main(String args[]) {
+            Personne personne = new Personne("Babe", "Peguy", 18);
+            personne.affichePersonne();
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("fichierpersonne.dat"))){
+                oos.writeObject(personne);
+                oos.flush();
+            } catch (java.io.IOException e) {
+                System.out.println("Erreur d'entrées-sorties");
+            }
+        }
+    }
+................
+
+Lire un objet (« désérialiser ») à partir d’un fichier ↓
+................
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("fichierpersonne.dat"))){
+            personne = (Personne) ois.readObject();
+        } catch (java.io.IOException e) {
+            System.out.println("Erreur d'entrées-sorties");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Erreur classe introuvable");
+        }
+................
+
+Il est également possible de sérialiser et déserialiser des collections d'objets sérialisables. Ex : ↓
+................
+    private static void sauvegardeSerializable(ArrayList<Ventilateur> listeVentilateurs) {
+        //try
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("fichier3.bin"));
+            oos.writeObject(listeVentilateurs);
+            oos.flush();
+            oos.close();
+        //catch
+    }
+
+    private static ArrayList<Ventilateur> lectureSerializable() {
+        ArrayList<Ventilateur> listeVentilateurs = null;
+        //try
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("fichier3.bin"));
+            listeVentilateurs = (ArrayList<Ventilateur>) ois.readObject();
+        //catch
+        return listeVentilateurs;
+    }
+................
+
+
+______________________________
+Programmation fonctionnelle
+------------------------------
+
+Function<T,​R>    : 1 paramètre et 1 sortie                          //il existe aussi BiFunction<T,​U,​R> (2 paramètres et 1 sortie)
+Consumer<T>      : 1 paramètre et 0 sortie                          //il existe aussi BiConsumer<T,​U>   (2 paramètres et 0 sortie)
+Supplier<T>      : 0 paramètre et 1 sortie
+Runnable         : 0 paramètre et 0 sortie
+
+UnaryOperator<T> : 1 paramètre et 1 sortie du même type             //il existe aussi BinaryOperator<T> (2 paramètre et 1 sortie du même type) 
+Predicate<T>     : 1 paramètre et 1 sortie booléenne                //il existe aussi BiPredicate<T,​U> (2 paramètre et 1 sortie booléenne) 
+
+
+
+

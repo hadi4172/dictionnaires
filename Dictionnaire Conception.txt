@@ -3,8 +3,9 @@ UML
 ------------------------------
 Association                ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯ liaison entre deux classificateurs
 Association dirigée        ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯> liaison au classificateur
-Aggrégation                ⎯⎯⎯⎯⎯⎯⎯⎯⎯◇ (subordonné à). les classificateur sont configurés ensemble pour créer un classificateur plus complexe.
+Aggrégation                ⎯⎯⎯⎯⎯⎯⎯⎯⎯◇ les classificateur sont configurés ensemble pour créer un classificateur plus complexe.
 Composition                ⎯⎯⎯⎯⎯⎯⎯⎯⎯◆ similaire à l'aggrégation mais l'existence du classificateur de gauche est dépendante à celle de celui à droite
+Endiguement                ⎯⎯⎯⎯⎯⎯⎯⎯⎯⊕ le classificateur de gauche est défini à l'intérieur du classificateur de droite
 Dépendance                 ---------> l'implémentation du classificateur dépendant peut changer si le classificateur à l'extrémité de la pointe de la flèche est changé.
 Héritage                   ⎯⎯⎯⎯⎯⎯⎯⎯⎯▷ est enfant de
 Implémentation d'interface ---------▷ implémente l'interface
@@ -12,7 +13,7 @@ Implémentation d'interface ---------▷ implémente l'interface
 + Public
 - Private
 # Protected
-  Package Private
+~ Package Private
 
 ______________________________
 Patrons de conception
@@ -123,6 +124,65 @@ Exemple ↓
     }
 ................
 
+
+### Patron Fabrique
+permet de créer des objets sans exposer la logique de création au client
+
+Exemple ↓
+................
+    public interface Shape {
+    void draw();
+    }
+
+    public class Rectangle implements Shape {
+
+    @Override
+    public void draw() {
+        System.out.println("Inside Rectangle::draw() method.");
+    }
+    }
+
+    public class Square implements Shape {
+
+    @Override
+    public void draw() {
+        System.out.println("Inside Square::draw() method.");
+    }
+    }
+
+    public class ShapeFactory {
+
+    public Shape getShape(String shapeType){
+        if(shapeType == null){
+            return null;
+        }		
+        if(shapeType.equalsIgnoreCase("CIRCLE")){
+            return new Circle();
+            
+        } else if(shapeType.equalsIgnoreCase("RECTANGLE")){
+            return new Rectangle();
+            
+        } else if(shapeType.equalsIgnoreCase("SQUARE")){
+            return new Square();
+        }
+        
+        return null;
+    }
+    }
+
+    public class FactoryPatternDemo {
+
+    public static void main(String[] args) {
+        ShapeFactory shapeFactory = new ShapeFactory();
+
+        Shape shape1 = shapeFactory.getShape("CIRCLE");
+        Shape shape2 = shapeFactory.getShape("RECTANGLE");
+        Shape shape3 = shapeFactory.getShape("SQUARE");
+
+        for(Shape shape : new Shape[]{shape1, shape2, shape3}) shape.draw();
+    }
+    }
+................
 
 ### Patron Prototype
 utilisé lorsque nous avons une instance de la classe (prototype) et que nous aimerions créer de nouveaux objets en le copiant 
@@ -482,7 +542,58 @@ Ex: au lieu qu'un bouton, un raccourci clavier et un item de menu servant à sau
 ils utilisent un objet commun qui se chargera, lui, de demander une sauvegarde à l'objet de métier
 
 Plus d'info : bit.ly/3tLormR
-Exemple Java : bit.ly/33M3uxp bit.ly/2SOhmVz bit.ly/3hyrOef
+Exemple ↓     //détails : bit.ly/33M3uxp bit.ly/2SOhmVz bit.ly/3hyrOef
+................
+    public class TextFile {
+        
+        private String name;
+        
+        // constructor
+        
+        public String open() { return "Opening file " + name; }
+        public String save() { return "Saving file " + name; }
+    }
+
+    public interface TextFileOperation {
+        String execute();
+    }
+
+    public class OpenTextFileOperation implements TextFileOperation {
+
+        private TextFile textFile;
+        
+        // constructors
+        
+        @Override
+        public String execute() { return textFile.open(); }
+    }
+
+    public class SaveTextFileOperation implements TextFileOperation {
+        
+        // same field and constructor as above
+            
+        @Override
+        public String execute() { return textFile.save(); }
+    }
+
+    public class TextFileOperationExecutor {
+        
+        private final List<TextFileOperation> textFileOperations = new ArrayList<>();
+        
+        public String executeOperation(TextFileOperation textFileOperation) {
+            textFileOperations.add(textFileOperation);
+            return textFileOperation.execute();
+        }
+    }
+
+    public static void main(String[] args) {
+        TextFileOperationExecutor textFileOperationExecutor = new TextFileOperationExecutor();
+        textFileOperationExecutor.executeOperation(new OpenTextFileOperation(new TextFile("file1.txt"))));
+        textFileOperationExecutor.executeOperation(new SaveTextFileOperation(new TextFile("file2.txt"))));
+
+        textFileOperationExecutor.executeOperation(()->new TextFile("file3.txt").open());     //avec lambda
+    }
+................
 
 
 ### Patron Médiateur
@@ -595,12 +706,12 @@ Exemple ↓       //détails : bit.ly/3bsfuZa bit.ly/3v5EP2I
 ................
 
 
-### Patron Mémento
+### Patron Mémento (Snapshot)
 permet de sauvegarder et de rétablir l’état précédent d’un objet sans révéler les détails de son implémentation
 
 Exemple ↓       //détails : bit.ly/33M2MjB bit.ly/3yfWeb0 bit.ly/3uOQ3IW
 ................
-    public class Memento {
+    public class Memento {          // l'état de l'Originator
         private String state;
 
         public Memento(String state){
@@ -612,7 +723,7 @@ Exemple ↓       //détails : bit.ly/33M2MjB bit.ly/3yfWeb0 bit.ly/3uOQ3IW
         }	
     }
 
-    public class Originator {
+    public class Originator {       //l'objet dont l'état doit être sauvegardé
         private String state;
 
         public void setState(String state){
@@ -632,7 +743,7 @@ Exemple ↓       //détails : bit.ly/33M2MjB bit.ly/3yfWeb0 bit.ly/3uOQ3IW
         }
     }
 
-    public class CareTaker {
+    public class CareTaker {         // l'objet déclenchant la sauvegarde et la restauration de l'état
         private List<Memento> mementoList = new ArrayList<Memento>();
         private int size = 0;
 

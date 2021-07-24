@@ -1,0 +1,404 @@
+Maintenance du logiciel
+{
+    • ISO 20000 (ITIL) : Gestion de l’ensemble des opérations informatiques d’une compagnie (Services TI, les opérations tant pour le matériel que pour le logiciel (aussi nommée ITIL))
+        • Les opérations visent à s’assurer que les infrastructures qui supportent les logiciels applicatifs soient opérationnelles et efficaces.
+        • Exemple:
+        – Centre d’appel (gestion des requêtes et des incidents)
+        – Gestion des infrastructures (PC, serveurs, télécom, imprimantes, téléphonie, imprimantes, capacité, securité, etc.)
+        – Gestion avec les fournisseurs
+            • Internes: développement, maintenance
+            • Externes: licences, achats, services (devel., maint., matériel)
+        – Recouvrement lors d’une panne ou d’un désastre, backups, archives.
+        – MAC : « move-add-change »
+        • Applicable à des organismes publics et privés (assez grosse taille) sinon prenez la ISO29110 pour petites entreprises
+    • ISO 12207 : Cycle de vie du logiciel
+        • Opération du logiciel dans son environnement de production, et support à sa clientèle.
+        1. Prépare l’opération d’un nouveau logiciel: faire un plan de mise en production/opération
+        2. Opérer le logiciel: s’assurer du bon fonctionnement en production
+        3. Supporter à la clientèle: offrir le support pour le logiciel, la gestion des billets (maintenance)
+        4. Résoudre les problèmes: résolutions temporaires, résolutions définitives (avec l’aide du personnel de la maintenance)
+    • ISO 14764 : Processus de maintenance du logiciel
+        • Implémentation des processus
+        • Processus opérationnels
+            • Analyse de problème et modification
+            • Implémentation de modification
+            • Revue et acceptation de modification
+        • Migration
+        • Retrait
+    • CobIT : La normes des auditeurs internes qui couvre toutes les TI's
+    • ISO 25000 : Modèle de la qualité du logiciel (incluant la notion de maintenabilité d’un logiciel
+
+    Catégories de maintenances :
+    • Correction du logiciel
+        Correctif (réactif) : corriger une défaillance existante. Ex: Erreur de logique, Erreur de conception, Erreur dans les données
+        Préventif (proactif):  modification pour déceler et corriger les défauts latents avant qu'ils ne se manifestent
+    • Amélioration du logiciel
+        Adaptatif (réactif): modification pour que le logiciel reste utilisable dans un environnement qui change ou a changé
+        Perfectif (proactif) : modification pour améliorer l'efficacité ou la maintenabilité du logiciel.
+
+    Maintenance VS Développement
+    Activités communes :
+        • Analyse
+        • Conception
+        • Code
+        • Gestion de la configuration
+        • Tests
+        • Revues
+        • Documentation
+
+    Mesures du Service    
+        • Typiquement appelées SLA (« Service Level Agreement ») ou niveau de service.
+        • Parfois inclues dans les opération (ITIL)
+        • Traitées par le guide CobIT
+
+    SLA : 
+        • Ce sont des cibles à atteindre par l’organisation de maintenance (souvent mensuelles)
+        • Le SLA mesure la performance d’une organisation de maintenance à rendre un service correctement
+        • Les utilisateurs utilisent ces mesures pour bonifier / pénaliser l’organisation de maintenance
+
+    Exemples : 
+    Cible   Description
+    99.5%   % des requêtes traitées dans les 15 min suivant l’ouverture du billet
+    99.0%   % des billets correctifs résolus dans le 2h suivant l’ouverture du billet
+    98.0%   % des demandes de changements mises en production sans problème
+    200     Nombre de billets résolus dans un mois
+
+    Réingénierie : 
+        • réorganisation d'un processus industriel ou d'un système d'information existant afin de le rendre plus efficient
+        • permet de diminuer les coûts relatifs à l'organisation tout en améliorant l'efficacité globale. 
+        • L'objectif est de reconstruire la structure afin d'assurer un changement positif pour l'organisation.
+    Réingénierie des processus d’affaire : repenser les processus d'affaires de l'entreprise afin de les rendre plus efficace.
+    Réingénierie du logiciel : 
+        • modifier un logiciel pour l’adapter aux nouvelles technologies ou l’adapter à un processus d’affaires.
+        • Ex: Adapter un logiciel pour lire un code à barre, plutôt que d’avoir d’avoir à entrer un chiffre manuellement
+        • Quand ?
+            – Lorsqu’un logiciel requiert beaucoup de maintenance (par rapport aux autres)
+            – Lorsqu’un logiciel n’est pas documenté
+        • Pourquoi ?
+            – Réduire les coûts de maintenance
+            – Améliorer l’intégration à un processus d’affaire
+    Restructuration du logiciel : technique de réingénierie qui vise à réorganiser un logiciel sans changer sa fonctionnalité. 
+    Rétro-ingénierie : reconstituer le fonctionnement d'un système pour en déterminer les principes internes. (on n’a plus la documentation initiale ou elle est obsolète car on ne l’a pas maintenue).
+
+
+    Niveaux de maturité :
+    Niveau 0 Inexistant : Le processus n’est pas effectué par l’organisation.
+    Niveau 1 Initial, improvisé : Reconnaissance de la pratique, mais faite de façon informelle
+    Niveau 2 Discipliné : Répétable mais intuitif, conscience et exécution de la pratique localement
+    Niveau 3 Processus personnalisé :  Pratique comprise, effectuée, documentée globalement par l’organisation
+    Niveau 4 Géré quantitativement et mesurable : Objectifs et limites établies ; mesures des actifs
+    Niveau 5 En optimisation : Contrôle statistique ; on se sert des mesures des actifs pour contrôler (amélioration des processus).
+
+    Il existe des guides pour mesurer le niveau de maturité d'une entreprise et priorise les pratiques à mettre en place pour améliorer les processus. Ex: S3m
+
+    Le S3m a 4 catégories appelées "domaines de processus" (ou domaines de capacité)
+    1. Gestion du processus
+    2. Gestion des requêtes
+    3. Ingénierie d'évolution du logiciel
+    4. Support à l'ingénierie d'évolution du logiciel
+
+    Ces catégories sont divisés en 18 sous catégories appelées "itinéraires"
+    Ces itinéraires comprennent chacune plusieurs bonnes pratiques à atteindre
+
+    Gestion du processus (ch.6 -> 4)
+    PRO1 : Focalisation sur les processus de la maintenance (FPM)
+        1. Identifier les améliorations à apporter aux processus de maintenance des logiciels en obtenant informations provenant de nombreuses sources, ainsi que des données comparatives.
+        2. Identifier et déployer, dans tous les types de services de maintenance, des pratiques exemplaires qui ont fait leurs preuves dans d'autres organisations.
+        3. Établir des priorités d'amélioration, en tenant compte des priorités des clients, des utilisateurs, du personnel de maintenance et des commanditaires (direction informatique).
+        4. Établir un plan d'amélioration qui inclut toutes les unités organisationnelles de maintenance.
+        5. Former le personnel aux concepts et techniques d'amélioration.
+        6. S'assurer que tout le personnel participe aux efforts d'amélioration et assurer une coordination entre les groupes.
+        7. Reconnaître les contributions à l'amélioration et à la qualité en général.
+    PRO2 : Définition des processus/services de la maintenance (DPM)
+        1. Identifier les processus et activités clés de la maintenance;
+        2. Généraliser et normaliser les processus maintenance;
+        3. Établir un guide d’adaptation des processus normalisés;
+        4. Communiquer les processus;
+        5. Intégrer les processus maintenance aux autres processus TI.
+    PRO3 : Formation des ressources de la maintenance (FRM)
+        1. Obtenir les ressources pour la formation du personnel;
+        2. Harmoniser la formation corporative (TI) et locale (maintenance);
+        3. S’assurer d’une relève compétente et motivée;
+        4. Motiver les ressources en faisant la promotion de l’éducation, la formation en processus et technique.
+    PRO4 : Performance des processus de la maintenance (PPM)
+        1. Identifier les processus et les activités clés de la maintenance des logiciels qui seront soumis à l'analyse de performance.
+        2. Mettre en place un référentiel de performance pour les processus de maintenance.
+        3. Identifier et mettre en place des mesures de la performance des processus de maintenance logicielle.
+        4. Mettre en place des modèles pour prédire la performance des processus.
+    PRO5 : Innovation et déploiement (ID)
+        1. Identifier les innovations ayant un grand potentiel (20/80);
+        2. Effectuer des essais pilotes;
+        3. À partir des résultats du pilote identifier le potentiel
+        4. Planifier, contrôler le déploiement et valider les gains
+
+    Gestion des requêtes (ch.7 -> 5)
+    REQ1 : Gestion des requêtes de services et des événements (GDS, GE)
+        1. Identification proactive des événements et des demandes de service (internes et en provenance des clients).
+        2. Identification, communication et autorisation complètes et précises des priorités des demandes (c'est-à-dire les nouveaux événements, les demandes en cours de traitement et les demandes en cours de traitement).
+        3. S'assurer que les ingénieurs de maintenance travaillent sur les priorités convenues.
+        4. Surveiller le comportement du logiciel et de son infrastructure (surtout après un changement).
+    REQ2 : Planification de la maintenance du logiciel (PM)
+        1. Assurer une collecte et une documentation proactives des demandes des clients/utilisateurs, du développement et de l'exploitation informatique (à court, moyen ou long terme) afin de réaliser une planification détaillée.
+        2. Identifier, communiquer et obtenir un consensus sur les priorités des demandes actuellement en attente et assignées.
+        3. Identifier les contrôles requis pour chaque type de service de maintenance et de logiciel d'application en cours de maintenance.
+        4. Planifier les tests de récupération/défaillance pour tous les logiciels en maintenance.
+        5. Identifier les plans de gestion des versions (parfois aussi appelés plans de diffusion) pour tous les logiciels en maintenance.
+        6. Préparer les plans de mise à niveau des logiciels.
+        7. Établir un raisonnement pour l'attribution de nouvelles demandes aux ingénieurs de maintenance et pour la capacité de maintenance.
+        8. Informer les parties prenantes des travaux de maintenance effectués, en attente, et en cours sur la base des priorités convenues.
+        9. Informer les parties prenantes sur l'état des budgets et sur l'utilisation des ressources.
+    REQ3 : Suivi et supervision des requêtes de la maintenance (SSM)
+        1. Contrôler l'avancement des différents travaux de maintenance et leurs niveaux de service logiciels.
+    REQ4 : Gestion de l’entente de service et de la sous-traitance (GES, GST)
+        1. Se mettre d'accord sur les services de maintenance nécessaires pour les logiciels et les clients.
+        2. Établir les SLA avec chaque client et obtenir des engagements de la part des fournisseurs (c'est-à-dire parfois des sous-traitants) pour les services de maintenance des logiciels.
+        3. Mettre en œuvre les processus et assigner les rôles/ressources pour garantir le respect des accords.
+        4. Évaluer périodiquement la performance du service et discuter des résultats avec le client.
+        5. Mettre en place une procédure et des politiques documentées pour évaluer la performance des services de maintenance et de ses fournisseurs.
+
+    Ingénierie d’évolution du logiciel (ch.8 -> 6)
+    EVO1 : Transition du logiciel vers la maintenance (TRA)
+        1. Réduction des coûts de maintenance des logiciels.
+        2. Augmenter les compétences des ressources de maintenance (en termes de qualité de service, connaissance, satisfaction, etc.) pour faire face aux nouveaux logiciels.
+    EVO2 : Support Opérationnel des intervenants (SUP)
+        1. Clarifier et identifier le service et les activités de soutien opérationnel.
+        2. Améliorer la visibilité de ces services et la valeur ajoutée des activités de soutien opérationnel. des activités de soutien opérationnel.
+        3. Facturer les activités de soutien opérationnel.
+        4. Établir une justification pour l'allocation de nouvelles demandes.
+        5. Communiquer les tâches de soutien opérationnel aux parties prenantes.
+    EVO3 : Évolution/Correction du logiciel (EVO)
+        1. Les activités d'évolution et de correction du logiciel ne doivent pas introduire de défaut/de défaillance.
+        2. Le mainteneur utilise l'analyse d'impact pour accélérer les activités de conception détaillée.
+        3. Le mainteneur dispose des outils, de l'environnement et des mécanismes pour soutenir les processus de correction et de modification du logiciel afin d'améliorer la productivité. 4.
+        4. La modification du logiciel se fait selon une procédure établie pour s'assurer de ne pas le dégrader au fil des ans.
+        5. Les tests sont effectués selon la procédure établie afin de s'assurer de ne pas dégrader le logiciel ou d'introduire des défauts et des défaillances.
+        6. Les résultats des spécifications, de la conception détaillée, de l'implémentation et des tests sont cohérents entre eux et en accord avec les résultats obtenus.
+    EVO4 : Vérification et validation (VER, VAL)
+        1. Planifier les activités de V&V afin d'être certain de celles qui seront réalisées.
+        2. Suivre la procédure d'exécution de la V&V.
+        3. S'assurer que le produit de maintenance du travail répond aux exigences spécifiées.
+        4. Démontrer que les produits et les services de maintenance fonctionnent comme prévu quand lorsqu'ils sont utilisés (ou mis en service) [SEI 2002, PA 149].
+        5. Stipuler que les produits et la maintenance sont sujets à révision avant leur livraison aux clients.
+        6. Découvrir les défauts avant la livraison aux clients.
+
+    Support à l’ingénierie d’évolution du logiciel (ch.9 -> 7)
+    SUP1 : Gestion de la configuration et environnements (GCE)
+        1. Identifier les composants qui font partie de la configuration du logiciel.
+        2. Établir et maintenir la cohérence entre les composants pendant un changement tout au long du cycle de vie de la maintenance (configuration), c'est-à-dire maintenir son intégrité et sa traçabilité.
+        3. Assurer le contrôle des versions et des changements du logiciel afin de les retracer si nécessaire.
+        4. Empêcher la modification simultanée d'un même composant par deux employés,
+        5. Créer un environnement de travail contrôlé et isolé qui n'affecte ni les développeurs ni les clients.
+        6. Disposer d'informations sur le contenu du produit de base et sur le référentiel de gestion des configurations à des fins de maintenance.
+        7. Établir un environnement de maintenance stable et entièrement équipé dans les premiers jours de la maintenance d'un nouveau logiciel.
+        8. Créer la possibilité de s'impliquer dans la transition afin d'acquérir des connaissances dès le début du cycle de vie du logiciel.
+    SUP2 : Assurance qualité des processus, services et logiciels (AQPSL)
+        1. Assurer l'uniformité et l'application des processus/services de maintenance.
+        2. Évaluer objectivement l'exécution des processus, les produits du travail et les services en fonction des accords de service, des normes et des procédures utilisés pour atteindre les objectifs de qualité.
+        3. Identifier et documenter les non-conformités.
+        4. Informer les parties prenantes des non-conformités et identifier les moyens de les éliminer.
+        5. Assurer le suivi de l'élimination des non-conformités.
+    SUP3 : Mesure et analyse de la maintenance (MA)
+        1. Aligner les activités de collecte et d'analyse des données.
+        2. Établir les analyses, leurs objectifs informationnels, et les mesures nécessaires pour effectuer ces analyses.
+        3. Développer des processus de collecte de données et des processus pour leur stockage dans des dépôts de données d'images.
+        4. Communiquer les résultats des analyses de maintenance.
+    SUP4 : Analyse causale et résolution de problèmes (ACRP)
+        1. Établir des critères d'évaluation des défauts et des défaillances courants.
+        2. Améliorer la qualité et l'efficacité de la résolution des problèmes.
+        3. Éliminer les causes de défaillance et prévenir leur réapparition.
+    SUP5 : Rajeunissement, migration et retraite du logiciel (RMR)
+        1. Diminuer le coût de la maintenance des logiciels.
+        2. Réduire les temps d'attente pour les demandes de service.
+        3. Augmenter la capacité du mainteneur (niveau de service, de connaissances et de confort) de faire évoluer les logiciels.
+        4. Diminuer la complexité des logiciels.
+        5. Mettre à jour, compléter et standardiser la documentation des logiciels.
+        6. Créer une documentation fonctionnelle et architecturale à partir du code source et des données du logiciel.
+}
+
+Tests du logiciel
+
+Erreur : Action humaine qui produit un résultat incorrect (ISO 24765)
+Défaut ou faute : Une erreur qui, si elle n'est pas corrigée, pourra causer une défaillance (failure) ou produire des résultats incorrects (ISO 24765)
+Défaillance ou panne : Le logiciel ne peut plus accomplir ses fonctions principales correctement (ISO 25000)
+
+
+Quand automatiser ?
+L'automatisation des tests doit être utilisée en tenant compte des aspects suivants d'un logiciel
+
+* Projets importants et critiques
+* Projets qui nécessitent de tester fréquemment les mêmes zones
+* Exigences ne changeant pas fréquemment
+* Accès à l'application pour la charge et les performances avec de nombreux utilisateurs virtuels
+* Logiciel stable par rapport aux tests manuels
+* Disponibilité du temps
+
+
+______________________________
+Types de tests
+------------------------------
+Tests manuels
+Tests d'automatisation
+
+______________________________
+Méthodes de tests 
+------------------------------
+### Tests en boîte noire
+tester sans avoir aucune connaissance du fonctionnement intérieur de l'application. 
+En général, lorsqu'il effectue un test en boîte noire, le testeur interagit avec l'interface utilisateur du système en 
+fournissant des entrées et en examinant les sorties sans savoir comment et où les entrées sont traitées.
+
+### Tests en boîte blanche : 
+l'investigation détaillée de la logique interne et de la structure du code
+Le testeur doit jeter un coup d'œil à l'intérieur du code source et découvrir l'unité/le morceau de code qui se comporte de manière inappropriée.
+
+### Tests en boîte grise : 
+technique permettant de tester l'application en ayant une connaissance limitée du fonctionnement interne de l'application.
+le testeur a accès aux documents de conception et à la base de données
+
+______________________________
+Niveaux de tests
+------------------------------
+### Tests fonctionnels
+
+Il s'agit d'un type de test en boîte noire qui se base sur les spécifications du logiciel à tester. 
+L'application est testée en fournissant des données d'entrée, puis les résultats sont examinés et doivent être conformes à la fonctionnalité à laquelle ils sont destinés.
+
+Cinq étapes sont nécessaires pour tester la fonctionnalité d'une application.
+1	La détermination de la fonctionnalité que l'application prévue est censée réaliser.
+2	Création de données de test sur la base des spécifications de l'application.
+3	Déterminer La sortie basée sur les données de test et les spécifications de l'application.
+4	L'écriture de scénarios de test et l'exécution de cas de test.
+5	La comparaison des résultats réels et attendus sur la base des cas de test exécutés.
+
+## Tests unitaires : L'objectif des tests unitaires est d'isoler chaque partie du programme et de montrer que les parties individuelles sont correctes en termes d'exigences et de fonctionnalités.
+
+## Tests d'intégration : tests des parties combinées d'une application afin de déterminer si elles fonctionnent correctement
+    * ascendant : Ce test commence par des tests unitaires, suivis de tests de combinaisons d'unités de niveau progressivement plus élevé appelées modules ou builds.
+    * descendant : Dans ce type de test, les modules de plus haut niveau sont testés en premier et, progressivement, les modules de plus bas niveau sont testés par la suite.
+    Dans un environnement de développement logiciel complet, les tests ascendants sont généralement effectués en premier, suivis des tests descendants.
+
+## Test du système : permettent de tester le système dans son ensemble.
+    Le test du système est la première étape du cycle de vie du développement logiciel, au cours de laquelle l'application est testée dans son ensemble
+    L'application est testée de manière approfondie pour vérifier qu'elle répond aux spécifications fonctionnelles et techniques.
+
+## Test de régression : permet s'assurer qu'un changement, tel que la correction d'un bogue, n'entraîne pas la découverte d'un autre défaut dans l'application
+
+## Test d'acceptation : effectué par l'équipe d'assurance qualité qui évaluera si l'application répond aux spécifications prévues et satisfait aux exigences du client.
+    L'équipe d'assurance qualité disposera d'un ensemble de scénarios et de cas de test pré-écrits qui seront utilisés pour tester l'application.
+
+## Test alpha : première étape des tests et sera effectué entre les équipes de développement et d'assurance qualité
+    Composé par les tests unitaires, les tests d'intégration et les tests système
+    L'application sera testée sur des machines aux spécifications les plus faibles afin de tester les temps de chargement et les éventuels problèmes de latence.
+
+## Test bêta : un échantillon du public visé teste l'application et enverront leurs commentaires à l'équipe de projet
+
+
+### Tests non fonctionnels
+
+## Test de performance 
+
+Test de charge : tester le comportement d'un logiciel en lui appliquant une charge maximale en termes d'accès et de manipulation de données d'entrée importantes
+
+Test de stress (ou tests de marges): tester le comportement d'un logiciel dans des conditions anormales. 
+Par exemple, il peut s'agir de retirer certaines ressources ou d'appliquer une charge au-delà de la limite de charge réelle
+Ces tests peuvent être effectués en testant différents scénarios tels que
+    L'arrêt ou le redémarrage des ports réseau de manière aléatoire
+    l'activation ou la désactivation de la base de données
+    l'exécution de différents processus qui consomment des ressources telles que l'unité centrale, la mémoire, le serveur, etc.
+    
+## Test de convivialité : test de la  convivialité (efficacité d'utilisation, facilité d'apprentissage, facilité de mémorisation, erreurs/sécurité et satisfaction)
+
+## Tests de sécurité 
+Les tests de sécurité consistent à tester un logiciel afin d'identifier les failles et les lacunes du point de vue de la sécurité et de la vulnérabilité
+
+Confidentialité
+Intégrité
+Authentification
+Disponibilité
+Autorisation
+Non-répudiation
+Le logiciel est protégé contre les vulnérabilités connues et inconnues
+Les données du logiciel sont sécurisées
+Le logiciel est conforme à toutes les règles de sécurité
+Contrôle et validation des entrées
+Attaques par insertion SQL
+Défauts d'injection
+Problèmes de gestion des sessions
+Attaques de scripting intersites
+Vulnérabilités par dépassement de tampon
+Attaques par traversée de répertoire
+
+## Tests de portabilité : un logiciel dans le but de s'assurer qu'il est réutilisable dans un autre contexte (ex: autre ordinateur ou autre plateforme)
+    Le test de portabilité peut être considéré comme l'une des sous-parties du test de système
+
+
+______________________________
+Documentation des tests logiciels
+------------------------------
+
++-------------------------+-----------------------------------------------------------------------------------+
+| Types de tests          | La description                                                                    |
++=========================+===================================================================================+
+| Politique de test       | Il s'agit d'un document de haut niveau qui décrit les principes,                  |
+|                         | les méthodes et tous les objectifs de test importants de l'organisation.          |
++-------------------------+-----------------------------------------------------------------------------------+
+| Stratégie de test       | Un document de haut niveau qui identifie les niveaux de test (types)              |
+|                         | à exécuter pour le projet.                                                        |
++-------------------------+-----------------------------------------------------------------------------------+
+| Plan de test            | Un plan de test est un document de planification complet qui contient             |
+|                         | la portée, l'approche, les ressources, le calendrier, etc. des activités de test. |
++-------------------------+-----------------------------------------------------------------------------------+
+| Matrice de traçabilité  | Il s'agit d'un document qui relie les exigences aux cas de test.                  |
+| des exigences           |                                                                                   |
++-------------------------+-----------------------------------------------------------------------------------+
+| Scénario de test        | Un scénario de test est un élément ou un événement d'un système                   |
+|                         | logiciel qui peut être vérifié par un ou plusieurs cas de test.                   |
++-------------------------+-----------------------------------------------------------------------------------+
+| Cas de test             | Il s'agit d'un groupe de valeurs d'entrée, de préconditions                       |
+|                         | d'exécution, de postconditions d'exécution attendues et de                        |
+|                         | résultats. Il est développé pour un scénario de test.                             |
++-------------------------+-----------------------------------------------------------------------------------+
+| Données de test         | Les données de test sont des données qui existent avant l'exécution d'un test.    |
+|                         | Il servait à exécuter le scénario de test.                                        |
++-------------------------+-----------------------------------------------------------------------------------+
+| Rapport de défaut       | Le rapport de défaut est un rapport documenté de toute faille dans un système     |
+|                         | logiciel qui ne remplit pas sa fonction attendue.                                 |
++-------------------------+-----------------------------------------------------------------------------------+
+| Rapport de synthèse     | Le rapport de synthèse de test est un document de haut niveau qui résume les      |
+| des tests               | activités de test menées ainsi que le résultat du test.                           |
++-------------------------+-----------------------------------------------------------------------------------+
+
+Techniques d'estimation d'efforts requis pour les tests logiciels : bit.ly/3kxCrzo
+
+______________________________
+Cas d'utilisation
+------------------------------
+
+Précondition : indique ce qui doit être vrai avant que la fonction ne soit appelée 
+Ex: Pour identifier la racine carrée d'un nombre, la condition préalable est que le nombre ne soit pas inférieur à zéro.
+
+Postcondition : indique ce qui sera vrai lorsque l'action aura terminé sa tâche
+Ex: Pour une méthode qui calcule la racine carrée : le carré du nombre calculé doit être égal à l'argument donné à la méthode
+
+Scénario principal : Écrire le déroulement normal de l'application
+Scénario alternatif : Écrire un autre déroulement possible de l'application
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

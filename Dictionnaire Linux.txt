@@ -364,3 +364,8 @@ echo $1
 ................
 appeler une fonction : maFonction arg1 arg2 ...
 enregistrer valeur de retour d'une fonction : maVariable="$(maFonction arg1)"
+
+______________________________
+Scripts personnalisés
+------------------------------
+Changer l'encodage pour tous les fichiers du répertoire : find . -type f -iname *.txt -exec sh -c 'iconv -f $(file -bi "$1" |sed -e "s/.*[ ]charset=//") -t utf-8 -o converted "$1" && mv converted "$1"' -- {} \;
