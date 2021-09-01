@@ -1,5 +1,4 @@
-https://openclassrooms.com/fr/courses/825502-analysez-des-donnees-avec-excel/822888-premiers-pas-en-vba
-https://openclassrooms.com/fr/courses/1438346-redigez-facilement-des-documents-avec-word/1443761-macros-et-vba
+Source principale : t.ly/uPPA
 
 Activer la tab développeur : File > Options > Customize Ribbon > Cocher Developer
 Basculer entre l'interface VBA et le classeur : Alt + F11
@@ -7,38 +6,27 @@ Afficher les coordonnées des cellules en chiffre : bit.ly/3ynGEZO
 
 VBA ne fait pas attention à la casse (majuscules et minuscules)
 
-4 types de bases :
-Numérique et Chaîne de caractère comme en Java
-Booléen : TRUE/FALSE
-Constante : NOM_CONSTANTE       //ex: VILA      //fait penser aux enums
+______________________________
+Syntaxes de base
+------------------------------
+Afficher une variable dans une fenêtre : Call MsgBox(variable)           //bloque l'execution du reste du code tant que nous n'avons pas cliqué sur OK
+Demander une entrée à l'utilisateur dans une fenêtre : InputBox("Message à afficher")     //retourne un string
 
-Caractère de fin d'instruction : :          //on ne le met pas généralement mais peut être utile pour avoir plusieurs instructions sur la même ligne 
-Caractère de commentaire : ' 
-Objets
-Application : l'application active
-Workbooks : les classeurs ouverts.      //est dans application
-Worksheets : les feuilles du classeur actif     //est dans workbooks
-Range : groupe de cellule (peut être une seule)            //est dans worksheets    //ex : Application.Workbooks("classeur1").Worksheets("feuil1").Range("A1")
-Cells : cellule         //syntaxe : Cells(ligne, colonne)    donc    Cells(3, 5).Select est équivalent à  Range("E3").Select
-ActiveCell : cellule active 
-Offset : cellule décalée par rapport à une autre  //ex :  ActiveCell.Offset(-1, -3) réfère à une cellule 1 ligne plus haut et 3 cols vers la gaunche par rapport à celle active
-Rows : groupe de lignes de la feuille (peut être une seule)  //ex: sélection de la ligne 2 à 5 : Rows("2:5").Select  //si discontinues, utiliser Range : Range("2:2, 5:5, 6:8").Select
-Columns : groupe de colonnes (peut être une seule)  //fonctionne de la même manière que Rows
-Selection : ce qui est sélectionné
-Font : contient les attributs et méthodes des textes
-    Name : attribut correspondant au nom de la police // ex : "arial"
-    Size : attribut correspondant à la taille de la police // ex : 12
-    underline : attribut correspondant au type de soulignement de la police //ex: xlUnderlineStyleSingle, xlUnderlineStyleDouble
-    Bold : attribut booléen correspondant à si la police est en gras ou non
+Déclarer une variable explicitement : Dim ma_variable_explicite [As type] [, ...]   //pour un nombre, il est possible de déclarer par ex de cette façon : Dim ma_variable% 
+Assigner à une variable : ma_variable_explicite = valeur        //fonctionne même sans déclarer la variable avec Dim. Dans ce cas, la variable aura par défaut un type variant
+Empêcher une déclaration implicite pour un module : Option Explicit        //écrire cette ligne tout en haut du module 
 
+### Types de déclaration
+Publique : permet à la fonction d'être accessible dans tous les modules de l'application. Aussi, elles feront partie de la liste des macros que l'on peut attribuer sur une feuille de calcul.
+Privé : Accessibles seulement dans leur propre module       // écrire Private avant la déclaration de la fonction  (ex: Private Sub  ou Private Function)
+Au niveau du module : Déclaration régulière mais tout en haut du module
+Au niveau global (tout le programme y aura accès) : Global ma_variable_globale [As type]         //écrire au début de nimporte quel module 
+Variable avec valeur préservée même après que le programme se termine : Static ma_variable [As type]
+Procédure statique : Static Sub procedure       //toute les variables déclarées dans la procédure seront aussi statiques
+Constante : Const VARIABLE = valeur     //ex : Const NOM_CHEMIN = "D:\Utilisateur\"
+Assignation d'une réference Objet à une variable  : Set variable = reference_objet   //ex: Dim c As Workbook: Set c = Workbooks("classeur1")
 
-Opérateurs de séléction :
-"C5, D4, F8:F12" : Séléctionne chacune de ces cellules de manière individuelle
-"B2:E8" : Séléctionne la plage inclusive entre B2 et E8
-
-Donner le focus à un élément : méthode Activate  //ex : Worksheets("Arrivée").Activate
-Séléctionner des cellules : méthode Select de Range ou Cells   //ex : Range("nom_de_grp_de_cullule").Select
-Décaler une séléction 
+Vérifier si une valeur a été assignée à une variable : IsEmpty(ma_variable)
 
 Syntaxe pour utiliser plusieurs fois la même référence à un objet : With ... End With    //exemple ↓
 ................
@@ -57,32 +45,75 @@ With Selection.Font
 End With
 ................
 
-Déclarer une variable explicitement : Dim ma_variable_explicite [As type] [, ...]   //pour un nombre, il est possible de déclarer par ex de cette façon : Dim ma_variable% 
-Assigner à une variable : ma_variable_explicite = valeur        //fonctionne même sans déclarer la variable avec Dim. Dans ce cas, la variable aura par défaut un type variant
-Empêcher une déclaration implicite pour un module : Option Explicit        //écrire cette ligne tout en haut du module 
+______________________________
+Opérateurs
+------------------------------
 
-Fixer la longueur dun string : Dim du_texte As String * longueur     // Si < à la longueur, comblé avec des espaces, sinon, coupé après la longueur.
+### Opérateurs booléens
 
-Afficher une variable dans une fenêtre : Call MsgBox(variable)           //bloque l'execution du reste du code tant que nous n'avons pas cliqué sur OK
-Demander une entrée à l'utilisateur dans une fenêtre : InputBox("Message à afficher")     //retourne un string
-Concaténer une chaîne de caractère : utliser &   //ex : "Cette phrase affiche la valeur de ma variable : " & ma_variable
-Obtenir type d'une variable : VarType(ma_variable)          //retourne le numéro du type
-Obtenir nom du type d'une variable : TypeName(v)      // ex: pourrait retourner "String"
-Numéro des types
-0: Empty            //variable sans valeur assignée
-1: Null
-2: Integer
-3: Long
-4: Single
-5: Double
-6: Currency
-7: Date/Time
-8: String
-11: Boolean
-17: Byte
+=                         : égal à
+<>                        : différent de
+Not(condition)            : négation 
+condition1 Xor condition2 : retourne true si l'une des condition est true mais pas les deux
+Objet1 Is Objet2          : retourne true si les deux objets sont de la même référence
+string1 Like string2      : comparaison de string
+AND                       : et
+OR                        : ou
 
-Vérifier si une variable est de type numérique : IsNumeric(ma_variable)
-Types numériques : Byte, Integer, Long, Single, Double, Currency
+### Autre opérateurs
+
+Modulo : number1 Mod number2
+Typeof : TypeOf refInteger Is Integer       //retourne un booléen.   Autre ex: TypeOf refForm Is System.Windows.Forms.Form
+Division entière : num1 \ num2
+Division régulière : num1 / num2
+Ternaire : iif(condition, resultatVrai, resultatFaux)
+Racine carrée : Sqr(nombre)
+Puissance : nombre ^ exposant
+
+______________________________
+Conditions
+------------------------------
+If ↓
+................
+    If age >= 18 Then
+        MsgBox "Vous êtes un adulte"
+        
+    ElseIf age < 8 Then
+        MsgBox "Vous êtes un surdoué pour être ici à votre âge !"
+        
+    Else
+        MsgBox "Vous êtes encore mineur"
+        
+    End If
+................
+
+    
+    
+Select  ↓      //ressemble au switch
+................
+    Select Case (note)
+        Case 1
+        MsgBox "La note est de 1"
+        
+        Case 2, 3
+        MsgBox "La note est de 2 ou 3"
+        
+    Case 4 To 6
+        MsgBox "La note est de 4, 5 ou 6"
+        
+        Case Is > 6
+        MsgBox "La note est supérieure à 6"
+        
+        Case Else
+        MsgBox "La note est inférieure à 1"
+        
+    End Select
+................
+
+______________________________
+Types de base
+------------------------------
+
 +----------+-----------------------------------------------------------+-------------------------------------------------+--------------------------+
 | Nom      | Description                                               | Plage                                           | Caractère de déclaration |
 +==========+===========================================================+=================================================+==========================+
@@ -104,126 +135,62 @@ Types numériques : Byte, Integer, Long, Single, Double, Currency
 | String   | Fixe : max 65500 char, Variable : max 2000 000 char       | ...                                             | $                        |
 +----------+-----------------------------------------------------------+-------------------------------------------------+--------------------------+
 
-Vérifier si une valeur a été assignée à une variable : IsEmpty(ma_variable)
-Vérifier si une valeur est null : IsNull(ma_variable)
-Vérifier si une valeur est une date : IsDate(ma_variable)
+Numéro des types
+0: Empty            //variable sans valeur assignée
+1: Null
+2: Integer
+3: Long
+4: Single
+5: Double
+6: Currency
+7: Date/Time
+8: String
+11: Boolean
+17: Byte
+
+Obtenir type d'une variable : VarType(ma_variable)          //retourne le numéro du type
+Obtenir nom du type d'une variable : TypeName(v)      // ex: pourrait retourner "String"
+
+Vérifier si une valeur est null : IsNull(ma_variable)       //il existe aussi pour les autres types, ex : IsDate(var)  isNumeric(var)  ...
+
+### Types personnalisés
+
+Définir un nouveau type ↓
+................
+    Type joueur
+        tribu As String
+        vies As Byte
+        points As Integer
+    End Type
+................
+
+Utilisation d'un nouveau type ↓
+................
+    Dim bat538 As joueur
+
+    bat538.tribu = "Zér0"
+    bat538.vies = 5
+    bat538.points = 0
+................
+
+______________________________
+Chaines de caractère
+------------------------------
+Fixer la longueur dun string : Dim du_texte As String * longueur     // Si < à la longueur, comblé avec des espaces, sinon, coupé après la longueur.
+
 Obtenir char à partir de son nombre sur la table ASCII : Chr(nombre)        //A = Chr(65)
 Obtenir code ASCII à partir de char : Asc(char)
 Transformer un String en Nombre : Val(string)
+Concaténer une chaîne de caractère : utliser &   //ex : "Cette phrase affiche la valeur de ma variable : " & ma_variable
+
 Changer la casse d'un string : UCase|LCase(string)
 Extraire une partie d'un string à partir des extrémités : Left|Right(string, nbChar)
 Extraire une partie d'un string à partir d'une position : Mid(string, start, [length])    //si length est omis ou supérieur au reste, continue jusqu'à la fin
 Enlever les caractères blancs à gauche et à droite de la chaine : Trim(string)
 Cherche une chaine dans une autre : Instr(SearchString, SearchChar)     //renvoie la position si trouvé, sinon renvoie 0 
 
-Assignation d'une valeur date : la_date = "23-07-2010"          //sera converti en timestamp du nombre de jours écoulés depuis le 31 décembre 1899  (nombre flottant)
+### Comparaison de string
 
-Retourner le jour du mois pour une date : Day(objetDate)
-Retourner le jour de la semaine pour une date : WeekDay(objetDate)   //Dimanche vaut 1 et Samedi vaut 7
-
-Assignation d'une réference Objet à une variable  : Set variable = reference_objet   //ex: Dim c As Workbook: Set c = Workbooks("classeur1")
-
-Tableaux
-Déclarer un tableau : Dim tableau(longueur - 1) [As type] [, ...]    //va de la position 0 jusqu'à la position (longueur - 1) incluse //ex: Dim variable(30) va de 0 à 30 donc 31 éléments
-Modifier élément du tableau : tableau(position) = valeur
-Faire en sorte que tous les tableaux commencent par la position 1 : Option Base 1       //écrire cela tout en haut du module
-Déclarer un tableau et ses intervales de position : Dim mon_tableau(pos1 To pos2) [as type]     //ex : Dim mon_tableau(1 To 15) as String
-Déclarer un tableau à plusieurs dimensions : ex pour deux dimensions : Dim mon_tableau(col, lignes) [As type]   //s'étends à plus de dimensions de la même façon (1,2,3..)
-Obtenir taille de tableau ↓
-................
-Public Function arrLength(a) As Integer
-   GetLength = iif(IsEmpty(a), 0, UBound(a) - LBound(a) + 1)
-End Function
-................
-Tableaux dynamiques ↓
-................
-Dim tableau() As Variant
-ReDim tableau(6)        ' il faut lui donner une dimension temporaire avant de pouvoir l'utiliser
-tableau(3) = "Hey"
-ReDim Preserve numbers(10)  ' utiliser Preserve pour redimensionner en préservant l'ancien contenu
-................
-
-Types de déclaration
-Au niveau du module : Déclaration régulière mais tout en haut du module
-Au niveau global (tout le programme y aura accès) : Global ma_variable_globale [As type]         //écrire au début de nimporte quel module 
-Variable avec valeur préservée même après que le programme se termine : Static ma_variable [As type]
-Procédure statique : Static Sub procedure       //toute les variables déclarées dans la procédure seront aussi statiques
-Constante : Const VARIABLE = valeur     //ex : Const NOM_CHEMIN = "D:\Utilisateur\"
-
-Types personnalisés ↓
-................
-' définir un nouveau type :
-Type joueur
-    tribu As String
-    vies As Byte
-    points As Integer
-End Type
-
-' utilisation :
-Dim bat538 As joueur
-
-bat538.tribu = "Zér0"
-bat538.vies = 5
-bat538.points = 0
-................
-
-Opérateurs booléens
-=                         : égal à
-<>                        : différent de
-Not(condition)            : négation 
-condition1 Xor condition2 : retourne true si l'une des condition est true mais pas les deux
-Objet1 Is Objet2          : retourne true si les deux objets sont de la même référence
-string1 Like string2      : comparaison de string
-AND                       : et
-OR                        : ou
-
-Autre opérateurs
-Modulo : number1 Mod number2
-Typeof : TypeOf refInteger Is Integer       //retourne un booléen.   Autre ex: TypeOf refForm Is System.Windows.Forms.Form
-Division entière : num1 \ num2
-Division régulière : num1 / num2
-Ternaire : iif(condition, resultatVrai, resultatFaux)
-Racine carrée : Sqr(nombre)
-Puissance : nombre ^ exposant
-
-Exemple conditions ↓
-................
-'if normal
-
- If age >= 18 Then
-  MsgBox "Vous êtes un adulte"
-
- ElseIf age < 8 Then
-  MsgBox "Vous êtes un surdoué pour être ici à votre âge !"
- 
- Else
-  MsgBox "Vous êtes encore mineur"
-
- End If
-
-
-' select        //ressemble au switch
-
-Select Case (note)
- Case 1
-  MsgBox "La note est de 1"
- 
- Case 2, 3
-  MsgBox "La note est de 2 ou 3"
-
- Case 4 To 6
-  MsgBox "La note est de 4, 5 ou 6"
-
- Case Is > 6
-  MsgBox "La note est supérieure à 6"
-
- Case Else
-  MsgBox "La note est inférieure à 1"
-
-End Select
-................
-
-Comparaison de string
 Activer : Option Compare Binary|Text        //à ajouter tout en haut du module. Binary:fait une différence entre majuscule et minuscule  Text:ne fait pas de différence
 Jokers
 ? : Remplace un seul caractère
@@ -234,61 +201,112 @@ Jokers
 
 Exemple ↓
 ................
-If "Site du 0" Like "site du [!5-9]" Then
-' Cette ligne renvoie True car 0 n'est pas compris entre 5 et 9 compris.
-
-If "site du zéro" Like "site du *" Then
-' Cette ligne renvoie True
+    "Site du 0" Like "site du [!5-9]"              ' Cette ligne renvoie True car 0 n'est pas compris entre 5 et 9 compris.
+    "site du zéro" Like "site du *"                ' Cette ligne renvoie True
 ................
 
+______________________________
+Date
+------------------------------
+Assignation d'une valeur date : la_date = "23-07-2010"          //sera converti en timestamp du nombre de jours écoulés depuis le 31 décembre 1899  (nombre flottant)
+
+Retourner le jour du mois pour une date : Day(objetDate)
+Retourner le jour de la semaine pour une date : WeekDay(objetDate)   //Dimanche vaut 1 et Samedi vaut 7
+
+______________________________
+Tableaux
+------------------------------
+Déclarer un tableau : Dim tableau(longueur - 1) [As type] [, ...]    //va de la position 0 jusqu'à la position (longueur - 1) incluse //ex: Dim variable(30) va de 0 à 30 donc 31 éléments
+Modifier élément du tableau : tableau(position) = valeur
+Faire en sorte que tous les tableaux commencent par la position 1 : Option Base 1       //écrire cela tout en haut du module
+Déclarer un tableau et ses intervales de position : Dim mon_tableau(pos1 To pos2) [as type]     //ex : Dim mon_tableau(1 To 15) as String
+Déclarer un tableau à plusieurs dimensions : ex pour deux dimensions : Dim mon_tableau(col, lignes) [As type]   //s'étends à plus de dimensions de la même façon (1,2,3..)
+
+Obtenir taille de tableau ↓
+................
+    Public Function arrLength(a) As Integer
+    GetLength = iif(IsEmpty(a), 0, UBound(a) - LBound(a) + 1)
+    End Function
+................
+
+Tableaux dynamiques ↓
+................
+    Dim tableau() As Variant
+    ReDim tableau(6)        ' il faut lui donner une dimension temporaire avant de pouvoir l'utiliser
+    tableau(3) = "Hey"
+    ReDim Preserve numbers(10)  ' utiliser Preserve pour redimensionner en préservant l'ancien contenu
+................
+
+
+______________________________
 Boucles
+------------------------------
 
+While ↓
 ................
-' For Next ↓            Il est possible de mettre 'Exit For'  pour sortir de la boucle manuellement  
-For i = 0 to 10 Step 2     ' step négatif possible
-  MsgBox i
-Next i
+    While condition
+        …
+    Wend
 
-' For Each ↓
-For Each une_feuille In Worksheets
-  MsgBox une_feuille.Name
-Next une_feuille
-
-' Do Until ↓
-ma_variable = 0
-
-Do Until ma_variable = 10
-  ma_variable = ma_variable + 1
-  MsgBox ma_variable
-Loop
-
-' While Wend ↓
-ma_variable = 0
-
-While ma_variable < 12
-  ma_variable = ma_variable + 1
-  MsgBox ma_variable
-Wend
+    Do
+        …
+    Loop While condition
 ................
 
+Until ↓
+................
+    Do Until condition
+        …
+    Loop
+
+    Do
+        …
+    Loop Until condition
+................
+
+For ↓
+................
+    For i = 5 To 1 Step -1
+        Call MsgBox(i)
+    Next compteur
+
+    Dim cellule As Range
+    For Each cellule In Range("A1:A9")
+        cellule.value = 0
+    Next cellule
+................
+
+
+______________________________
 Procédures
+------------------------------
 
-Sous routine ↓      // fonction qui ne retourne pas de valeur   // pour l'appeler, utiliser Call sous_routine(args)   ou  sous_routine args
+### Sous-routine
+Créer une sous-routine ↓
 ................
-Sub ma_routine(arg1, arg2 as Byte)
-    'code
-End Sub
+    Sub ma_routine(args)
+        …
+    End Sub
 ................
 
-Fonction ↓          //pour l'appeler dans du code, utiliser ma_fonction(arg1, arg2, ...) ou ma_fonction(arg2 := ma_variable2, arg1 := ma_variable1 ...)  (cette dernière permet d'appeler les arguments dans un ordre désordonné)
-................
-Function multiplier(nombre1 As Double, nombre2 As Double, Optional nombre3) As Double      ' Pour l'utiliser dans une cellule excel, marquer par exemple =multiplier(3;4)
-  multiplier = nombre1*nombre2*nombre3             ' voici la syntaxe de retour (il faut assigner un résultat au nom de la fonction)
+Appeler une sous routine : Call sous_routine(args)          // ou sous_routine args
 
+### Fonction
+Créer une fonction ↓
+................
+Function ma_fonction(args) As Type      ' Il est possible de l'utiliser aussi dans une cellule excel
+    …
+    ma_fonction = valeur_de_retour
 End Function
 ................
 
-Options pour les arguments des procédures
+Appeler une fonction : ma_fonction(args)
+
+### Arguments
+Syntaxe à la définition : ex: ByVal nombre1, nombre2 As Double, Optional nombre3
+Syntaxe à l'appel : (arg1, arg2, ...)   ou  (arg2 := x, arg1 := y, ...)
+
+Options
 arg As Type : obliger un certain type
 Optional arg: argument optionel
 ByVal arg : la variable donnée en argument est une copie
@@ -327,6 +345,33 @@ Patron pour fonction avec overload ↓
 ................
 
 
-Encapsulation
-Publique : permet à la fonction d'être accessible dans tous les modules de l'application. Aussi, elles feront partie de la liste des macros que l'on peut attribuer sur une feuille de calcul.
-Privé : Accessibles seulement dans leur propre module       // écrire Private avant la déclaration de la fonction  (ex: Private Sub  ou Private Function)
+______________________________
+Classeurs
+------------------------------
+Caractère de fin d'instruction : :          //on ne le met pas généralement mais peut être utile pour avoir plusieurs instructions sur la même ligne 
+Caractère de commentaire : ' 
+Objets
+Application : l'application active
+Workbooks : les classeurs ouverts.      //est dans application
+Worksheets : les feuilles du classeur actif     //est dans workbooks
+Range : groupe de cellule (peut être une seule)            //est dans worksheets    //ex : Application.Workbooks("classeur1").Worksheets("feuil1").Range("A1")
+Cells : cellule         //syntaxe : Cells(ligne, colonne)    donc    Cells(3, 5).Select est équivalent à  Range("E3").Select
+ActiveCell : cellule active 
+Offset : cellule décalée par rapport à une autre  //ex :  ActiveCell.Offset(-1, -3) réfère à une cellule 1 ligne plus haut et 3 cols vers la gaunche par rapport à celle active
+Rows : groupe de lignes de la feuille (peut être une seule)  //ex: sélection de la ligne 2 à 5 : Rows("2:5").Select  //si discontinues, utiliser Range : Range("2:2, 5:5, 6:8").Select
+Columns : groupe de colonnes (peut être une seule)  //fonctionne de la même manière que Rows
+Selection : ce qui est sélectionné
+Font : contient les attributs et méthodes des textes
+    Name : attribut correspondant au nom de la police // ex : "arial"
+    Size : attribut correspondant à la taille de la police // ex : 12
+    underline : attribut correspondant au type de soulignement de la police //ex: xlUnderlineStyleSingle, xlUnderlineStyleDouble
+    Bold : attribut booléen correspondant à si la police est en gras ou non
+
+
+Opérateurs de séléction :
+"C5, D4, F8:F12" : Séléctionne chacune de ces cellules de manière individuelle
+"B2:E8" : Séléctionne la plage inclusive entre B2 et E8
+
+Donner le focus à un élément : méthode Activate  //ex : Worksheets("Arrivée").Activate
+Séléctionner des cellules : méthode Select de Range ou Cells   //ex : Range("nom_de_grp_de_cullule").Select
+Décaler une séléction 
