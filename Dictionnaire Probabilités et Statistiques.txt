@@ -1,0 +1,28 @@
+Source : bit.ly/2Wc0SrZ
+
+expérience aléatoire : expérience dont toutes les issues possibles sont connus à l'avance, sans que l'on puisse prédire quel en sera finalement le résultat.
+univers de l'expérience (ou ensemble fondamental) Ω : L'ensemble des résultats possibles d'une expérience aléatoire
+ensemble des parties d'un ensemble (ou tribu d'événements) (P(E)): ensemble contenant tous les sous ensembles possibles d'un autre ensemble. Ex : ↓
+................
+E={a,b,c}
+P(E)={∅,{a},{b},{c},{a,b},{a,c},{b,c},{a,b,c}}
+................
+événement : un sous-ensemble possible dans P(Ω). Ex : événement "Obtenir un nombre impair" pour Ω={1,2,3,4,5,6} : A={1,3,5}
+ensemble dénombrable : ensemble limité
+conditions pour qu'un sous-ensemble T de P(Ω) soit considéré comme une tribu d'événements ↓
+................
+1- Un sous-ensemble de  P(Ω) ne peut être une tribu d'événements que s'il contient Ω
+2- pour un ensemble A de T, l'ensemble complémentaire, !A doit également appartenir à T
+3- l'union de toute suite d'éléments de  T doit appartenir à  T
+................
+intersection (A ∩ B) : le sous-ensemble de  Ω qui contient les éléments qui sont à la fois dans A et dans B
+union (A ∪ B) : le sous-ensemble de  Ω qui contient les éléments qui sont dans A ou dans B
+événement contraire (!A) : le sous-ensemble qui contient tous les éléments de Ω sauf ceux inclus dans A
+probabilité ℙ: la chance qu'un événement se produise pour une expérience aléatoire. Définition et conditions : bit.ly/3B1eSnP
+cardinal d'un ensemble fini (n): le nombre d'éléments dans l'ensemble. Noté |A| pour Cardinal de A
+expérience équiprobable : expérience pour un ensemble fini dont toute les issues ont la même chance de se produire. (donc ℙ(A) = |A| / |Ω|)
+propriétés de la probabilité ↓
+................
+ℙ(A ∪ B) = ℙ(A) + ℙ(B)
+ℙ(!A) = 1 − ℙ(A)
+................

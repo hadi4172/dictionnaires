@@ -456,6 +456,11 @@ Il est également possible de sérialiser et déserialiser des collections d'obj
     }
 ................
 
+______________________________
+Généricité
+------------------------------
+<T extends Number> T doit être un descendant de Number
+<T super Number> T doit être un parent de Number
 
 ______________________________
 Programmation fonctionnelle
