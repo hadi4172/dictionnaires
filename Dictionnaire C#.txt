@@ -1,6 +1,10 @@
 Documentation dotnet : https://bit.ly/3bIkFEQ
+Créer une solution (structure de projets) : dotnet new sln -n "nomSolution"
 Créer un nouveau projet .NET : dotnet new console|classlib|winforms[lib]|wpf[lib] -n "nomProjet" 
-Lancer un projet .NET : dotnet run -p "cheminProjet"
+Ajouter projet à une solution dotnet sln "cheminSolution.sln" add "cheminProjet.csproj"
+Lancer un projet .NET : dotnet watch run [-p "cheminProjet"]
+
+Scaffolding avec Vs code : t.ly/BL1x            comparaison avec openclassrooms : t.ly/YwlG
 
 Types : bit.ly/3ti6Xi4
 Tableau de conversions de nombres : bit.ly/30Dltoc
@@ -27,11 +31,13 @@ Exemple enum
 
 Opérateurs : comme Java sauf | et & qui sont les équivalents non lazy de || et && (tous les paramètres seront évalués)
 
+Types nullables : ex: int? est un raccourci pour Nullable<int>  et indique que ce int peut prendre la valeur de null
+
 Syntaxe méthode :
-    typeDuRésultat nomDeLaMéthode(...arguments)
+    typeDuRésultat nomDeLaMéthode(...arguments)
     {
-        // Code à exécuter quand la méthode est appelée.
-        return xxx;
+        // Code à exécuter quand la méthode est appelée.
+        return xxx;
     }
 
 Passage par référence
@@ -40,33 +46,37 @@ Passage par référence
     {
         myParameter = 5;
     }
-    ChangeInt(ref myInt);
+appeler la fonction : ChangeInt(ref myInt);     //il faut vraiment écrire ref si cet argument est par référence dans la fonction, et il faut donner une variable initialisée
+
 // imposer à la méthode d'assigner une valeur au paramètre
 void ChangeInt(out int myParameter)
     {
         myParameter = 5;
     }
-    ChangeInt(out myInt);
+appeler la fonction : ChangeInt(out myInt);
 
 
 Convertir string en int : bool success = int.TryParse("1234", out myInt);
 
 Surcharge (Overload) : fonctionne comme en Java
+Virtual : mot clé indiquant que la méthode peut être overridé chez un enfant de la classe // il est possible d'overrider une méthode non virtual avec new mais c'est déconseillé : t.ly/BNWq
 
 Classes 
 // Par défaut, champs et méthodes utilisent le modificateur private
 //Exemple
     public class Person
     {
-        private string m_name;      //membres
+        private string m_name;      //attribut de la classe
 
-        //getter et setter de m_name
+        //getter et setter de m_name    (donc si on veut accéder à m_name de l'exterieur, on peut faire classePerson.Name)
         public string Name          //propriétés (ici des accesseurs/mutateurs)
-        //peut être simplifié comme ça : public string Name { get; set; }       //pour un seul droit seulement : public string Name { get; private set; }
         {
             get { return m_name; }          //on l'appelle comme ça : string userName = toto.Name;
             set { m_name = value; }         //on l'appelle comme ça : toto.Name = 10;
         }
+        //peut être simplifié comme ça : public string Name { get; set; }       //pour un seul droit seulement : public string Name { get; private set; }
+        // dans ce dernier cas, il n'y a pas besoin de créer un attribut m_name, on peut considérer qu'il y a une variable Name avec un getter et un setter
+        // et pour accéder à cette variable à l'intérieur de la classe, on peut faire this.Name
 
         //constructeur
         public Person(string name, ushort age)
@@ -76,7 +86,7 @@ Classes
             Console.WriteLine("Nouvelle personne créée. Cette personne s'appelle " + name + " et a " + age + " an(s).");
         }
 
-        //destructeur
+        //destructeur   (détruit l'objet, permet de faire quelque chose à la destruction)
         ~Person()
         {
             Console.WriteLine("Objet détruit.");
@@ -93,12 +103,14 @@ Classes
     Exemple instanciation : Person toto = new Person("Toto", 10);
     
     //partial signifie que la classe est définie à plusieurs endroits. Ici vous ne voyez que ce que vous devez toucher. L'autre partie de la classe a été faite automatiquement et se charge du reste.
+    // voir bit.ly/31LtifT et bit.ly/33qG43Q  pour plus de détails
 
     
-Espace de noms : à peu près l'équivalent des packages Java
+Espace de noms (namespace) : à peu près l'équivalent des packages Java, voir bit.ly/3ESyY5Y    //Les noms de classe déclarés dans un espace de noms n'entrent pas en conflit avec les mêmes noms de classe déclarés dans un autre
 
 Alias : using Utils = Company.Application.Utilities;        //nous pourrons écrire Utils.xxx plutôt que d'écrire Company.Application.Utilities.xxx
 
+//voir bit.ly/31X5XYt pour pourquoi utiliser ça plutot qu'un tableau de tableaux
 Tableaux à deux dimensions
     type[,] nom = new type[n, m];
     ou 
@@ -111,6 +123,7 @@ Tableaux à deux dimensions
     // on y accède comme ceci : double myDouble = myArray[1, 1];
 
 Tableaux de tableaux : fonctionnent comme en Java mais accepte cette syntaxe : int[][] myIntArrayArray = new int[5][];  //on peut définir par la suite la taille de chaque sous tableaux
+
 
 Concaténation en string : string s = "M@teo" + 21;        //fonctionne sans problème
 Formattage : string s = String.Format("{0} est remplacé par paramètre2 et {1} par paramètre3", "paramètre2", "paramètre3");      //spécifier type caractère : bit.ly/2Q3LYRJ
@@ -256,8 +269,87 @@ Si 2 interfaces ont un même attribut/méthode ↓
         }
     }
 
+Structure
+Essentiellement, ressemble beaucoup à une classe mais avec ces différences : 
+* Struct ne peut pas avoir de constructeur par défaut (un constructeur sans paramètres) ni de destructeur.
+* Les structs sont des types valeur et sont copiés lors de l'affectation tandis que les classes sont des types référence.
+* Les structures peuvent être instanciées sans utiliser l'opérateur new.
+* Une structure ne peut pas hériter d'une autre structure ou classe, et elle ne peut pas être la base d'une classe. Toutes les structures héritent directement de System.ValueType, qui hérite de System.Object.
+* Struct ne peut pas être une classe de base. Ainsi, les types Struct ne peuvent pas être abstraits et sont toujours implicitement scellés.
+* Les modificateurs abstraits et scellés ne sont pas autorisés et le membre de la structure ne peut pas être protégé ou protégé en interne.
+* Les membres de fonction dans une structure ne peuvent pas être abstraits ou virtuels, et le modificateur override n'est autorisé que pour les méthodes override héritées de System.ValueType.
+* Struct ne permet pas aux déclarations de champ d'instance d'inclure des initialiseurs de variables. Mais, les champs statiques d'une structure sont autorisés à inclure des initialiseurs de variables.
+* Une structure peut implémenter des interfaces.
+* Une structure peut être utilisée comme type nullable et peut se voir attribuer une valeur null.
+Exemple ↓       //plus de détails : bit.ly/3s2Cnvp
+................
+    public struct Coords
+    {
+        public Coords(double x, double y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public double X { get; init; }
+        public double Y { get; init; }
+
+        public override string ToString() => $"({X}, {Y})";
+    }
+
+    public static void Main()
+    {
+        var p1 = new Coords(0, 0);
+        Console.WriteLine(p1);  // output: (0, 0)
+
+        var p2 = p1 with { X = 3 };
+        Console.WriteLine(p2);  // output: (3, 0)
+
+        var p3 = p1 with { X = 1, Y = 4 };
+        Console.WriteLine(p3);  // output: (1, 4)
+    }
+................
+
+
 Fichiers
 Lire et écrire dans un fichier texte : bit.ly/3tkD2G6
+↓
+................
+    public static void WriteToFile(string content, string fileName)
+    {
+        try
+        {
+            File.WriteAllText (fileName, content);
+            Console.WriteLine("Content written to " + fileName);
+        }
+        catch (IOException e)
+        {
+            Console.WriteLine("Could not write file to " + fileName + "\n" + e.ToString());
+        }
+    }
+................
+
+Requête HTTP ↓
+................
+    public static string GetContent(string url)
+    {
+        string content = "";
+
+        try
+        {
+            using (WebClient webClient = new WebClient())
+            {
+                content = webClient.DownloadString(url);
+            }
+        }
+        catch (WebException e)
+        {
+            Console.WriteLine("Cannot establish connection - " + e.ToString());
+        }
+
+        return content;
+    }
+................
 
 Généricité
 Créer méthode générique : static void WriteType<T, U>(T tObj, U uObj) {}
@@ -271,6 +363,8 @@ Obtenir nombre d'éléments : firstNameList.Count;
 Ajouter des éléments : firstNameList.Add("Matt");
 Enlever des éléments : firstNameList.Remove("Tim");     //retourne un booléen si la supression a réussi ou non
 Enlever tous les éléments : firstNameList.Clear();
+
+équivalent du map de JS en C# : string[] r = nums.Select(x => x + "a").ToArray();
 
 Dictionnaires
 Instanciation : Dictionary<typeCle, typeValeur> openWith = new Dictionary<typeCle, typeValeur>();

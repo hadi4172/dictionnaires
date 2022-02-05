@@ -177,6 +177,8 @@ tuer plusieurs processus : killall nomProcessus
 arrêter l'ordinateur : sudo halt
 redémarrer l'ordinateur : sudo reboot
 
+mesurer le temps que prends un processus : time commande            //sur powershell : Measure-Command { commande | Out-Default }
+
 lancer un processus en arrière-plan et détaché de la console : nohup commande
 passer en arrière plan un processus déja lancé : appuyer sur Ctrl + Z  puis taper bg
 connaître les processus qu'on a lancé et qui tournent en arrière-plan : jobs

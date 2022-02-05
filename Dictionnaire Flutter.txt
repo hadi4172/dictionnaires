@@ -1,0 +1,12 @@
+Créer une app flutter : taper dans le terminal : flutter create <projectname> && cd <projectname> && dart migrate --apply-changes
+Lancer une app flutter : flutter run
+Connecter téléphone android à distance : adb tcpip 5555 && adb connect <device ip addr>:5555 && adb devices     //le téléphone doit être être connecté par fil lors du lancement de ces commandes
+Déconnecter téléphone android à distance : adb kill-server
+
+
+Afficher quelque chose sur la console : print('Hello world!');
+Définir une variable avec type spécifié explicitement : String name = 'dart';
+Définir une variable avec type inféré : var otherName = 'Dart';     // type inféré à String
+
+Valeur par défaut : var name; // == null            // tout les variables (même numériques) sont considérés comme des objets en Dart, donc initialisés à null
+Déclaration de fonction : bool fn() { return true }         //préciser le type de retour est facultatif  //notation flechée : bool fn() => true

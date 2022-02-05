@@ -1,3 +1,115 @@
+//--------------------------------------------------------------------------------------//
+//                                                                                      //
+//                          Analyse et conception de logiciel                           //
+//                                                                                      //
+//--------------------------------------------------------------------------------------//
+
+DCU: Diagramme de cas d’utilisation
+    Sujet (subject)
+        Le sujet est utilisé pour délimiter le système de son environnement
+    Acteur  :  Entité qui a un comportement, comme une personne (identifiée par un rôle)
+        Entité externe qui interagit avec le système
+        Peut représenter des personnes / utilisateurs et d’autres systèmes externes avec lesquels le système interagit
+
+        Acteur principal
+            il a un objectif et utilise le système à l’étude (SAE)
+        Acteur de support
+            fournit un service, une information, au SAE
+            p.ex. système d’autorisation de paiement. Peut être humain, système externe ou équipement.
+        Intervenant
+            a un intérêt, mais ni acteur principal ou acteur de support (ex: service des taxes du gouvernement, comptable, vérificateur, propriétaire, client, …)
+
+    Cas d’utilisation  :  Collection de scénarios de réussite ou d’échec
+        Fonctionnalité fournie par le système
+        Décrit comme une séquence d’étapes / actions
+
+        Abrégé
+            Un paragraphe décrivant le scénario principal
+        Informel (casual)
+            Plusieurs paragraphes décrivant plusieurs scénarios
+        Détaillé
+            Toutes les étapes et les variantes sont indiquées en détail, de même que les préconditions et les garanties en cas de succès    
+    Relations
+        L’interaction entre les acteurs et un cas d’utilisation est spécifiée à l’aide d’une association.
+        Différents types de relations entre les cas d’utilisation: include, extend, generalization/inheritance
+    Scénario
+        Suite spécifique d’actions et d’interactions entre un ou plusieurs acteurs et le système. C’est une histoire particulière de la façon dont on utilise un systèm
+
+MDD : Modèle du domaine
+    Représentation visuelle des classes conceptuelles ou des objets du monde réel dans un domaine donné
+    Exemple : t.ly/WJP3 t.ly/1Cok
+
+    Comment créer un modèle du domaine?
+        Identifier les classes conceptuelles.
+        Les représenter sous forme de classes dans un diagramme UML.
+        Ajouter des attributs et des associations.
+
+    Attributs dérivées?
+    Généralisation/spécialisation?
+        Règle « à 100% »?  https://cc-yvanross.github.io/14f3178688ff2d131977e55d7002b1fc3b09e3ad/export/index.html#/9/27
+        Règle « est un »? https://cc-yvanross.github.io/14f3178688ff2d131977e55d7002b1fc3b09e3ad/export/index.html#/9/28
+        Création d’une sous-classe conceptuelle? https://cc-yvanross.github.io/14f3178688ff2d131977e55d7002b1fc3b09e3ad/export/index.html#/9/29
+        Création d’une super-classe conceptuelle? https://cc-yvanross.github.io/14f3178688ff2d131977e55d7002b1fc3b09e3ad/export/index.html#/9/30
+    Classe d’association
+
+    Dans LOG210 il FAUT spécifier les types des attributs    
+    Classes d'association : exemple : t.ly/gYfM
+
+
+DSS : Diagramme de séquence système
+    Exemple : t.ly/qCGM
+
+    Pourquoi tracer un DSS?
+    Pour connaître les événements système
+        déclenchés par acteurs (humains ou ordis)
+        d’échéance de temporisation (timeout)
+        d’erreurs ou d’exceptions (sources externes)
+    Début de la modélisation par décomposition (top-down)
+    Vu abstrait du système comme application
+    Facilite le changement de l’interface humain-machine (la couche présentation)
+
+    Exemples de CU (Cas d'utilisations) pour DSS avec diagramme : t.ly/3xDDw t.ly/OzN9
+    Exemple influence entre artefacts du processus unifié : t.ly/kQGh
+
+Contrat  :  Transformation au niveau des données dans le MDD suite à l’exécution d’une opération du DSS
+    Opération système == contrat
+
+    Qu’est ce qu’un contrat d’opération?
+        Un document décrivant ce qui est arrivé après l’exécution d’une opération système.
+        Exemple schéma : t.ly/uWmh
+
+    Éléments d’un contrat d’opération
+        Signature de l’opération système: saisirArticle(codeArticle: CodeArticle, quantité: int)
+        Postconditions (3 formes, vocabulaire du MDD)
+            création (ou suppression) d’instances;
+            modification des valeurs des attributs;
+            formation (ou rupture) d’associations.    
+
+    Pourquoi les contrats
+        Facilite la conception OO (RDCU)
+            Liste d’épicerie (quoi faire)
+            RDCU s’inspire du MDD (réduire décalage des représentations)
+        Donne des conditions pour tests
+        Aide à valider le MDD
+
+    Contrats - Erreurs fréquentes
+        Ne pas mettre les paramètres de l’opération
+        Inventer de nouveaux paramètres
+        Ne pas utiliser un paramètre pour trouver une instance d’un objet lorsque le contrat spécifie que la relation est faite sur la base de correspondance avec une clé.
+        Les postconditions ne sont pas écrites au passé.
+        Les postconditions ne sont pas cohérentes avec le MDD    
+
+RDCU  :  Réalisation d’un cas d’utilisation
+
+
+GRASP  :  General Responsability Assignment Software Patterns
+
+
+
+
+Rendu ici : https://cc-yvanross.github.io/14f3178688ff2d131977e55d7002b1fc3b09e3ad/export/index.html#/10/9
+
+
 Maintenance du logiciel
 {
     • ISO 20000 (ITIL) : Gestion de l’ensemble des opérations informatiques d’une compagnie (Services TI, les opérations tant pour le matériel que pour le logiciel (aussi nommée ITIL))

@@ -265,7 +265,7 @@ Quantificateurs:
 {n} : le caractère est répété n fois 
 {n,m} : le caractère est répété de n à m fois.  //Par exemple, si on a {0, 5}, le caractère peut être présent de 0 à 5 fois 
 {n,} : le caractère est répété de n fois à l'infini.
-Pour rechercher un caractère qui fait partie des métaclasses (! ^ $ ( ) [ ] { } ? + * . / \ |) : préceder le caractère par un antislash (\)
+Pour rechercher un caractère qui fait partie des métaclasses (! ^ $ ( ) [ ] { } ? + * . / \ |) : préceder le caractère par un antislash (\)
 
 Types génériques :
 \d	Trouve un caractère décimal (un chiffre)

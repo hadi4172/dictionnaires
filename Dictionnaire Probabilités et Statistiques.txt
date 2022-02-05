@@ -1,5 +1,8 @@
 Source : bit.ly/2Wc0SrZ
 
+______________________________
+Probabilités
+------------------------------
 expérience aléatoire : expérience dont toutes les issues possibles sont connus à l'avance, sans que l'on puisse prédire quel en sera finalement le résultat.
 univers de l'expérience (ou ensemble fondamental) Ω : L'ensemble des résultats possibles d'une expérience aléatoire
 ensemble des parties d'un ensemble (ou tribu d'événements) (P(E)): ensemble contenant tous les sous ensembles possibles d'un autre ensemble. Ex : ↓
@@ -26,3 +29,8 @@ propriétés de la probabilité ↓
 ℙ(A ∪ B) = ℙ(A) + ℙ(B)
 ℙ(!A) = 1 − ℙ(A)
 ................
+
+
+______________________________
+Statistiques
+------------------------------

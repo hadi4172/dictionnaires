@@ -9,6 +9,9 @@ VBA ne fait pas attention à la casse (majuscules et minuscules)
 ______________________________
 Syntaxes de base
 ------------------------------
+Caractère de fin d'instruction : :          //on ne le met pas généralement mais peut être utile pour avoir plusieurs instructions sur la même ligne 
+Caractère de commentaire : ' 
+
 Afficher une variable dans une fenêtre : Call MsgBox(variable)           //bloque l'execution du reste du code tant que nous n'avons pas cliqué sur OK
 Demander une entrée à l'utilisateur dans une fenêtre : InputBox("Message à afficher")     //retourne un string
 
@@ -145,8 +148,17 @@ Numéro des types
 6: Currency
 7: Date/Time
 8: String
+0: Objet
 11: Boolean
 17: Byte
+
+Valeurs par défaut
+| Type                                 | Test                            | Test2
+| Numeric (Long, Integer, Double etc.) | If obj.Property = 0 Then        | 
+| Boolean (True/False)                 | If Not obj.Property Then        | If obj.Property = False Then
+| Object                               | If obj.Property Is Nothing Then |
+| String                               | If obj.Property = "" Then       | If LenB(obj.Property) = 0 Then
+| Variant                              | If obj.Property = Empty Then    |
 
 Obtenir type d'une variable : VarType(ma_variable)          //retourne le numéro du type
 Obtenir nom du type d'une variable : TypeName(v)      // ex: pourrait retourner "String"
@@ -177,10 +189,12 @@ ______________________________
 Chaines de caractère
 ------------------------------
 Fixer la longueur dun string : Dim du_texte As String * longueur     // Si < à la longueur, comblé avec des espaces, sinon, coupé après la longueur.
+Obtenir la longeur d'un string : Len(string)
 
 Obtenir char à partir de son nombre sur la table ASCII : Chr(nombre)        //A = Chr(65)
 Obtenir code ASCII à partir de char : Asc(char)
 Transformer un String en Nombre : Val(string)
+Caractère de retour à la ligne : Vbcrlf
 Concaténer une chaîne de caractère : utliser &   //ex : "Cette phrase affiche la valeur de ma variable : " & ma_variable
 
 Changer la casse d'un string : UCase|LCase(string)
@@ -217,6 +231,8 @@ ______________________________
 Tableaux
 ------------------------------
 Déclarer un tableau : Dim tableau(longueur - 1) [As type] [, ...]    //va de la position 0 jusqu'à la position (longueur - 1) incluse //ex: Dim variable(30) va de 0 à 30 donc 31 éléments
+Initialiser un tableau d'une seule ligne : Dim myarray As Variant : myarray = Array("Cat", 5, "Rabbit")     //fonctionne seulement pour le type variant
+Initialiser un tableau de string d'une seule ligne : Dim arr() As String : arr = Split("Value1,Value2,Value3", ",")     //les arrays de split commencent toujours par 0 même avec Option Base 1
 Modifier élément du tableau : tableau(position) = valeur
 Faire en sorte que tous les tableaux commencent par la position 1 : Option Base 1       //écrire cela tout en haut du module
 Déclarer un tableau et ses intervales de position : Dim mon_tableau(pos1 To pos2) [as type]     //ex : Dim mon_tableau(1 To 15) as String
@@ -225,7 +241,7 @@ Déclarer un tableau à plusieurs dimensions : ex pour deux dimensions : Dim mon
 Obtenir taille de tableau ↓
 ................
     Public Function arrLength(a) As Integer
-    GetLength = iif(IsEmpty(a), 0, UBound(a) - LBound(a) + 1)
+    arrLength = iif(IsEmpty(a), 0, UBound(a) - LBound(a) + 1)
     End Function
 ................
 
@@ -234,7 +250,7 @@ Tableaux dynamiques ↓
     Dim tableau() As Variant
     ReDim tableau(6)        ' il faut lui donner une dimension temporaire avant de pouvoir l'utiliser
     tableau(3) = "Hey"
-    ReDim Preserve numbers(10)  ' utiliser Preserve pour redimensionner en préservant l'ancien contenu
+    ReDim Preserve tableau(10)  ' utiliser Preserve pour redimensionner en préservant l'ancien contenu
 ................
 
 
@@ -344,22 +360,58 @@ Patron pour fonction avec overload ↓
   End Function
 ................
 
+______________________________
+Types définis
+------------------------------
+Exemple d'utlisation ↓
+................
+    Type mon_type
+        champ1 As Integer
+        champ2() As Double
+        champ3 As String
+    End Type
+
+    Sub test_type()
+        Dim type1 as mon_type
+
+        type1.champ1 = 5
+        ReDim type1.champ2(5)
+        type1.champ2(4) = 4.5
+        type1.champ3 = "allo"
+    End Sub
+................
+
+
+Enum ↓
+................
+    Enum Mobiles
+        Samsung = 15000
+        VIVO = 18000
+        Redmi = 8500
+        Oppo = 18500
+    End Enum
+
+    Sub Enum_Example1()
+        Mobiles.Samsung
+    End Sub
+................
+
+
 
 ______________________________
 Classeurs
 ------------------------------
-Caractère de fin d'instruction : :          //on ne le met pas généralement mais peut être utile pour avoir plusieurs instructions sur la même ligne 
-Caractère de commentaire : ' 
+
 Objets
 Application : l'application active
-Workbooks : les classeurs ouverts.      //est dans application
+Workbooks : les classeurs ouverts.      //est dans application      //ex: Workbooks(1)  ou Workbooks("classeur1")  ou  ActiveWorkbook  ou ThisWorkbook
 Worksheets : les feuilles du classeur actif     //est dans workbooks
-Range : groupe de cellule (peut être une seule)            //est dans worksheets    //ex : Application.Workbooks("classeur1").Worksheets("feuil1").Range("A1")
+Range : groupe de cellule //ex : Application.Workbooks("classeur1").Worksheets("feuil1").Range("A1") //ex: Range(Cells(2, 2), Cells(10, 5))  //ex:Range("CELLULE_NOMME")
 Cells : cellule         //syntaxe : Cells(ligne, colonne)    donc    Cells(3, 5).Select est équivalent à  Range("E3").Select
 ActiveCell : cellule active 
 Offset : cellule décalée par rapport à une autre  //ex :  ActiveCell.Offset(-1, -3) réfère à une cellule 1 ligne plus haut et 3 cols vers la gaunche par rapport à celle active
 Rows : groupe de lignes de la feuille (peut être une seule)  //ex: sélection de la ligne 2 à 5 : Rows("2:5").Select  //si discontinues, utiliser Range : Range("2:2, 5:5, 6:8").Select
-Columns : groupe de colonnes (peut être une seule)  //fonctionne de la même manière que Rows
+Columns : groupe de colonnes (peut être une seule)  //fonctionne de la même manière que Rows  //autre exemple utilisation : Call plage.Range(plage.Columns(1), plage.Columns(5)).Select
 Selection : ce qui est sélectionné
 Font : contient les attributs et méthodes des textes
     Name : attribut correspondant au nom de la police // ex : "arial"
@@ -372,6 +424,111 @@ Opérateurs de séléction :
 "C5, D4, F8:F12" : Séléctionne chacune de ces cellules de manière individuelle
 "B2:E8" : Séléctionne la plage inclusive entre B2 et E8
 
+Compter le nombre de cellules pleines pour une colonne/ligne : WorksheetFunction.CountA(Application.Workbooks("classeur1").Worksheets("feuil1").Range("A:A"))
+
 Donner le focus à un élément : méthode Activate  //ex : Worksheets("Arrivée").Activate
 Séléctionner des cellules : méthode Select de Range ou Cells   //ex : Range("nom_de_grp_de_cullule").Select
 Décaler une séléction 
+
+Exemple transfert d'information d'un formulaire : Cells(emptyRow, 1).Value = NameTextBox.Value          //plus d'info : bit.ly/3qTlWkx
+
+### Attributs Application
+Propriété           Description
+ActiveCell          Représente la cellule présentement active.
+ActiveSheet         Représente la feuille (de calcul ou graphique) présentement active.
+ActiveWindow        Représente la fenêtre présentement active.
+ActiveWorkbook      Représente le classeur présentement actif.
+DisplayAlerts       Indique si les avertissements ("Voulez-vous sauver?") doivent être affichés.
+Name                Le nom de l'application.
+Selection           Représente la sélection de cellules courante.
+Version             Contient la version de Microsoft Excel.
+Workbooks           La collection de tous les classeurs ouverts à l'intérieur d'Excel.
+WorksheetFunction   Permet d'utiliser des fonctions d'Excel à l'intérieur des programmes VBA.
+
+Méthode
+Intersect           Retourne une plage de cellules résultant de l'intersection de plusieurs plages.
+Quit                Commande la fermeture de l'application Excel.
+Union               Retourne une plage de cellules résultant de l'union de plusieurs plages.
+Wait                Pause l'exécution d'un programme (et de toute l'application Excel).
+
+
+### Attributs Range
+Propriété           Description
+Address             La référence de la plage dans la feuille (p. ex "$A$1").
+Count               Le nombre de cellules dans la plage.
+Font                Renvoie un objet Font qui correspond à la police de la cellule spécifiée.
+Formula             Retourne la formule dans la cellule spécifiée.
+Value               La valeur de la cellule.
+Interior            Peut être utilisé pour modifier l'interieur des cellules (ex: Interior.Color = xlNone)
+
+Méthode
+ClearContents       Efface les formules dans la plage.
+ClearFormats        Efface le formatage de la plage.
+Select              Sélectionne la plage.
+CurrentRegion       Zone délimitée par des lignes et colonnes vides
+
+
+### Attributs Workbook
+Propriété           Description
+ActiveSheet         Représente la feuille (de calcul ou graphique) présentement active.
+FullName            Indique le nom complet du fichier contenant le classeur (Path & Name).
+Name                Indique le nom du classeur.
+Path                Le chemin d'accès au fichier contenant le classeur.
+Saved               Indique si les modifications au classeur ont été sauvegardées.
+Sheets              La collection de toutes les feuilles (de calcul ou graphique) du classeur.
+Worksheets          La collection de toutes les feuilles de calcul du classeur.
+[Workbooks]Count    le nombre de classeurs ouverts
+[Workbooks]Item     Permet d'accéder à un classeur //ex: Item(2) permet d'accéder au 2e classeur ouvert  //item est facultatif car Workbooks(2) fait la même chose
+
+Méthode
+Activate            Active le classeur.
+Close               Ferme le classeur.
+Save                Sauvegarde le classeur.
+SaveAs              Sauvegarde le classeur sous un autre nom.
+[Workbooks]Add      crée un nouveau classeur et l'ajoute à la collection Workbooks
+[Workbooks]Open     Ouvre un classeur à partir d'un fichier.
+
+
+### Attributs Worksheets
+Propriété           Description
+Count               le nombre de feuilles de calcul dans un classeur
+Item                permet d'accéder à une certaine feuille de calcul   //ex: .Item(2)  ou  .Item("Données")
+
+Méthode
+Add                 crée une nouvelle feuille de calcul et l'ajoute à la collection Worksheets
+
+
+### Attributs Worksheet
+Propriété           Description
+Cells               Permet d'accéder aux cellules.
+Columns             Permet d'accéder aux colonnes.
+Index               Indique la position de la feuille.
+Name                Indique le nom de la feuille.
+Names               La collection de toutes les plages de cellules nommées dans la feuille.
+Range               Permet d'accéder à une cellule ou à une plage de cellules.
+Rows                Permet d'accéder aux rangées.
+Visible             Indique si la feuille est visible ou non.
+
+Méthode
+Activate            Active la feuille.
+Copy                Copie la feuille.
+Delete              Efface la feuille.
+Move                Déplace la feuille.
+PrintOut            Imprime la feuille.
+Select              Sélectionne la feuille.
+
+
+______________________________
+Formulaires
+------------------------------
+
+### Évènements 
+_Click() : Permet de faire exécuter du code lorsque l’on clique sur l’objet.
+_Change() : Permet de faire exécuter du code lorsque la valeur de l’objet change (n’est pas toujours disponible).
+_AfterUpdate() : Permet de faire exécuter du code lorsque la valeur de l’objet est mise à jour (n’est pas toujours disponible).
+_Activate() : Permet de faire exécuter du code lorsque l’objet devient actif.
+
+Afficher formulaire : formulaire.Show
+Fermer le formulaire : Unload Me        // à l'intérieur d'une fonction de formulaire.  Peut être qu'une façon générale serait Unload formulaire
+
+//TODO https://www.youtube.com/watch?v=TxQU8qj4K_Y
